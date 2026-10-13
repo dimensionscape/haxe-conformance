@@ -176,12 +176,16 @@ class MLUVD {
 				case Error(e): Sys.println("poll error " + e);
 			}
 			Sys.println("stop " + res(fp.stop()));
-			fp.close(() -> Sys.println("closed"));
-			var fp2 = ok(FsPoll.init(loop));
-			fp2.start(dir + "/nope", null, r -> {
-				Sys.println("missing " + res(r));
-				fp2.stop();
-				fp2.close(() -> Sys.println("closed2"));
+			// The second poll starts once the first has closed: its first stat comes back from the
+			// thread pool, which could otherwise land on either side of the close.
+			fp.close(() -> {
+				Sys.println("closed");
+				var fp2 = ok(FsPoll.init(loop));
+				fp2.start(dir + "/nope", null, r -> {
+					Sys.println("missing " + res(r));
+					fp2.stop();
+					fp2.close(() -> Sys.println("closed2"));
+				});
 			});
 		});
 		var tm = ok(Timer.init(loop));
