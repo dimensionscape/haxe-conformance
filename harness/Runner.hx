@@ -221,9 +221,18 @@ class Runner {
 	public static function normalize(s:String, dir:String, std:Null<String>):String {
 		s = s.replace("\r\n", "\n").replace("\r", "");
 		s = ~/"timestamp":[0-9.eE+-]+/g.replace(s, '"timestamp":0');
-		s = replacePath(s, FileSystem.fullPath(dir), "$CASE");
-		if (std != null) s = replacePath(s, FileSystem.fullPath(std), "$STD");
+		s = replacePaths(s, dir, "$CASE");
+		if (std != null) s = replacePaths(s, std, "$STD");
 		return s.trim();
+	}
+
+	/** A compiler may print the path as given, made absolute, or with symbolic links resolved. */
+	static function replacePaths(s:String, path:String, token:String):String {
+		var given = Path.normalize(Path.isAbsolute(path) ? path : Path.join([Sys.getCwd(), path]));
+		var spellings = [FileSystem.fullPath(path), given];
+		spellings.sort((a, b) -> b.length - a.length);
+		for (p in spellings) s = replacePath(s, p, token);
+		return s;
 	}
 
 	static function replacePath(s:String, path:String, token:String):String {

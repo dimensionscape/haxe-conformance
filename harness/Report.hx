@@ -73,15 +73,22 @@ class Report {
 		var a = got.split("\n"), b = want.split("\n");
 		var i = 0;
 		while (i < a.length && i < b.length && a[i] == b[i]) i++;
-		var out = ['first difference at line ${i + 1}:'];
-		for (k in i...Std.int(Math.min(i + 6, a.length))) out.push("  got:  " + clip(a[k]));
-		for (k in i...Std.int(Math.min(i + 6, b.length))) out.push("  want: " + clip(b[k]));
+		var col = 0;
+		if (i < a.length && i < b.length)
+			while (col < a[i].length && col < b[i].length && a[i].charCodeAt(col) == b[i].charCodeAt(col)) col++;
+		// A difference past the shown part of a long line is shown from a little before it.
+		var from = col > 100 ? col - 60 : 0;
+		var out = [from > 0 ? 'first difference at line ${i + 1}, column ${col + 1}:' : 'first difference at line ${i + 1}:'];
+		for (k in i...Std.int(Math.min(i + 6, a.length))) out.push("  got:  " + clip(a[k], from));
+		for (k in i...Std.int(Math.min(i + 6, b.length))) out.push("  want: " + clip(b[k], from));
 		out.push('(${a.length} lines got, ${b.length} lines wanted)');
 		return out.join("\n");
 	}
 
-	static function clip(s:String):String
+	static function clip(s:String, from = 0):String {
+		if (from > 0 && s.length > from) s = "..." + s.substr(from);
 		return s.length > 160 ? s.substr(0, 157) + "..." : s;
+	}
 
 	static function firstLine(s:String):String {
 		var i = s.indexOf("\n");
