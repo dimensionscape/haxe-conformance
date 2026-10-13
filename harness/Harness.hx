@@ -12,7 +12,7 @@ typedef Opts = {
 	var std:Null<String>;
 	var cases:String;
 	var expected:String;
-	var divergences:Null<String>;
+	var divergences:Array<String>;
 	var families:Array<String>;
 	var exclude:Array<String>;
 	var costs:Array<String>;
@@ -75,7 +75,8 @@ options:
   --std <path>               HAXE_STD_PATH for every compile
   --cases <dir>              family root (default: this library's cases/)
   --expected <dir>           recordings (default: this library's expected/)
-  --divergences <file>       JSON object: \"family/case\" -> reason; listed cases may differ
+  --divergences <file>       JSON object: \"family/case\" -> reason; listed cases may differ;
+                             repeat it to merge several files
   --family a,b               only these families (exact names)
   --exclude a,b              skip these families
   --cost quick,medium,slow   only families of these costs
@@ -93,7 +94,7 @@ options:
 	static function parse(args:Array<String>):Opts {
 		var o:Opts = {
 			positional: [], compiler: null, haxe: null, std: null,
-			cases: Path.join([libRoot, "cases"]), expected: Path.join([libRoot, "expected"]), divergences: null,
+			cases: Path.join([libRoot, "cases"]), expected: Path.join([libRoot, "expected"]), divergences: [],
 			families: [], exclude: [], costs: [], kinds: [], oracles: [], shard: null, jobs: 4, junit: null,
 			title: "haxe-conformance", verbose: false
 		};
@@ -111,7 +112,7 @@ options:
 				case "--std": o.std = resolve(value());
 				case "--cases": o.cases = resolve(value());
 				case "--expected": o.expected = resolve(value());
-				case "--divergences": o.divergences = resolve(value());
+				case "--divergences": o.divergences.push(resolve(value()));
 				case "--family": o.families = o.families.concat(values());
 				case "--exclude": o.exclude = o.exclude.concat(values());
 				case "--cost": o.costs = o.costs.concat(values());
@@ -175,8 +176,8 @@ options:
 
 	static function loadDivergences(o:Opts):Map<String, String> {
 		var divergences = new Map<String, String>();
-		if (o.divergences != null) {
-			var json:Dynamic = haxe.Json.parse(sys.io.File.getContent(o.divergences));
+		for (file in o.divergences) {
+			var json:Dynamic = haxe.Json.parse(sys.io.File.getContent(file));
 			for (k in Reflect.fields(json)) divergences.set(k, Reflect.field(json, k));
 		}
 		return divergences;

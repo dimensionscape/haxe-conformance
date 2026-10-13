@@ -37,7 +37,7 @@ with that Haxe too and fails only where the compiler fails alone, per project fo
 | `--haxe <path>` | Compare with this Haxe instead of the recordings |
 | `--std <path>` | `HAXE_STD_PATH` for every compile |
 | `--cases <dir>`, `--expected <dir>` | Another family root and its recordings |
-| `--divergences <file>` | JSON object mapping `family/case` to a reason; listed cases may differ |
+| `--divergences <file>` | JSON object mapping `family/case` to a reason; listed cases may differ. Repeat it to merge several files |
 | `--family a,b`, `--exclude a,b` | Select families by name |
 | `--cost`, `--kind`, `--oracle` | Select families by those fields |
 | `--shard k/n` | Run the k-th of n slices of the selected cases |
