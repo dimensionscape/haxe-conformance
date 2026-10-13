@@ -7,5 +7,8 @@
 	"args": [
 		"-cp",
 		"."
+	],
+	"live": [
+		"library-that-does-not-exist"
 	]
 }

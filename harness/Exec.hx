@@ -33,9 +33,37 @@ class Exec {
 	static function get_isWindows():Bool
 		return Sys.systemName() == "Windows";
 
+	static var root:Null<String> = null;
+
 	public static function tempRoot():String {
-		var v = Sys.getEnv(isWindows ? "TEMP" : "TMPDIR");
-		return v != null && v != "" ? v : (isWindows ? "C:/Windows/Temp" : "/tmp");
+		if (root == null) {
+			var v = Sys.getEnv(isWindows ? "TEMP" : "TMPDIR");
+			root = longPath(v != null && v != "" ? v : (isWindows ? "C:/Windows/Temp" : "/tmp"));
+		}
+		return root;
+	}
+
+	/** The directory with any 8.3 short names spelled out, the way compilers report it. */
+	static function longPath(dir:String):String {
+		if (!isWindows || dir.indexOf("~") < 0 || !FileSystem.isDirectory(dir)) return dir;
+		var marker = "haxe-conformance-" + Std.random(0x7FFFFFF);
+		File.saveContent(Path.join([dir, marker]), "");
+		var parts = Path.normalize(dir).split("/");
+		var resolved = parts[0];
+		for (i in 1...parts.length) {
+			var part = parts[i];
+			if (part.indexOf("~") >= 0) {
+				var rest = parts.slice(i + 1).concat([marker]).join("/");
+				for (entry in FileSystem.readDirectory(resolved + "/"))
+					if (FileSystem.exists('$resolved/$entry/$rest')) {
+						part = entry;
+						break;
+					}
+			}
+			resolved += "/" + part;
+		}
+		FileSystem.deleteFile(Path.join([dir, marker]));
+		return resolved;
 	}
 
 	public static function run(exe:String, args:Array<String>, env:Map<String, String>, ?cwd:String):ExecResult {

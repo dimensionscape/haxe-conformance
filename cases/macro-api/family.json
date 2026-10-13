@@ -10,5 +10,8 @@
 		"--main",
 		"$module",
 		"--no-output"
+	],
+	"live": [
+		"eval-natives-decode-their-arguments-2"
 	]
 }

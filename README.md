@@ -62,6 +62,7 @@ A family is a directory under `cases/` holding `family.json`, `cases.hx.txt` and
 | `module` | The module a case is written as, default `P` |
 | `args` | Compiler arguments; `$module`, `$out`, `$FILE` and `$FILEJSON` are substituted |
 | `chdir` | Run the compiler in the case directory instead of passing `--cwd` |
+| `live` | Cases whose result depends on the machine; they are compared with the `haxe` on `PATH` |
 
 `cases.hx.txt`:
 
@@ -80,6 +81,9 @@ haxelib run haxe-conformance record --compiler <haxe-4.3.7>
 
 Results are compared after normalizing line endings, display timestamps, the case directory
 (`$CASE`) and the standard library path (`$STD`).
+
+The recordings were made with hxjava 4.2.0 installed, which the cases that select the JVM target
+need.
 
 To move to a newer Haxe, replace `tests/` with the `tests/` directory of that release and record
 again.

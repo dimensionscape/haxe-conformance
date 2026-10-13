@@ -12,7 +12,6 @@
 	"dce-flag-bad-value": "Error: : Invalid DCE mode, expected std | full | no.",
 	"resource-that-does-not-exist": "Error: Resource file not found: nosuchfile.txt",
 	"macro-that-fails-to-parse": "(unknown) : Could not parse `nonsense(`\n(unknown) : Expected expression or )",
-	"library-that-does-not-exist": "Error: Error: Library nosuchlib_xyz is not installed",
 	"macro-with-a-trailing-semicolon": "(unknown) : Could not parse `include('haxe.io');`\n(unknown) : Unexpected ;",
 	"macro-well-formed": "",
 	"two-targets-js-then-cpp": "Error: Multiple targets",
