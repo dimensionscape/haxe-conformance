@@ -79,6 +79,7 @@ class Report {
 		// A difference past the shown part of a long line is shown from a little before it.
 		var from = col > 100 ? col - 60 : 0;
 		var out = [from > 0 ? 'first difference at line ${i + 1}, column ${col + 1}:' : 'first difference at line ${i + 1}:'];
+		if (i > 0) out.push("  after: " + clip(a[i - 1]));
 		for (k in i...Std.int(Math.min(i + 6, a.length))) out.push("  got:  " + clip(a[k], from));
 		for (k in i...Std.int(Math.min(i + 6, b.length))) out.push("  want: " + clip(b[k], from));
 		out.push('(${a.length} lines got, ${b.length} lines wanted)');
