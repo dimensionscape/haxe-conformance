@@ -11,3 +11,4 @@ tests/threads/*-out.txt
 tests/threads/*-err.txt
 tests/unit/out-*.txt
 tests/unit/issue3088-*.txt
+tests/misc/projects/Issue10863/error.log
