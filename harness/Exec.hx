@@ -7,6 +7,7 @@ using StringTools;
 
 typedef ExecResult = {
 	var output:String;
+	var code:Int;
 	var timedOut:Bool;
 }
 
@@ -100,22 +101,23 @@ class Exec {
 		var w:Watch = {pid: 0, deadline: Sys.time() + timeout, expired: false};
 		// A process killed by a signal has no exit code; what it printed before is kept.
 		var killed:Null<String> = null;
+		var code = -1;
 		try {
 			var p = isWindows ? new Process("cmd", ["/c", native(script)]) : new Process("sh", [script]);
 			w.pid = p.getPid();
 			watching(w, true);
-			try p.exitCode() catch (e:Dynamic) killed = Std.string(e);
+			try code = p.exitCode() catch (e:Dynamic) killed = Std.string(e);
 			watching(w, false);
 			p.close();
 		} catch (e:Dynamic) {
 			watching(w, false);
 			cleanup(files);
-			return {output: "<could not start: " + Std.string(e) + ">", timedOut: false};
+			return {output: "<could not start: " + Std.string(e) + ">", code: -1, timedOut: false};
 		}
 		var o = try File.getContent(outPath) catch (_:Dynamic) "";
 		var e = try File.getContent(errPath) catch (_:Dynamic) "";
 		cleanup(files);
-		return {output: o + e + (killed != null ? "<" + killed + ">" : ""), timedOut: w.expired};
+		return {output: o + e + (killed != null ? "<" + killed + ">" : ""), code: code, timedOut: w.expired};
 	}
 
 	static function watching(w:Watch, on:Bool) {

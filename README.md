@@ -27,7 +27,9 @@ haxelib run haxe-conformance list
 
 `run` compares the compiler's result for each case with the recording in `expected/`, or with a
 live Haxe given with `--haxe`. `corpus` runs the suites under `tests/` with the compiler
-installed as `haxe`, the way Haxe's own CI runs them.
+installed as `haxe`, the way Haxe's own CI runs them. With `--haxe`, a suite that fails is run
+with that Haxe too and fails only where the compiler fails alone, per project for misc; its
+`--divergences` entries are keyed `suite/project`.
 
 | Option | Meaning |
 | --- | --- |

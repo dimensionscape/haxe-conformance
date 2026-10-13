@@ -45,7 +45,7 @@ class Harness {
 			case "list": list(o);
 			case "run": runCases(o, false);
 			case "record": runCases(o, true);
-			case "corpus": Corpus.run(o.positional, o.compiler, o.std, Path.join([libRoot, "tests"]), o.junit);
+			case "corpus": Corpus.run(o.positional, o.compiler, o.haxe, o.std, Path.join([libRoot, "tests"]), o.junit, loadDivergences(o));
 			case other:
 				Sys.println('unknown command "$other"');
 				usage();
@@ -65,7 +65,9 @@ commands:
   run                        run cases against a compiler
   record                     record Haxe's results under expected/
   corpus <suites>            run Haxe's own test suites (unit,misc,resolution,sourcemaps,
-                             nullsafety,sys,threads,display) with the compiler as `haxe`
+                             nullsafety,sys,threads,display) with the compiler as `haxe`;
+                             with --haxe, a suite fails only where that Haxe passes, and
+                             --divergences lists \"suite/project\" entries that may fail
 
 options:
   --compiler <path>          the compiler under test (for record: Haxe 4.3.7)
@@ -171,6 +173,15 @@ options:
 		return 0;
 	}
 
+	static function loadDivergences(o:Opts):Map<String, String> {
+		var divergences = new Map<String, String>();
+		if (o.divergences != null) {
+			var json:Dynamic = haxe.Json.parse(sys.io.File.getContent(o.divergences));
+			for (k in Reflect.fields(json)) divergences.set(k, Reflect.field(json, k));
+		}
+		return divergences;
+	}
+
 	static function runCases(o:Opts, record:Bool):Int {
 		if (o.compiler == null) throw "--compiler is required";
 		if (!FileSystem.exists(o.compiler)) throw 'compiler not found: ${o.compiler}';
@@ -184,11 +195,7 @@ options:
 			return 1;
 		}
 
-		var divergences = new Map<String, String>();
-		if (o.divergences != null) {
-			var json:Dynamic = haxe.Json.parse(sys.io.File.getContent(o.divergences));
-			for (k in Reflect.fields(json)) divergences.set(k, Reflect.field(json, k));
-		}
+		var divergences = loadDivergences(o);
 
 		var scratch = Path.join([Exec.tempRoot(), "haxe-conformance", Std.string(Std.random(0x7FFFFFF))]);
 		Exec.mkdirs(scratch);
