@@ -1,0 +1,7 @@
+{
+	"non-physical-property-read-in-its-own-getter": "P.hx:1: characters 62-63 : This field cannot be accessed because it is not a real variable\nP.hx:1: characters 11-37 : Add @:isVar here to enable it\nP.hx:2: characters 22-23 : This field cannot be accessed because it is not a real variable\nP.hx:1: characters 11-37 : Add @:isVar here to enable it",
+	"non-physical-property-with-isvar-is-clean": "",
+	"pattern-binding-sharing-a-non-physical-property-name": "",
+	"read-only-property-read-in-its-own-getter": "P.hx:1: characters 64-65 : This field cannot be accessed because it is not a real variable\nP.hx:1: characters 11-39 : Add @:isVar here to enable it",
+	"physical-property-read-in-its-own-getter-is-clean": ""
+}

@@ -1,0 +1,7 @@
+{
+	"an-imported-name-never-loads-the-root-module": "",
+	"an-unqualified-name-finds-the-package-before-the-root": "",
+	"a-macro-unqualified-name-finds-the-package-before-the-root": "",
+	"control-the-root-impfirst-does-not-type": "ImpFirst.hx:2: characters 2-39 : String should be Int",
+	"control-the-root-sib-does-not-type": "Sib.hx:2: characters 2-35 : String should be Int"
+}

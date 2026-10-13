@@ -1,0 +1,12 @@
+{
+	"best-rated-overload-is-called": "f:Int f:Float g:Float h:String k:Array m:Int n:Int",
+	"equally-good-overloads-are-ambiguous": "P.hx:6: characters 48-63 : Ambiguous overload, candidates follow\nP.hx:3: characters 41-42 : ... (a : Int, b : Float) -> String\nP.hx:4: characters 41-42 : ... (a : Float, b : Int) -> String",
+	"inherited-overload-is-a-candidate": "A.f:Int B.f:String",
+	"private-overload-is-checked-at-the-call": "P.hx:7: characters 65-71 : Cannot access private field f\nP.hx:7: characters 74-80 : Cannot access private field g",
+	"same-typed-signature-is-a-duplicate": "P.hx:3: characters 2-83 : Another overloaded field of same signature was already declared : o\nP.hx:4: characters 2-71 : ... The second field is declared here",
+	"dynamic-override-of-a-normal-method": "P.hx:8: characters 35-36 : Field g has different property access than in superclass",
+	"override-through-a-generic-parent": "C",
+	"override-nothing-suggests-a-name": "P.hx:2: characters 46-54 : Field tostring is declared 'override' but doesn't override any field (Suggestion: toString)",
+	"abstract-method-implemented-by-an-abstract-parent": "B.fC.g",
+	"missing-abstract-methods-in-name-order": "P.hx:2: characters 7-8 : This class extends abstract class A but doesn't implement the following methods\nP.hx:2: characters 7-8 : Implement them or make C abstract as well\nP.hx:1: characters 110-115 : ... alpha(x:Int, y:String)\nP.hx:1: characters 166-169 : ... mid()\nP.hx:1: characters 70-74 : ... zeta()"
+}

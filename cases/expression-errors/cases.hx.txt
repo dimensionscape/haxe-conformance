@@ -1,0 +1,341 @@
+--- super-value-in-static
+class A { public function new() {} }
+class P extends A { static function f() { return super; } static function main() {} }
+
+--- this-in-static
+class P { static function f() { return this; } static function main() {} }
+
+--- super-as-a-value
+class A { public function new() {} public function g() {} }
+class P extends A { public function new() { super(); var x = super; } static function main() {} }
+
+--- super-inside-a-local-function
+class A { public function new() {} public function g() {} }
+class P extends A { public function new() { super(); var f = function() { super.g(); }; } static function main() {} }
+
+--- super-inside-an-abstract-function
+abstract A(Int) { public function f() { super.toString(); } }
+class P { static function main() {} }
+
+--- bare-super-no-superclass
+class P { public function new() { var x = super.toString(); } static function main() {} }
+
+--- cast-to-a-type-parameter
+class P { static function f<T>(v:Dynamic):T { return cast(v, T); } static function main() {} }
+
+--- cast-to-a-non-class
+typedef T = {a:Int};
+class P { static function main() { var d:Dynamic = null; cast(d, T); } }
+
+--- cast-with-type-parameters
+class P { static function main() { var d:Dynamic = null; cast(d, Array<Int>); } }
+
+--- catch-a-type-parameter
+class P { static function f<T>() { try {} catch (e:T) {} } static function main() {} }
+
+--- catch-a-typedef
+typedef T = {a:Int};
+class P { static function main() { try {} catch (e:T) {} } }
+
+--- catch-with-type-parameters
+class P { static function main() { try {} catch (e:Array<Int>) {} } }
+
+--- compare-void
+class P { static function v():Void {} static function main() { if (v() == v()) {} } }
+
+--- return-null-from-void
+class P { static function f():Void { return null; } static function main() {} }
+
+--- assign-a-value-to-itself
+class P { static function main() { var x = 1; x = x; } }
+
+--- set-a-constructor
+class A { public function new() {} }
+class P { static function main() { A.new = null; } }
+
+--- bind-new-on-a-non-class
+typedef T = {a:Int};
+class P { static function main() { var f = T.new; } }
+
+--- bind-new-on-a-class
+class A { public function new(x:Int) {} }
+class P { static function main() { var f = A.new; } }
+
+--- field-name-starting-with-dollar
+class P { static function main() { var o = {$a: 1}; } }
+
+--- and-assign-operator
+class P { static function main() { var b = true; b &&= false; } }
+
+--- or-assign-operator
+class P { static function main() { var b = true; b ||= false; } }
+
+--- unexpected-arrow
+class P { static function main() { var x = [1 => 2]; var y = 1 => 2; } }
+
+--- unexpected-in
+class P { static function main() { var x = 1 in 2; } }
+
+--- string-must-be-a-single-char
+class P { static function main() { var c:haxe.io.Bytes = null; } }
+
+--- spread-not-last
+class P { static function f(a:Int, b:Int) {} static function main() { var a = [1, 2]; f(...a, 1); } }
+
+--- underscore-optional-non-nullable
+class P { static function f(?x:Int = _) {} static function main() {} }
+
+--- too-many-callback-arguments
+class P { static function main() { var f:Int->Void = function(a, b) {}; } }
+
+--- type-parameters-on-an-rvalue-function
+class P { static function main() { var f = function<T>(v:T) return v; } }
+
+--- class-field-name-starting-with-dollar
+class P { var $x:Int; static function main() {} }
+
+--- extern-class-field-name-starting-with-dollar
+extern class E { var $x:Int; }
+class P { static function main() {} }
+
+--- native-field-name-starting-with-dollar
+class P { @:native("ok") var $x:Int; static function main() {} }
+
+--- quoted-dollar-object-field
+class P { static function main() { var o = {"$a": 1}; trace(o); } }
+
+--- read-a-generic-function-as-a-value
+class P { @:generic static function g<T>(v:T) {} static function main() { var f = g; } }
+
+--- call-a-generic-function
+class P { @:generic static function g<T>(v:T) {} static function main() { g(1); } }
+
+--- read-a-macro-function-as-a-value
+class P { public static macro function m() { return macro 1; } static function main() { var f = P.m; } }
+
+--- read-a-super-method-as-a-value
+class B { public function new() {} public function f() {} }
+class P extends B { public function new() { super(); var g = super.f; } static function main() { new P(); } }
+
+--- call-a-super-method
+class B { public function new() {} public function f() {} }
+class P extends B { public function new() { super(); super.f(); } static function main() { new P(); } }
+
+--- read-an-inline-function-as-a-value
+class P { static inline function s() {} static function main() { var f = s; f(); } }
+
+--- map-literal-with-a-non-arrow-entry
+class P { static function main() { var m:Map<Int,Int> = [1 => 2, 3]; } }
+
+--- forward-with-a-non-identifier-argument
+@:forward(1) abstract A({ x:Int }) { public function new() this = {x: 1}; }
+class P { static function main() { var a = new A(); a.x; } }
+
+--- forward-with-an-identifier-argument
+@:forward(x) abstract A({ x:Int }) { public function new() this = {x: 1}; }
+class P { static function main() { var a = new A(); var n:Int = a.x; } }
+
+--- argument-unify-failure-is-annotated
+class P { static function main() { f("s"); } static function f(v:Int) {} }
+
+--- argument-structure-failure-is-annotated-under-its-sub-line
+class P { static function main() { var o = {a: 1}; f(o); } static function f(v:{b:Int}) {} }
+
+--- a-field-failure-in-an-argument-is-not-annotated
+class P { static function main() { var o = {a: 1}; f(o.nope); } static function f(v:Int) {} }
+
+--- optional-argument-failure-names-it-optional
+class P { static function main() { f("s"); } static function f(?v:Int) {} }
+
+--- binding-new-on-an-unknown-name
+class P { static function main() { var f = Nope.new; } }
+
+--- an-unknown-name-as-a-value
+class P { static function main() { var x = Nope; } }
+
+--- an-unknown-name-with-a-field
+class P { static function main() { Nope.f(); } }
+
+--- dollar-field-name-is-only-allowed-first
+class P { static function main() { var o = {b: 1, $a: 2}; trace(o); } }
+
+--- for-loop-over-a-non-iterable + --interp
+class P { static function main() { for (x in 5) {} } }
+
+--- for-loop-iterator-of-wrong-type + --interp
+class C { public function new() {} public function iterator():Int return 1; }
+class P { static function main() { for (x in new C()) {} } }
+
+--- for-loop-over-a-dynamic-under-eval + --interp
+class P { static function main() { var d:Dynamic = 1; for (x in d) {} } }
+
+--- duplicate-map-key-int
+class P { static function main() { var m = [1=>2, 1=>3]; trace(m); } }
+
+--- duplicate-map-key-string
+class P { static function main() { var m = ["a"=>1, "a"=>2]; trace(m); } }
+
+--- distinct-map-keys-are-fine
+class P { static function main() { var m = [1=>2, 3=>4]; trace(m); } }
+
+--- block-statement-not-found-then-unify
+class P { static function main() { new Nope(); var x:Int = "s"; } }
+
+--- block-return-not-found-then-statement
+class P { static function main() { return new Nope(); new Nope2(); } }
+
+--- block-throw-not-found-then-statement
+class P { static function main() { throw new Nope(); new Nope2(); } }
+
+--- block-throw-unknown-identifier-then-unify
+class P { static function main() { throw nope; var x:Int = "s"; } }
+
+--- return-not-found-in-int-function
+class P { static function f():Int { return new Nope(); } static function main() {} }
+
+--- throw-not-found-in-int-function
+class P { static function f():Int { throw new Nope(); } static function main() {} }
+
+--- three-statements-three-errors
+class P { static function main() { nope(); Nope.x; new Nope(); } }
+
+--- duplicate-default-reports-at-the-first
+class P { static function main() { switch (1) { case 1: default: default: } } }
+
+--- duplicate-default-with-bodies-reports-at-the-first
+class P { static function main() { switch (1) { default: trace(1); default: trace(2); } } }
+
+--- three-defaults-report-at-the-second
+class P { static function main() { switch (1) { default: case 1: default: default: } } }
+
+--- a-later-case-error-wins-over-a-duplicate-default
+class P { static function main() { switch (1) { default: default: case 2 3: } } }
+
+--- for-loop-iterator-of-wrong-type-without-a-target
+class C { public function new() {} public function iterator():Int return 1; }
+class P { static function main() { for (x in new C()) {} } }
+
+--- trace-without-arguments-is-an-unknown-identifier
+class P { static function main() { trace(); } }
+
+--- trace-as-a-value-is-an-unknown-identifier
+class P { static function main() { var f = trace; } }
+
+--- enum-pattern-error-in-a-closure-argument-is-annotated
+class P {
+	static function call(f:Array<haxe.macro.Type>->Void) {}
+	static function main() {
+		call(function(types) { for (t in types) switch (t) { case TClassDecl(c): case _: } });
+		var zz:Int = "s";
+	}
+}
+
+--- errors-inside-call-arguments-are-annotated
+class P {
+	static function call(f:Int->Void) {}
+	static function call2(f:Int->String) {}
+	static function obj(o:{a:Int, b:String}) {}
+	static function arr(x:Int) {}
+	static function main() {
+		call(function(x) { var s:String = x; trace("after"); });
+		call2(function(x) { return x; });
+		obj({a: 1});
+		arr(5[0]);
+		var z:Int = "q";
+	}
+}
+
+--- a-return-error-in-a-closure-argument-is-recorded
+class P {
+	static function call(f:Int->Int) {}
+	static function main() {
+		call(function(x) return undefinedVar);
+		call(function(x) { return undefinedVar2; });
+		var z:Int = "q";
+	}
+}
+
+--- a-switch-value-mismatch-is-recorded-then-the-return-reports-it
+import haxe.ds.Option;
+class P {
+	public static function main() {
+		return switch outcome() {
+			case Some(v):
+				var value = switch v {
+					case 1: 1;
+					case var m: return None;
+				}
+				value;
+			case None:
+				2;
+		}
+	}
+	static function outcome() return Some(1);
+}
+
+--- calling-a-non-function-names-its-type
+class P {
+	static function main() {
+		var x = 5;
+		x();
+		var s = "a";
+		s(1, 2);
+		var o = {a: 1};
+		o.a();
+	}
+}
+
+--- parse-inline-string-keeps-the-caller-offsets
+class P {
+	static function main() {
+		var x:Int = inl();
+	}
+
+	static macro function inl() {
+		return haxe.macro.Context.parseInlineString("1 + true", haxe.macro.Context.currentPos());
+	}
+}
+
+--- a-bare-enum-abstract-method-is-not-in-scope
+enum abstract Level(Int) {
+	var Low = 1;
+	public function isHigh():Bool return this == 2;
+}
+class P {
+	static function main() {
+		var l = Low;
+		var f = isHigh;
+	}
+}
+
+--- an-unknown-identifier-argument-of-a-single-constructor-is-annotated
+extern class K {
+	public function new(s:String):Void;
+}
+class P {
+	static function main() {
+		new K(my_typo);
+	}
+}
+
+--- an-unknown-identifier-argument-ends-an-overload-resolution
+extern class J {
+	@:overload(function(s:String):Void {})
+	public static function f():Void;
+}
+class P {
+	static function main() {
+		J.f(my_typo);
+	}
+}
+
+--- an-unknown-identifier-argument-ends-a-constructor-overload-resolution
+extern class J {
+	@:overload(function(s:String):Void {})
+	public function new():Void;
+}
+class P {
+	static function main() {
+		new J(my_typo);
+	}
+}

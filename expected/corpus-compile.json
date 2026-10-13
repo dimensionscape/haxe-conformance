@@ -1,0 +1,14 @@
+{
+	"haxe-io": "",
+	"haxe-ds": "",
+	"haxe-crypto": "",
+	"haxe-iterators": "",
+	"haxe-exceptions": "",
+	"haxe-display": "",
+	"haxe-xml": "",
+	"haxe-zip": "",
+	"haxe-macro": "$STD/haxe/macro/ExampleJSGenerator.hx:102: characters 12-17 : Class<haxe.macro.Context> has no field error",
+	"haxe-root": "$STD/haxe/atomic/AtomicBool.hx:4: characters 8-61 : Atomic operations are not supported on this target!",
+	"haxe-atomic-hits-an-error-directive": "$STD/haxe/atomic/AtomicBool.hx:4: characters 8-61 : Atomic operations are not supported on this target!",
+	"std-toplevel": ""
+}

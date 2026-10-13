@@ -1,0 +1,13 @@
+{
+	"name": "fatal-field-errors",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "quick",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"$module",
+		"--no-output"
+	]
+}

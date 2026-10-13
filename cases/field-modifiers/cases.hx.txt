@@ -1,0 +1,127 @@
+--- final-static-method
+class P { static final public function t() {} static function main() {} }
+
+--- final-static-method-under-a-broken-heritage
+class P extends nope.Missing { static final public function t() {} static function main() {} }
+
+--- final-static-method-meta-form
+class P { @:final static public function t() {} static function main() {} }
+
+--- final-static-on-an-abstract-member
+abstract A(Int) { public final function f() {} }
+class P { static function main() {} }
+
+--- final-static-on-an-extern-class
+extern class E { static final public function t():Void; }
+class P { static function main() {} }
+
+--- final-static-reports-at-the-final-keyword
+class P { public static final function t() {} static function main() {} }
+
+--- extern-meta-form-warns
+class P { @:extern static inline function t() {} static function main() { t(); } }
+
+--- one-error-per-field-abstract-wins-over-final-static
+abstract class A { static final abstract function t():Void; }
+class P { static function main() {} }
+
+--- one-error-per-field-abstract-static-wins-over-abstract-final
+abstract class A { static final abstract function t():Void; }
+class P { static function main() {} }
+
+--- interface-variable-with-an-initializer
+interface I { var x:Int = 5; }
+class P { static function main() {} }
+
+--- interface-property-with-an-initializer
+interface I { var p(default, null):Int = 3; }
+class P { static function main() {} }
+
+--- extern-interface-variable-with-an-initializer
+extern interface I { var q:Int = 1; }
+class P { static function main() {} }
+
+--- bodyless-inline-function-on-an-abstract
+abstract A(Int) { public inline function f():Int; }
+class P { static function main() {} }
+
+--- macro-on-a-cast-function
+abstract A(Int) { @:to macro function toStr():String return null; }
+class P { static function main() {} }
+
+--- macro-on-an-array-access-function
+abstract A(Int) { @:arrayAccess macro function get(i:Int):Int return null; }
+class P { static function main() {} }
+
+--- macro-on-a-binary-operator-function
+abstract A(Int) { @:op(A + B) macro function add(o:A):A return null; }
+class P { static function main() {} }
+
+--- macro-on-an-array-access-function-beside-another-macro-field
+abstract A(Int) {
+	macro function other() { return macro null; }
+	@:arrayAccess macro function get(i:Int):Int return null;
+}
+class P { static function main() {} }
+
+--- a-broken-to-beside-a-macro-field-reports-once-per-world
+abstract A(Int) {
+	macro function other() { return macro null; }
+	@:to function toStr(x:Int):String return "";
+}
+class P { static function main() {} }
+
+--- a-broken-to-without-a-macro-field-reports-once
+abstract A(Int) { @:to function toStr(x:Int):String return ""; }
+class P { static function main() {} }
+
+--- a-macro-field-does-not-duplicate-an-ordinary-field-error
+class A {
+	macro static function m() { return macro null; }
+	static function bad(x:Nope):Void {}
+}
+class P { static function main() {} }
+
+--- interface-method-with-a-body
+interface I { public function f():Void {} }
+class P { static function main() {} }
+
+--- inline-method-of-an-interface
+interface I { public inline function f():Void; }
+class P { static function main() {} }
+
+--- override-with-no-parent
+class A { override function f() {} }
+class P { static function main() {} }
+
+--- static-constructor
+class A { static function new() {} }
+class P { static function main() {} }
+
+--- abstract-modifier-on-a-constructor
+abstract class A { public abstract function new():Void; }
+class P { static function main() {} }
+
+--- overload-on-a-constructor
+class A { overload public function new() {} }
+class P { static function main() {} }
+
+--- overload-on-a-non-extern-function
+class A { overload public function f():Void {} }
+class P { static function main() {} }
+
+--- dynamic-method-of-an-abstract
+abstract A(Int) { public dynamic function f():Void {} }
+class P { static function main() {} }
+
+--- dynamic-accessor-on-a-variable
+class A { dynamic var v:Int; }
+class P { static function main() {} }
+
+--- static-final-variable-without-an-initializer
+class A { static final v:Int; }
+class P { static function main() {} }
+
+--- a-dollar-field-name
+class A { var $bad:Int; }
+class P { static function main() {} }

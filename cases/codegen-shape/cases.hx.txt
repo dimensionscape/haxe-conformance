@@ -1,0 +1,295 @@
+--- simple-arithmetic
+class P { static function main() { var a = 1 + 2 * 3; Sys.println(a); } }
+
+--- string-concatenation
+class P { static function main() { var s = "a" + 1 + true; Sys.println(s); } }
+
+--- for-over-an-int-range
+class P { static function main() { var t = 0; for (i in 0...5) t += i; Sys.println(t); } }
+
+--- while-loop-with-break
+class P { static function main() { var i = 0; while (true) { i++; if (i > 3) break; } Sys.println(i); } }
+
+--- switch-on-an-enum
+enum E { A; B(v:Int); }
+class P { static function main() { var e = B(2); Sys.println(switch (e) { case A: 0; case B(v): v; }); } }
+
+--- switch-on-a-string
+class P { static function main() { var s = "b"; Sys.println(switch (s) { case "a": 1; case "b": 2; case _: 3; }); } }
+
+--- try-catch
+class P { static function main() { try throw "x" catch (e:String) Sys.println(e); } }
+
+--- closure-capturing-a-local
+class P { static function main() { var n = 5; var f = function() return n * 2; Sys.println(f()); } }
+
+--- class-with-inheritance
+class A { public function new() {} public function v() return 1; }
+class B extends A { public function new() { super(); } override public function v() return 2; }
+class P { static function main() { Sys.println((new B() : A).v()); } }
+
+--- interface-dispatch
+interface I { function v():Int; }
+class C implements I { public function new() {} public function v() return 7; }
+class P { static function main() { var i:I = new C(); Sys.println(i.v()); } }
+
+--- static-inline-is-folded
+class P { static inline function sq(x:Int) return x * x; static function main() { Sys.println(sq(4)); } }
+
+--- anonymous-structure
+class P { static function main() { var o = {a: 1, b: "x"}; Sys.println(o.a + o.b); } }
+
+--- array-comprehension
+class P { static function main() { var a = [for (i in 0...4) i * i]; Sys.println(a.join(",")); } }
+
+--- abstract-is-erased
+abstract Meters(Float) from Float to Float { public inline function new(v:Float) this = v; }
+class P { static function main() { var m = new Meters(3); Sys.println(m + 1.0); } }
+
+--- typedef-is-erased
+typedef Pair = {x:Int, y:Int};
+class P { static function main() { var p:Pair = {x: 1, y: 2}; Sys.println(p.x + p.y); } }
+
+--- null-coalescing
+class P { static function main() { var a:Null<Int> = null; Sys.println(a ?? 9); } }
+
+--- string-interpolation
+class P { static function main() { var n = 2; Sys.println('n=$n sq=${n * n}'); } }
+
+--- generic-function
+class P { @:generic static function id<T>(v:T):T return v; static function main() { Sys.println(id(1) + id(2)); } }
+
+--- abstract-static-through-type
+abstract A(Int) { public static var s = 1; public static function f() return 2; }
+class P { static function main() { Sys.println(A.s + A.f()); } }
+
+--- native-abstract-static-through-type
+@:native("NA") abstract A(Int) { public static function f() return 2; }
+class P { static function main() { Sys.println(A.f()); } }
+
+--- forward-statics-call
+class C { public static function st() return 1; }
+@:forwardStatics abstract F(C) {}
+class P { static function main() { Sys.println(F.st()); } }
+
+--- abstract-new-binding
+abstract A(Int) { public function new(i:Int) this = i; }
+class P { static function main() { var f = A.new; Sys.println(f(1)); } }
+
+--- forward-new-binding
+class C { public var i:Int; public function new(i:Int) this.i = i; }
+@:forward.new abstract B(C) { public function get() return this.i; }
+class P { static function main() { var f = B.new; Sys.println(f(3).get()); } }
+
+--- enum-abstract-through-type
+enum abstract E(Int) { var A = 1; var B; }
+class P { static function main() { Sys.println(E.A); Sys.println(E.B); } }
+
+--- trace-of-an-abstract-with-tostring
+abstract Ab(Int) {
+	public function new(i) this = i;
+	public function toString() return "ab" + this;
+}
+class O {
+	public var f:Ab = new Ab(1);
+	public var g:Null<Ab> = null;
+	public function new() {}
+}
+class P {
+	static var s:Ab = new Ab(3);
+	static function main() {
+		var o = new O();
+		trace(o.f);
+		trace((o.f));
+		trace(P.s);
+		trace("x", o.f, o.g);
+	}
+}
+
+--- es6-closures-in-loops-and-this-after-super + -D js-es=6
+class Base { public function new(f:Void->Int) { trace(f()); } }
+class Sub extends Base {
+	var v = 3;
+	public function new() {
+		super(() -> 1);
+		var g = () -> this.v;
+		trace(g());
+	}
+}
+class P {
+	static function main() {
+		var fs = [];
+		for (i in 0...3) fs.push(() -> i);
+		var j = 0;
+		while (j < 2) { var k = j; fs.push(() -> k); j++; }
+		for (f in fs) trace(f());
+		new Sub();
+	}
+}
+
+--- es6-sibling-blocks-keep-their-names + -D js-es=6
+class P {
+	static function f(g:Bool, s:String):Bool {
+		return if (g) {
+			var b = s.length > 1;
+			if (b) trace(s);
+			b;
+		} else {
+			var b = s.length > 2;
+			if (b) trace(s + s);
+			b;
+		}
+	}
+	static function main() { trace(f(true, "ab")); trace(f(false, "abc")); }
+}
+
+--- es6-class-inits + -D js-es=6
+class P {
+	static function main() {
+		trace(Type.resolveClass("P") != null);
+		trace(Type.getClassName(P));
+		trace([1, 2].indexOf(2));
+	}
+}
+
+--- untyped-trace-is-the-builtin
+class P { static function main() { untyped trace(1); var x = untyped trace; } }
+
+--- a-static-to-cast-takes-no-this
+abstract Z(Array<Int>) from Array<Int> {
+	@:to public static function toLen(a:Array<Int>):Int return a.length;
+	@:to public function toFirst():String return "" + this[0];
+}
+class P { static function main() { var z:Z = [4, 2]; var i:Int = z; var s:String = z; trace(i + s); } }
+
+--- a-failed-overload-attempt-leaves-no-closure-context
+class P {
+	var someArray = [];
+	public function new() {}
+	function test() {
+		load(function(response) {
+			response["foo"];
+			someArray.push(1);
+		});
+		trace(someArray.length);
+	}
+	@:overload(function(cb:haxe.DynamicAccess<String> -> Void):Void {})
+	static public function load(cb:String -> Void) cb("");
+	static function main() new P().test();
+}
+
+--- no-inline-still-expands-abstract-impl-methods + -D no-inline
+class P {
+	static function main() {
+		var map = new Map();
+		map["foo"] = 12;
+		map["foo"] += 2;
+		var k = "k" + map["foo"];
+		map[k] *= 3;
+		trace(map.get(k));
+	}
+}
+
+--- no-inline-still-folds-api-calls-and-reads-std-abstracts + -D no-inline
+enum E { A; B(x:Int); }
+abstract Meters(Float) from Float to Float {
+	@:op(A + B) static function add(a:Meters, b:Meters):Meters return (a:Float) + (b:Float);
+	public inline function double():Meters return this * 2;
+}
+class P {
+	static function main() {
+		var v = new haxe.ds.Vector<Int>(3);
+		v[0] = 1; v[1] += 5;
+		var b = haxe.io.Bytes.alloc(4);
+		b.set(0, 65);
+		var im = new Map<Int, String>();
+		im[1] = "a"; im[1] += "b";
+		var em = new Map<E, Int>();
+		em[B(1)] = 3;
+		var om = new Map<{}, Int>();
+		var key = {};
+		om[key] = 1;
+		var m:Meters = 1.5;
+		var m2 = m + m;
+		trace(v[1], b.get(0), im[1], em[B(1)], om[key], m2.double());
+		var arr = [1, 2, 3];
+		for (x in arr) trace(x);
+		var s = "abc";
+		trace(StringTools.startsWith(s, "a"), s.charCodeAt(0), Std.int(1.5));
+		var it = 0...3;
+		for (i in it) trace(i);
+	}
+}
+
+--- no-opt-inline-constructor-in-a-closure-called-three-times + --no-opt
+private class V2 {
+	public var x:Float;
+	public var y:Float;
+	inline public function new(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+class P {
+	inline static function getPos() : V2 {
+		return new V2(0, 1);
+	}
+	inline static public function iteration(func) {
+		func();
+		func();
+		func();
+	}
+	public static function run() {
+		var r = "";
+		iteration(function() {
+			var wpos = getPos();
+			r += '(${wpos.x},${wpos.y})';
+		});
+		return r;
+	}
+	static function main() { trace(run()); }
+}
+
+--- no-opt-rest-arguments-inline-rest-of + --no-opt
+class P {
+	static inline function rest(...args:Int) return args[2];
+	static function main() { trace(rest(1, 2, 3, 4)); }
+}
+
+--- a-map-over-a-type-parameter-inlines-its-specialization
+class H<V> {
+	public var m:Map<String, V>;
+	public function new() { m = new Map(); }
+	public function c():Void { m.clear(); }
+	public function s():String { return m.toString(); }
+}
+class P { static function main() { var h = new H<Int>(); h.m.set("a", 1); h.c(); trace(h.s()); } }
+
+--- an-inferred-map-assign-op-fuses-under-the-analyzer + -D analyzer-optimize -D analyzer-user-var-fusion -dce full
+class P {
+	function new() {}
+	function run() {
+		var m = new Map();
+		m["foo"] = 12;
+		m["foo"] += 2;
+		trace(m.get("foo"));
+	}
+	static function main() { new P().run(); }
+}
+
+--- a-property-increment-calls-both-accessors
+class C {
+	public var x(get, set):Int;
+	var _x = 0;
+	public function new() {}
+	function get_x() return _x;
+	function set_x(v) return _x = v;
+}
+class P { static function main() { var c = new C(); c.x++; trace(c.x); } }
+
+--- inline-new-on-an-abstract-with-a-plain-constructor
+abstract A(Int) {
+	public function new(i:Int) this = i;
+	public inline function get() return this;
+}
+class P { static function main() { var a = inline new A(12); trace(a.get()); } }

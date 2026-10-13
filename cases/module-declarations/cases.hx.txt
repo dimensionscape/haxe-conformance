@@ -1,0 +1,297 @@
+--- import-after-a-declaration
+class A {}
+import haxe.ds.Option;
+class P { static function main() {} }
+
+--- using-after-a-declaration
+class A {}
+using StringTools;
+class P { static function main() {} }
+
+--- import-before-a-declaration
+import haxe.ds.Option;
+class P { static function main() {} }
+
+--- fake-enum
+@:fakeEnum(Int) enum E { A; }
+class P { static function main() {} }
+
+--- import-after-a-typedef
+typedef T = Int;
+import haxe.ds.Option;
+class P { static function main() {} }
+
+--- decl-order-both-report
+class P {
+	public public function f():Int { return 1; }
+	static function main() { }
+}
+
+private class Foo {
+	public public function g():Int { return 1; }
+}
+
+--- decl-order-heritage-first
+class P extends NoSuchBase {
+	static function main() { }
+}
+
+private class Foo {
+	public public function g():Int { return 1; }
+}
+
+--- decl-order-heritage-last
+private class Foo {
+	public public function g():Int { return 1; }
+}
+
+class P extends NoSuchBase {
+	static function main() { }
+}
+
+--- package-name-uppercase
+package Foo;
+class P { static function main() {} }
+
+--- static-modifier-on-a-class
+static class P { static function main() {} }
+
+--- macro-modifier-on-a-class
+macro class P { static function main() {} }
+
+--- public-modifier-on-an-enum
+public enum E { A; }
+class P { static function main() {} }
+
+--- inline-modifier-on-an-abstract
+inline abstract A(Int) { }
+class P { static function main() {} }
+
+--- inline-modifier-on-an-enum-abstract
+inline enum abstract F(Int) { var B = 1; }
+class P { static function main() {} }
+
+--- public-modifier-on-a-module-field
+public final var x = 1;
+class P { static function main() {} }
+
+--- static-modifier-on-a-module-field
+static final var y = 2;
+class P { static function main() {} }
+
+--- class-flags-that-are-allowed
+private class Q {}
+extern class R {}
+final class S {}
+class P { static function main() {} }
+
+--- enum-and-abstract-flags-that-are-allowed
+private enum E { A; }
+extern class T {}
+class P { static function main() {} }
+
+--- enum-abstract-still-parses
+enum abstract E(Int) { var A = 1; }
+class P { static function main() {} }
+
+--- abstract-class-still-parses
+abstract class G { }
+class P { static function main() {} }
+
+--- mutually-recursive-classes
+class A extends B { }
+class B extends A { }
+class P { static function main() {} }
+
+--- mutually-recursive-interfaces
+interface IFoo extends IBar {}
+interface IBar extends IFoo {}
+class P { static function main() {} }
+
+--- mutually-recursive-abstracts-report-the-first
+abstract Ab1(Ab2) from Ab2 {}
+abstract Ab2(Ab1) from Ab1 {}
+class P { static function main() { var a:Ab1 = {}; } }
+
+--- a-later-class-builds-before-an-earlier-one
+class P { public public function f():Int { return 1; } static function main() {} }
+private class Foo { public public function g():Int { return 1; } }
+
+--- truncated-enum-abstract-at-eof
+class P { static function main() {} }
+enum abstract
+
+--- truncated-private-enum-abstract-at-eof
+class P { static function main() {} }
+private enum abstract
+
+--- truncated-enum-abstract-then-newline
+class P { static function main() {} }
+enum abstract
+
+--- truncated-bare-class-at-eof
+class P { static function main() {} }
+class
+
+--- truncated-enum-name-at-eof
+class P { static function main() {} }
+enum X
+
+--- truncated-abstract-at-eof
+class P { static function main() {} }
+abstract
+
+--- truncated-enum-abstract-then-decl
+class P { static function main() {} }
+enum abstract
+class Z {}
+
+--- module-final-name-then-paren
+class P { static function main() {} }
+final w(x:Float)
+
+--- module-final-name-then-property-syntax
+class P { static function main() {} }
+final w(get,set):Int;
+
+--- module-final-initialized
+class P { static function main() {} }
+final w = 1;
+
+--- module-final-uninitialized
+class P { static function main() {} }
+final w;
+
+--- module-final-is-a-class-flag
+class P { static function main() {} }
+final class Z {}
+
+--- forbidden-package-type-hint-cross
+class P { static function main() { var x:cpp.abi.Abi = null; } }
+
+--- forbidden-package-type-hint-js + -js out.js
+class P { static function main() { var x:cpp.abi.Abi = null; } }
+
+--- forbidden-package-type-hint-cpp + -cpp out
+class P { static function main() { var x:cpp.abi.Abi = null; } }
+
+--- forbidden-package-type-hint-interp + --interp
+class P { static function main() { var x:cpp.abi.Abi = null; } }
+
+--- forbidden-package-import-cross
+import cpp.Lib; class P { static function main() {} }
+
+--- forbidden-package-import-js + -js out.js
+import cpp.Lib; class P { static function main() {} }
+
+--- forbidden-package-import-cpp + -cpp out
+import cpp.Lib; class P { static function main() {} }
+
+--- forbidden-package-sys-on-js-js + -js out.js
+import sys.io.File; class P { static function main() {} }
+
+--- forbidden-package-sys-on-js-cpp + -cpp out
+import sys.io.File; class P { static function main() {} }
+
+--- forbidden-package-js-package-cross
+class P { static function main() { var x:js.Browser = null; } }
+
+--- forbidden-package-js-package-cpp + -cpp out
+class P { static function main() { var x:js.Browser = null; } }
+
+--- forbidden-package-js-package-interp + --interp
+class P { static function main() { var x:js.Browser = null; } }
+
+--- forbidden-package-through-module-js + -js out.js
+import viaimport.Mid; class P { static function main() { Mid.f(); } }
+
+--- forbidden-package-through-module-cpp + -cpp out
+import viaimport.Mid; class P { static function main() { Mid.f(); } }
+
+--- forbidden-package-no-package-restrict-cpp + -cpp out
+class P { static function main() { js.Free.f(); } }
+
+--- forbidden-package-no-package-restrict-interp + --interp
+class P { static function main() { js.Free.f(); } }
+
+--- forbidden-package-jvm-package-js + -js out.js
+class P { static function main() { var x:jvm.Jvm = null; } }
+
+--- forbidden-package-macro-uses-js-js + -js out.js
+class P { static function main() { mm.MMJs.useJs(); } }
+
+--- forbidden-package-macro-uses-js-cpp + -cpp out
+class P { static function main() { mm.MMJs.useJs(); } }
+
+--- forbidden-package-macro-uses-sys-js + -js out.js
+class P { static function main() { mm.MMSys.useSys(); } }
+
+--- forbidden-package-allow-package-then-use-js + -js out.js
+class P { static function main() { mm.MMAllow.allowThenUse(); } }
+
+--- forbidden-package-package-rules-js + -js out.js
+class P { static function main() { mm.MMRules.rules(); } }
+
+--- forbidden-package-package-rules-cpp + -cpp out
+class P { static function main() { mm.MMRules.rules(); } }
+
+--- forbidden-package-package-rules-cross
+class P { static function main() { mm.MMRules.rules(); } }
+
+--- forbidden-package-allow-package-flag + -js out.js --macro allowPackage('cpp')
+import cpp.Lib; class P { static function main() {} }
+
+--- import-lowercase-alias-after-a-failed-import
+import nope.Nope;
+import haxe.ds.StringMap in sm;
+class P { static function main() {} }
+
+--- import-lowercase-alias-of-a-missing-module
+import nope.Nope in sm;
+class P { static function main() {} }
+
+--- import-lowercase-alias-of-a-static-name
+import haxe.ds.StringMap.Nope in sm;
+class P { static function main() {} }
+
+--- import-lowercase-as-alias-of-a-static-name
+import haxe.ds.StringMap.Nope as sm;
+class P { static function main() {} }
+
+--- import-wildcard-without-statics-ends-the-compile
+import haxe.PosInfos.*;
+class P { static function main() { undefinedThing; } }
+
+--- import-a-type-of-an-underscore-led-module
+import usc._Foo.X1;
+class P { static function main() { trace(X1.f()); } }
+
+--- import-an-underscore-led-module-whole
+import usc._Foo;
+class P { static function main() { trace(X1.f() + _Foo.g()); } }
+
+--- import-the-statics-of-an-underscore-led-type
+import usc._Foo.*;
+class P { static function main() { trace(g() + Y); } }
+
+--- import-an-underscore-led-sub-type
+import usc._Foo._Foo;
+class P { static function main() { trace(_Foo.g()); } }
+
+--- import-an-underscore-led-sub-type-as-an-alias
+import usc._Foo._Foo as U;
+class P { static function main() { trace(U.g()); } }
+
+--- import-a-type-of-a-digit-led-module
+import usc._1.Z;
+class P { static function main() { trace(Z.z()); } }
+
+--- import-a-static-past-an-underscore-led-module
+import usc._Foo.X1.f;
+class P { static function main() { trace(f()); } }
+
+--- an-identifier-naming-an-underscore-led-module-without-its-type
+class P { static function main() { trace(_Bar); } }
+
+--- global-metadata-on-a-package-reaches-an-underscore-led-type + --macro "addGlobalMetadata('usc', '@:build(UscB.b())', false)"
+class P { static function main() { usc._Foo._Foo.g(); usc._Foo.X1.f(); } }

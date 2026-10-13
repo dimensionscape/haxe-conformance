@@ -1,0 +1,13 @@
+{
+	"name": "using-resolution",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "quick",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"$module",
+		"--no-output"
+	]
+}

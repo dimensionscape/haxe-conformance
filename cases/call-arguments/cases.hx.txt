@@ -1,0 +1,71 @@
+--- not-enough-arguments
+class P { static function main() {} static function f(a:Int, b:String) {} static function go() { f(1); } }
+
+--- not-enough-arguments-none-given
+class P { static function main() {} static function f(a:Int) {} static function go() { f(); } }
+
+--- too-many-arguments
+class P { static function main() {} static function f(a:Int) {} static function go() { f(1,2,3); } }
+
+--- too-many-arguments-past-optionals
+class P { static function main() {} static function f(a:Int, b:Int = 2, c:Int = 3) {} static function go() { f(1,2,3,4); } }
+
+--- too-many-arguments-all-optional
+class P { static function main() {} static function f(?a:Int, ?b:String) {} static function go() { f(1,"s",2); } }
+
+--- argument-type-mismatch-is-decorated
+class P { static function main() {} static function f(a:Int, b:String) {} static function go() { f("s", 1); } }
+
+--- skip-optional-to-reach-a-later-argument
+class P { static function main() {} static function f(?a:Int, b:String) {} static function go() { f("s"); } }
+
+--- skip-defaulted-to-reach-a-later-argument
+class P { static function main() {} static function f(a:Int = 1, b:String) {} static function go() { f("s"); } }
+
+--- rest-mismatch-cross
+class P { static function main() {} static function f(...rest:Int) {} static function go() { f("s"); } }
+
+--- rest-mismatch-js + -js out.js --no-output
+class P { static function main() {} static function f(...rest:Int) {} static function go() { f("s"); } }
+
+--- rest-spread-not-last-cross
+class P { static function main() {} static function f(a:Int, ...rest:Int) {} static function go() { var r:Array<Int> = [1,2]; f(1, ...r, 3); } }
+
+--- rest-spread-not-last-js + -js out.js --no-output
+class P { static function main() {} static function f(a:Int, ...rest:Int) {} static function go() { var r:Array<Int> = [1,2]; f(1, ...r, 3); } }
+
+--- rest-spread-of-the-wrong-element-type-cross
+class P { static function main() {} static function f(...rest:Int) {} static function go() { var r:Array<String> = ["a"]; f(...r); } }
+
+--- rest-spread-of-the-wrong-element-type-js + -js out.js --no-output
+class P { static function main() {} static function f(...rest:Int) {} static function go() { var r:Array<String> = ["a"]; f(...r); } }
+
+--- rest-accepts-many-cross
+class P { static function main() {} static function f(...rest:Int) {} static function go() { f(1,2,3); } }
+
+--- rest-accepts-many-js + -js out.js --no-output
+class P { static function main() {} static function f(...rest:Int) {} static function go() { f(1,2,3); } }
+
+--- rest-accepts-none-cross
+class P { static function main() {} static function f(...rest:Int) {} static function go() { f(); } }
+
+--- rest-accepts-a-spread-cross
+class P { static function main() {} static function f(a:Int, ...rest:Int) {} static function go() { var r:Array<Int> = [1,2]; f(1, ...r); } }
+
+--- rest-accepts-a-spread-js + -js out.js --no-output
+class P { static function main() {} static function f(a:Int, ...rest:Int) {} static function go() { var r:Array<Int> = [1,2]; f(1, ...r); } }
+
+--- rest-of-dynamic-accepts-mixed
+class P { static function main() {} static function f(...rest:Dynamic) {} static function go() { f(1,"s",true); } }
+
+--- array-write-value-is-typed-once
+abstract A2(Array<Int>) {
+	public function new() this = [];
+	@:arrayAccess function setS(k:Int, v:String):String return v;
+	@:arrayAccess function setI(k:Int, v:Int):Int { this[k] = v; return v; }
+}
+class P {
+	static var n = 0;
+	public static macro function idx(tag:String) { n++; Sys.println("idx " + tag + " typed (" + n + ")"); return macro 0; }
+	static function main() { var a = new A2(); a[0] = idx("two setters"); }
+}

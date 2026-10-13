@@ -1,0 +1,176 @@
+--- import-statics-from-a-class
+import Std.*;
+class P { static function main() {} }
+
+--- import-statics-from-a-typedef
+typedef T = Int;
+class P { static function main() {} }
+
+--- import-statics-from-an-enum
+import haxe.ds.Option.*;
+class P { static function main() { var o = Some(1); } }
+
+--- remoting-proxy-with-parameters
+class P { static function main() { var p:haxe.remoting.Proxy<Array<Int>> = null; } }
+
+--- remoting-proxy-on-a-class
+class A { public function new() {} }
+class P { static function main() { var p:haxe.remoting.Proxy<A> = null; } }
+
+--- require-with-an-unmet-flag
+extern class E { @:require(nosuchflag) static function f():Void; }
+class P { static function main() { E.f(); } }
+
+--- require-with-a-met-flag
+extern class E { @:require(js) static function f():Void; }
+class P { static function main() { E.f(); } }
+
+--- enum-abstract-non-constant-value
+class P { static var n = 1; static function main() { var x = n; } }
+
+--- hexadecimal-literal
+class P { static function main() { Sys.println(0xFF + 0x10); } }
+
+--- huge-integer-literal
+class P { static function main() { Sys.println(99999999999999999999); } }
+
+--- float-literal-forms
+class P { static function main() { Sys.println(1.5 + 1e3 + .5); } }
+
+--- meta-with-a-malformed-string
+@:native("a\\") class P { static function main() {} }
+
+--- abstract-without-a-type-parameter
+class P { static function main() { var m:Map = null; } }
+
+--- switch-on-a-non-constant-enum
+enum E { A(v:Int); }
+class P { static function main() { var e = A(1); switch (e) { case A(1): case _: } } }
+
+--- forward-on-a-non-abstract
+@:forward(length) class P { static function main() {} }
+
+--- inheritdoc-on-a-field
+class A { /** doc */ public function new() {} }
+class P { @:inheritDoc(A.new) public function new() {} static function main() {} }
+
+--- generic-const-type-parameter-as-value
+@:generic class G<T> { public function new() {} public function f() { return T; } }
+class P { static function main() { new G<Int>().f(); } }
+
+--- generic-static-specialization-name-already-a-typedef
+typedef P_f_Int = Int;
+class P { @:generic static function f<T>(x:T) {} static function main() { f(1); } }
+
+--- generic-argument-type-parameter-with-constructor-non-generic
+@:generic class G<T> { public function new() {} }
+class C<T:haxe.Constraints.Constructible<Void->Void>> { function f() { new G<T>(); } }
+class P { static function main() {} }
+
+--- generic-function-without-type-parameters
+class P { @:generic static function f(x:Int) {} static function main() { f(1); } }
+
+--- inline-call-of-a-recursive-function
+class P { static function f(x:Int):Int return x <= 0 ? 0 : f(x - 1); static function main() { inline f(3); } }
+
+--- extern-property-without-accessor-method
+extern class E { var x(get, never):Int; }
+class P { static function main() { var e:E = null; trace(e.x); } }
+
+--- array-access-extern-getter-with-bodied-setter-compound
+abstract A(Array<Int>) { public function new() this = []; @:arrayAccess extern function get(i:Int):Int; @:arrayAccess function set(i:Int, v:Int):Int return v; }
+class P { static function main() { var a = new A(); a[0] += 1; } }
+
+--- strict-meta-on-unsupported-target
+@:strict(P.x) class P { static var x = 1; static function main() {} }
+
+--- build-call-parameter-not-a-path
+@:build(1()) class P { static function main() {} }
+
+--- autobuild-call-parameter-not-a-path
+@:autoBuild(1()) interface I {}
+class P implements I { static function main() {} }
+
+--- to-meta-on-abstract-property
+abstract A(Int) { @:to var x(get, never):Int; function get_x() return 1; }
+class P { static function main() {} }
+
+--- multitype-constructor-with-body-after-to
+@:multiType abstract A<T>(Dynamic) { @:to function toInt():Int return this; public function new() this = 1; }
+class P { static function main() { var a = new A(); } }
+
+--- class-build-macro-in-its-own-module
+@:build(P.b()) class P { #if macro public static function b():Dynamic return 1; #end static function main() {} }
+
+--- enum-build-macro-in-its-own-module
+@:build(P.b()) enum E { A; }
+class P { #if macro public static function b():Dynamic return 1; #end static function main() {} }
+
+--- inline-writes-abstract-this-through-a-call-receiver
+abstract A(Int) from Int { public inline function inc() this = this + 1; }
+class P { static function f():A return 1; static function main() { f().inc(); } }
+
+--- inline-assigns-a-closure-parameter
+class P { static inline function f(g:Void->Void) { g = null; } static function main() { f(function() {}); } }
+
+--- inline-with-a-non-final-return
+class P { static inline function f(x:Int):Int { if (x > 0) return 1; return 2; } static function main() { f(1); } }
+
+--- string-with-a-utf16-surrogate-escape
+class P { static function main() { var s = "\uD800"; } }
+
+--- remoting-proxy-of-an-unknown-module
+class P extends haxe.remoting.Proxy<Nope> { static function main() {} }
+
+--- remoting-proxy-of-an-unknown-packaged-module
+class P extends haxe.remoting.Proxy<pack.Nope> { static function main() {} }
+
+--- extern-field-with-a-body-in-a-plain-class
+class P { extern function f() { return 1; } static function main() {} }
+
+--- bind-skip-optional-non-nullable-cpp + -cpp out
+class P { static function f(x:Int = 1, y:Int = 2) {} static function main() { var g = f.bind(_, 3); } }
+
+--- bind-skip-optional-non-nullable-js + -js out.js
+class P { static function f(x:Int = 1, y:Int = 2) {} static function main() { var g = f.bind(_, 3); } }
+
+--- bind-skip-optional-nullable-cpp + -cpp out
+class P { static function f(?x:Int, y:Int = 2) {} static function main() { var g = f.bind(_, 3); } }
+
+--- generic-class-without-ctor-over-ctorless-base
+class B {}
+@:generic class G<T> extends B {}
+class P { static function main() { new G<Int>(); } }
+
+--- generic-class-without-ctor-no-base
+@:generic class G<T> {}
+class P { static function main() { new G<Int>(); } }
+
+--- generic-class-with-ctor-over-ctorless-base
+class B {}
+@:generic class G<T> extends B { public function new() {} }
+class P { static function main() { new G<Int>(); } }
+
+--- using-meta-not-a-path
+@:using(1()) class P { static function main() {} }
+
+--- using-meta-number
+@:using(1) class P { static function main() {} }
+
+--- macro-arg-not-a-path + --macro 1()
+class P { static function main() {} }
+
+--- macro-arg-bare-call + --macro foo()
+class P { static function main() {} }
+
+--- extern-property-get-without-method-called
+extern class E { var x(get, set):Int; }
+class P { static function main() { var e:E = null; e.x = 1; trace(e.x); } }
+
+--- abstract-property-without-accessor-read
+abstract A(Int) { public var x(get, never):Int; }
+class P { static function main() { var a:A = cast 1; trace(a.x); } }
+
+--- abstract-property-without-accessor-write
+abstract A(Int) { public var x(never, set):Int; }
+class P { static function main() { var a:A = cast 1; a.x = 2; } }

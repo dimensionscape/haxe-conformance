@@ -1,0 +1,5 @@
+--- type-path-completion-after-an-underscore-led-module + --display P.hx@50
+class P { static function main() { var x:usc._Foo. } }
+
+--- type-path-completion-after-a-digit-led-module + --display P.hx@48
+class P { static function main() { var x:usc._1. } }

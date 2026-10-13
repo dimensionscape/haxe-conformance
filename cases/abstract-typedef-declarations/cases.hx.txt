@@ -1,0 +1,288 @@
+--- from-before-underlying
+abstract A from Int (Int) {}
+class P { static function main() {} }
+
+--- to-before-underlying
+abstract A to Int (Int) {}
+class P { static function main() {} }
+
+--- from-with-no-underlying
+abstract A from Int {}
+class P { static function main() {} }
+
+--- underlying-then-from
+abstract A(Int) from Int {}
+class P { static function main() {} }
+
+--- no-underlying-no-members
+abstract A {}
+class P { static function main() {} }
+
+--- no-underlying-with-members
+abstract A { public function f() {} }
+class P { static function main() {} }
+
+--- coretype-callable-no-casts
+@:coreType @:callable abstract A {}
+class P { static function main() {} }
+
+--- coretype-callable-with-from
+@:coreType @:callable abstract A from Int {}
+class P { static function main() {} }
+
+--- coretype-with-underlying-no-members
+@:coreType abstract A(Int) {}
+class P { static function main() {} }
+
+--- coretype-with-underlying-and-members
+@:coreType abstract A(Int) { public function f() {} }
+class P { static function main() {} }
+
+--- coretype-plain
+@:coreType abstract A {}
+class P { static function main() {} }
+
+--- coretype-from-and-to
+@:coreType abstract A from Int to Int {}
+class P { static function main() {} }
+
+--- mutually-recursive-underlying
+abstract A(B) {} abstract B(A) {}
+class P { static function main() {} }
+
+--- self-recursive-underlying
+abstract A(A) {}
+class P { static function main() {} }
+
+--- incompatible-from
+abstract A(Int) from String {}
+class P { static function main() {} }
+
+--- incompatible-to
+abstract A(Int) to String {}
+class P { static function main() {} }
+
+--- plain-abstract-no-members
+abstract A(Int) {}
+class P { static function main() {} }
+
+--- parameterised-underlying
+abstract A<T>(T) {}
+class P { static function main() {} }
+
+--- enum-abstract-no-underlying
+enum abstract A { var X; }
+class P { static function main() {} }
+
+--- unresolvable-typedef
+typedef T = Nope;
+class P { static function main() {} }
+
+--- recursive-typedef
+typedef T = T;
+class P { static function main() {} }
+
+--- impl-field-unknown-arg-type-no-body
+abstract A1(Int) {
+	static function add(lhs:A1, rhs:ABase):A1;
+}
+class P { static function main() {} }
+
+--- impl-field-unknown-arg-type-with-body
+abstract A1(Int) {
+	static function add(lhs:A1, rhs:ABase):A1 return lhs;
+}
+class P { static function main() {} }
+
+--- impl-op-field-unknown-arg-type
+abstract A1(Int) {
+	@:op(A + B)
+	static function add(lhs:A1, rhs:ABase):A1;
+}
+class P { static function main() {} }
+
+--- impl-member-unknown-arg-type
+abstract A1(Int) {
+	public function g(x:Nope):Void {}
+}
+class P { static function main() {} }
+
+--- class-unknown-arg-type-control
+class P {
+	static function f(x:Nope):Void {}
+	static function main() {}
+}
+
+--- impl-two-body-less-functions
+abstract A(Int) {
+	function g();
+	function h();
+}
+class P { static function main() {} }
+
+--- impl-one-body-less-function
+abstract A(Int) {
+	function g();
+}
+class P { static function main() {} }
+
+--- impl-body-less-then-bad-heritage
+class P extends Nope { static function main() {} }
+abstract A(Int) {
+	function g();
+}
+
+--- impl-body-less-with-return-type
+abstract A(Int) {
+	function g():Int;
+}
+class P { static function main() {} }
+
+--- class-two-body-less-functions-control
+class P {
+	static function g();
+	static function h();
+	static function main() {}
+}
+
+--- abstract-then-bad-heritage-order
+abstract A(Int) {
+	function g();
+}
+class P extends Nope { static function main() {} }
+
+--- abstract-field-unknown-type-then-bad-heritage
+abstract A(Int) {
+	function g():Nope2 return null;
+}
+class P extends Nope { static function main() {} }
+
+--- enum-abstract-member-declared-underlying-hint
+enum abstract E(Int) {
+	var A:Int = 1;
+}
+class P { static function main() { $type(E.A); } }
+
+--- enum-abstract-member-no-hint-type
+enum abstract E(Int) {
+	var A = 1;
+}
+class P { static function main() { $type(E.A); } }
+
+--- enum-abstract-member-declared-abstract-hint
+enum abstract E(Int) {
+	var A:E = 1;
+}
+class P { static function main() { $type(E.A); } }
+
+--- enum-abstract-member-used-as-underlying
+enum abstract E(Int) {
+	var A:Int = 1;
+}
+class P { static function main() { var i:Int = E.A; } }
+
+--- enum-abstract-string-members
+enum abstract S(String) {
+	var A;
+	var B = "b";
+}
+class P { static function main() { $type(S.A); var s:String = S.B; } }
+
+--- enum-abstract-declared-hint-rejected
+enum abstract E(Int) { var A:Int = 1; }
+class P { static function main() { var i:Int = E.A; } }
+
+--- enum-abstract-declared-hint-switch-follow-on
+enum abstract E(Int) { var A:Int = 1; }
+class P { static function main() { switch (E.A) { case A: } } }
+
+--- coretype-abstract-is-not-a-value
+@:coreType abstract Foo {}
+class P { static function main() { var x = Foo; } }
+
+--- runtime-value-coretype-as-value
+class P { static function main() { var x = Int; } }
+
+--- impl-abstract-as-value
+abstract A(Int) {}
+class P { static function main() { var x = A; } }
+
+--- impl-abstract-in-is-of-type
+abstract A(Int) {}
+class P { static function main() { trace(Std.isOfType(1, A)); } }
+
+--- impl-member-through-type
+abstract A(Int) { public function m() return 1; }
+class P { static function main() { A.m(); } }
+
+--- private-static-through-type
+abstract A(Int) { static var s = 1; }
+class P { static function main() { A.s; } }
+
+--- static-through-type-resolves
+abstract A(Int) { public static var s = 1; public static function f() return 2; }
+class P { static function main() { trace(A.s + A.f()); } }
+
+--- forward-statics-resolves
+class C { public static function st() return 1; }
+@:forwardStatics abstract F(C) {}
+class P { static function main() { trace(F.st()); } }
+
+--- forward-statics-miss-names-the-abstract
+class C { public static function st() return 1; }
+@:forwardStatics abstract F(C) {}
+class P { static function main() { F.nope(); } }
+
+--- new-binding-resolves
+abstract A(Int) { public function new(i:Int) this = i; }
+class P { static function main() { var f = A.new; f(1); } }
+
+--- new-binding-without-constructor
+abstract D(Int) {}
+class P { static function main() { var f = D.new; } }
+
+--- new-binding-call-form-names-the-impl
+abstract A(Int) { public function new(i:Int) this = i; }
+class P { static function main() { A.new(1); } }
+
+--- new-binding-set-form
+abstract A(Int) { public function new(i:Int) this = i; }
+class P { static function main() { A.new = null; } }
+
+--- forward-new-binding-resolves
+class C { public function new(i:Int) {} }
+@:forward.new abstract B(C) {}
+class P { static function main() { var f = B.new; f(1); } }
+
+--- forward-new-binding-without-constructor
+class C {}
+@:forward.new abstract B(C) {}
+class P { static function main() { var f = B.new; } }
+
+--- forward-new-binding-call-form
+class C { public function new(i:Int) {} }
+@:forward.new abstract B(C) {}
+class P { static function main() { B.new(1); } }
+
+--- new-binding-on-a-coretype
+class P { static function main() { var f = Int.new; } }
+
+--- a-recursive-array-set-method-is-reported
+private abstract A(String) {
+	public inline function new(s:String) this = s;
+	@:arrayAccess inline function set(k:Int, v:String):Void {
+		var self:A = new A(this);
+		self[k] = v;
+	}
+}
+class P { static function main() { var a = new A("x"); a[0] = "y"; } }
+
+--- a-recursive-array-get-method-is-reported
+private abstract A(String) {
+	public inline function new(s:String) this = s;
+	@:arrayAccess inline function get(k:Int):String {
+		var self:A = new A(this);
+		return self[k];
+	}
+}
+class P { static function main() { var a = new A("x"); trace(a[0]); } }

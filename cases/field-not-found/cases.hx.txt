@@ -1,0 +1,117 @@
+--- on-a-class
+class P { static function main() { var s = "a"; s.nope; } }
+
+--- on-an-anon
+class P { static function main() { var o = {a: 1}; o.nope; } }
+
+--- on-a-function
+class P { static function main() { var f = function(s:String) return s; f.nope; } }
+
+--- on-dynamic
+class P { static function main() { var d:Dynamic = 1; d.nope; } }
+
+--- on-a-monomorph
+class P { static function main() { var m = null; m.nope; } }
+
+--- on-a-parameterised-class
+class P { static function main() { var a = [1]; a.nope; } }
+
+--- on-an-abstract
+class P { static function main() { var i = 1; i.nope; } }
+
+--- on-an-enum
+class P { static function main() { var e = haxe.ds.Option.None; e.nope; } }
+
+--- on-a-typedef-to-anon
+class P { static function main() { var it:Iterator<Int> = null; it.nope; } }
+
+--- on-a-statics-anon
+class P { static function main() { Std.nope(); } }
+
+--- on-a-struct-field-function
+class P { static function main() { var o = {f: function(x:Int) return x}; o.f.nope; } }
+
+--- on-an-alias-to-a-class
+typedef S = String;
+class P { static function main() { var s:S = "a"; s.nope; } }
+
+--- on-an-alias-to-an-anon
+typedef Q = {a:Int};
+class P { static function main() { var q:Q = null; q.nope; } }
+
+--- on-an-alias-to-a-function
+typedef G = Int->Int;
+class P { static function main() { var g:G = null; g.nope; } }
+
+--- on-a-named-abstract
+abstract V(Int) from Int {}
+class P { static function main() { var v:V = 1; v.nope; } }
+
+--- a-static-named-through-an-instance
+class C { public static var s:Int = 1; public function new() {} }
+class P { static function main() { var c = new C(); trace(c.s); } }
+
+--- a-static-method-named-through-an-instance
+class C { public static function f() {} public function new() {} }
+class P { static function main() { var c = new C(); c.f(); } }
+
+--- an-extern-implementing-dynamic
+extern class C implements Dynamic<String> { public function new(); }
+extern class D extends C {}
+class P { static function main() { var c:C = null; var s:String = c.whatever; var d:D = null; var s2:String = d.other; trace(s + s2); } }
+
+--- a-class-implementing-dynamic-is-not-an-extern
+class C implements Dynamic<String> { public function new() {} }
+class P { static function main() { var c = new C(); var s:String = c.whatever; trace(s); } }
+
+--- missing-field-then-chain
+class Q { public var x:Int; public function new() {} }
+class P { static function main() { var q:Q = null; q.a.b.c; } }
+
+--- missing-field-unifies-with-anything
+class Q { public var x:Int; public function new() {} }
+class P { static function main() { var q:Q = null; var s:String = q.a; } }
+
+--- missing-field-written-twice
+class Q { public var x:Int; public function new() {} }
+class P { static function main() { var q:Q = null; q.a = 1; q.a += 2; } }
+
+--- missing-anon-field-read-and-called
+class P { static function main() { var o = {x: 1}; o.y; o.y(); } }
+
+--- missing-on-string-and-int
+class P { static function main() { "s".nope(); 1.nope; } }
+
+--- missing-on-array-then-chain
+class P { static function main() { var a = [1]; a.nope().foo; } }
+
+--- missing-enum-constructor-and-field
+enum E { A; }
+class P { static function main() { E.B; A.nope; } }
+
+--- missing-on-abstract-instance-and-type
+abstract A(Int) { public function new(v) this = v; }
+class P { static function main() { new A(1).nope(); A.nope(); } }
+
+--- missing-on-function-type
+class P { static function main() { P.main.nope; } }
+
+--- abstract-forward-hit-and-miss
+abstract A(Array<Int>) { public function new() this = []; @:forward(push) }
+class P { static function main() { var a = new A(); a.push(1); a.pop(); } }
+
+--- for-loop-over-int-and-anon
+class P { static function main() { for (x in 1) trace(x); for (y in {a: 1}) trace(y); } }
+
+--- for-loop-iterator-without-next
+class NoNext { public function new() {} public function hasNext() return false; }
+class P { static function main() { for (x in new NoNext()) trace(x); } }
+
+--- dot-path-chain-misses
+class P { static function main() { haxe.ds.StringMap.nope; haxe.nope.Foo; } }
+
+--- a-miss-inside-a-call-argument
+class Q {} class P { static function main() { Q.a(Q.b()); } }
+
+--- an-instance-miss-inside-a-call-argument
+class Q { public function new() {} } class P { static function main() { var q = new Q(); q.a(q.b()); } }

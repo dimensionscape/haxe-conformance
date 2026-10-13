@@ -1,0 +1,43 @@
+--- duplicate-var-with-different-types
+class P { var a:Int = 1; var a:String = "x"; static function main() {} }
+
+--- duplicate-var-with-the-same-type
+class P { var a:Int = 1; var a:Int = 2; static function main() {} }
+
+--- duplicate-var-without-initializers
+class P { var a:Int; var a:String; static function main() {} }
+
+--- duplicate-static-var
+class P { static var a:Int = 1; static var a:String = "x"; static function main() {} }
+
+--- three-declarations-of-one-name
+class P { var a:Int = 1; var a:String = "x"; var a:Bool = true; static function main() {} }
+
+--- duplicate-method
+class P { function f() {} function f() {} static function main() {} }
+
+--- only-the-first-declaration-has-an-initializer
+class P { var a:Int = 1; var a:String; static function main() {} }
+
+--- only-the-second-declaration-has-an-initializer
+class P { var a:Int; var a:String = "y"; static function main() {} }
+
+--- the-first-initializer-is-checked-against-the-first-type
+class P { var a:Int = "s"; var a:String = "y"; static function main() {} }
+
+--- the-surviving-field-keeps-the-first-type
+class P { var a:Int = 1; var a:String = "x"; function new() {}
+	static function main() { var p = new P(); var q:Int = p.a; } }
+
+--- duplicate-constructor
+class P { public function new() {} public function new() {} static function main() {} }
+
+--- duplicate-constructor-is-reported-after-a-failed-import
+import nope.Missing;
+private class Foo { public function new() {} public function new() {} }
+class P { static function main() {} }
+
+--- duplicate-constructor-in-a-module-abandoned-by-a-failed-heritage
+import nope.Missing;
+private class Foo { public function new() {} public function new() {} }
+class P extends Nope { static function main() {} }

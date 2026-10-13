@@ -1,0 +1,15 @@
+{
+	"duplicate-var-with-different-types": "P.hx:1: characters 30-31 : Duplicate class field declaration : P.a",
+	"duplicate-var-with-the-same-type": "P.hx:1: characters 30-31 : Duplicate class field declaration : P.a",
+	"duplicate-var-without-initializers": "P.hx:1: characters 26-27 : Duplicate class field declaration : P.a",
+	"duplicate-static-var": "P.hx:1: characters 44-45 : Duplicate class field declaration : P.a",
+	"three-declarations-of-one-name": "P.hx:1: characters 30-31 : Duplicate class field declaration : P.a\nP.hx:1: characters 50-51 : Duplicate class field declaration : P.a",
+	"duplicate-method": "P.hx:1: characters 36-37 : Duplicate class field declaration : P.f",
+	"only-the-first-declaration-has-an-initializer": "P.hx:1: characters 30-31 : Duplicate class field declaration : P.a",
+	"only-the-second-declaration-has-an-initializer": "P.hx:1: characters 26-27 : Duplicate class field declaration : P.a",
+	"the-first-initializer-is-checked-against-the-first-type": "P.hx:1: characters 32-33 : Duplicate class field declaration : P.a\nP.hx:1: characters 11-27 : String should be Int",
+	"the-surviving-field-keeps-the-first-type": "P.hx:1: characters 30-31 : Duplicate class field declaration : P.a",
+	"duplicate-constructor": "P.hx:1: characters 36-60 : Duplicate constructor",
+	"duplicate-constructor-is-reported-after-a-failed-import": "P.hx:1: characters 8-20 : Type not found : nope.Missing\nP.hx:2: characters 46-70 : Duplicate constructor",
+	"duplicate-constructor-in-a-module-abandoned-by-a-failed-heritage": "P.hx:1: characters 8-20 : Type not found : nope.Missing\nP.hx:3: characters 17-21 : Type not found : Nope"
+}

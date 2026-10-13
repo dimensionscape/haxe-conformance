@@ -1,0 +1,67 @@
+--- unknown-upper-then-lower-call
+class P { static function main() { Priv.four("a"); } }
+
+--- unknown-upper-then-lower-get
+class P { static function main() { var x = Priv.four; } }
+
+--- package-then-unknown-upper
+class P { static function main() { pk.Nope.f(); } }
+
+--- known-module-unknown-sub
+class P { static function main() { pk.Lib.Nope.f(); } }
+
+--- unknown-module-with-sub
+class P { static function main() { Nope.Sub.f(); } }
+
+--- deep-package-unknown
+class P { static function main() { a.b.Nope.f(); } }
+
+--- known-module-bad-field
+class P { static function main() { pk.Lib.nope(); } }
+
+--- known-module-known-sub
+class P { static function main() { pk.Lib.Sib.thrice("a"); } }
+
+--- all-lower-then-upper
+class P { static function main() { pk.lib.Thing.f(); } }
+
+--- single-unknown-upper
+class P { static function main() { Nope.f(); } }
+
+--- unknown-lower-chain
+class P { static function main() { foo.bar.baz(); } }
+
+--- field-on-a-function
+class P { static function main() { pk.Lib.twice.nope(); } }
+
+--- unknown-upper-two-lower
+class P { static function main() { Priv.four.five; } }
+
+--- std-prefixed-unknown
+class P { static function main() { std.pk.Nope.f(); } }
+
+--- private-sub-type-reached-from-another-module
+class P { static function main() { var p:pk.Lib.Hidden = null; } }
+
+--- the-module-does-not-define-that-type
+class P { static function main() { var p:pk.Lib.Nope = null; } }
+
+--- the-module-itself-is-missing
+class P { static function main() { var p:pk.Nope = null; } }
+
+--- the-package-is-missing
+class P { static function main() { var p:nosuch.Thing = null; } }
+
+--- an-import-shadowing-a-std-type-still-reaches-its-module
+import haxe.macro.Type;
+enum E { A(x:Int); }
+class P { static function main() { var t:Type = null; Type.enumConstructor(A(1)); Type.enumParameters(A(2)); } }
+
+--- a-field-missing-on-both-reports-on-the-std-module
+import haxe.macro.Type;
+class P { static function main() { Type.enumConstructor2(null); } }
+
+--- missing-static-fields-report-at-the-field-name
+import haxe.ds.StringMap;
+class P { static function main() { var a = Math.foo; var c = StringMap.nope; var d = Std.nope(); var e = P.nope; Math.foo = 3; } }
+

@@ -1,0 +1,14 @@
+{
+	"name": "corpus-compile",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "medium",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"--main",
+		"$module",
+		"--no-output"
+	]
+}

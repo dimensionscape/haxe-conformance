@@ -1,0 +1,191 @@
+--- abstract-member-property-default-accessor
+abstract A(Int) { public var x(default, set):Int; function set_x(v:Int) return v; }
+class P { static function main() {} }
+
+--- abstract-member-property-get-set
+abstract A(Int) { public var x(get, set):Int; function get_x() return 0; function set_x(v:Int) return v; }
+class P { static function main() {} }
+
+--- abstract-member-property-never
+abstract A(Int) { public var x(never, never):Int; }
+class P { static function main() {} }
+
+--- abstract-static-property-default
+abstract A(Int) { public static var x(default, null):Int = 1; }
+class P { static function main() {} }
+
+--- abstract-from-non-static
+abstract A(Int) { @:from function f(i:Int) return null; }
+class P { static function main() {} }
+
+--- abstract-from-static
+abstract A(Int) { @:from static function f(i:Int):A return cast i; }
+class P { static function main() {} }
+
+--- abstract-property-is-var
+abstract A(Int) { @:isVar public var x(get, set):Int; function get_x() return 0; function set_x(v:Int) return v; }
+class P { static function main() {} }
+
+--- interface-with-constructor
+interface I { public function new():Void; }
+class P { static function main() {} }
+
+--- interface-static-field
+interface I { static var x:Int; }
+class P { static function main() {} }
+
+--- extern-interface-static-field
+extern interface I { static var x:Int; }
+class P { static function main() {} }
+
+--- generic-function-without-parameters
+class P { @:generic static function f() {} static function main() {} }
+
+--- generic-function-with-parameters
+class P { @:generic static function f<T>(v:T) {} static function main() { f(1); } }
+
+--- to-on-a-class-method
+class P { @:to function f():Int return 1; static function main() {} }
+
+--- property-without-hint-or-init
+class P { var x(get, set); function get_x() return 0; function set_x(v) return v; static function main() {} }
+
+--- property-with-hint
+class P { var x(get, set):Int; function get_x() return 0; function set_x(v:Int) return v; static function main() {} }
+
+--- null-coalescing-overload
+abstract A(Int) { @:op(a ?? b) static function nc(a:A, b:A):A return a; }
+class P { static function main() {} }
+
+--- null-coalescing-assign-overload
+abstract A(Int) { @:op(a ??= b) static function nc(a:A, b:A):A return a; }
+class P { static function main() {} }
+
+--- ternary-overload
+abstract A(Int) { @:op(a ? b : c) static function t(a:A, b:A, c:A):A return a; }
+class P { static function main() {} }
+
+--- assignment-overload
+abstract A(Int) { @:op(a = b) static function s(a:A, b:A):A return a; }
+class P { static function main() {} }
+
+--- multiple-resolve-read
+abstract A(Int) { @:op(a.b) function r1(n:String) return 0; @:op(a.b) function r2(n:String) return 0; }
+class P { static function main() {} }
+
+--- build-parameters-not-a-call
+@:build(1) class P { static function main() {} }
+
+--- build-parameters-bare-ident
+@:build(Foo) class P { static function main() {} }
+
+--- build-macro-path-single-segment
+@:build(nope()) class P { static function main() {} }
+
+--- using-metadata-not-a-dot-path
+@:using(1) class P { static function main() {} }
+
+--- posinfos-on-a-macro-function
+class P { macro static function f(p:haxe.PosInfos) return null; static function main() {} }
+
+--- op-member-takes-two-arguments
+abstract A(Int) { public function new(i) this = i; @:op(A + B) public function add(a:A, b:A):A return a; }
+class P { static function main() {} }
+
+--- op-static-takes-one-argument
+abstract A(Int) { public function new(i) this = i; @:op(A + B) public static function add(a:A):A return a; }
+class P { static function main() {} }
+
+--- op-on-neither-side
+abstract A(Int) { public function new(i) this = i; @:op(A + B) public static function add(a:Int, b:Int):A return null; }
+class P { static function main() {} }
+
+--- op-commutative-with-the-abstract-on-the-right
+abstract A(Int) { public function new(i) this = i; @:commutative @:op(A + B) public static function add(a:A, b:A):A return a; }
+class P { static function main() {} }
+
+--- resolve-second-argument-is-not-string
+abstract A(Int) { public function new(i) this = i; @:resolve public function res(name:Int):Int return 0; }
+class P { static function main() {} }
+
+--- resolve-first-argument-is-not-the-abstract
+abstract A(Int) { public function new(i) this = i; @:resolve public static function res(s:String, k:String):Int return 0; }
+class P { static function main() {} }
+
+--- resolve-with-too-few-arguments
+abstract A(Int) { public function new(i) this = i; @:resolve public function res():Int return 0; }
+class P { static function main() {} }
+
+--- bodyless-abstract-function-without-a-return-type
+abstract A(Int) { public function new(i) this = i; @:op(A + B) public function add(b:A); }
+class P { static function main() {} }
+
+--- bodyless-abstract-function-with-a-return-type
+abstract A(Int) { public function new(i) this = i; @:op(A + B) public function add(b:A):A; }
+class P { static function main() { var a = new A(1); var b = a + a; } }
+
+--- duplicate-access-modifier
+class P { public public function f() { } static function main() { } }
+
+--- conflicting-access-modifier
+class P { public private function f() { } static function main() { } }
+
+--- duplicate-access-modifier-thrice-reports-against-the-first
+class P { public public public function f() { } static function main() { } }
+
+--- extern-method-default-value-verdict-once
+class Foo {
+	extern function foo(test:Int = "foo"):Void;
+}
+class P { static function main() {} }
+
+--- two-extern-methods-default-value-verdicts
+class Foo {
+	extern function foo(test:Int = "foo"):Void;
+	extern static function bar(test:Int = "bar"):Void;
+}
+class P { static function main() {} }
+
+--- extern-class-method-default-value-verdict-once
+extern class Foo {
+	function foo(test:Int = "foo"):Void;
+}
+class P { static function main() {} }
+
+--- inline-variable-without-initializer
+class P { static inline var iv:Int; static function main() {} }
+
+--- property-initializer-custom-accessor
+class P { var pb(nope, never):Int = 1; static function main() {} }
+
+--- property-initializer-not-physical
+class P { var pc(get, never):Int = 1; function get_pc() return 1; static function main() {} }
+
+--- property-initializer-physical-default-null
+class P { var pd(default, null):Int = 1; static function main() {} }
+
+--- extern-variable-initializers
+class P { static function main() {} }
+extern class E1 { var a:Int = 1; static var b:Int = 2; static inline var c:Int = Std.random(3); static inline var d:Int = 4; }
+
+--- to-cast-type-is-unified-with-the-field
+abstract A(Int) {
+	public function new(i) this = i;
+	@:to static function f(x:String):String return x;
+}
+class P {
+	static function main() {
+		var a = new A(1);
+		var s:String = a;
+	}
+}
+
+--- multitype-to-cast-needs-a-constructor
+@:multiType abstract B<K>(Map<K,Int>) {
+	@:to static function f<K:String>(t:Map<K,Int>):haxe.ds.StringMap<Int> return null;
+}
+class P {
+	static function main() {
+		var b:B<String> = null;
+	}
+}

@@ -1,0 +1,36 @@
+--- a-private-main-class
+private class P { static function main() { trace("x"); } }
+
+--- main-names-an-enum
+enum P { A; }
+
+--- main-names-a-typedef
+typedef P = Int;
+
+--- main-names-an-abstract
+abstract P(Int) { public function new() this = 0; }
+
+--- the-module-does-not-define-that-type @ pk.Mod
+package pk;
+class Other { static function main() {} }
+
+--- no-static-main
+class P { public function new() {} }
+
+--- main-is-not-static
+class P { public function new() {} function main() {} }
+
+--- main-takes-an-argument
+class P { static function main(a:Int) {} }
+
+--- main-returns-int
+class P { static function main():Int { return 1; } }
+
+--- main-returns-void-explicitly
+class P { static function main():Void {} }
+
+--- a-plain-main-still-compiles
+class P { static function main() { var x = 1; } }
+
+--- main-on-a-module-level-static
+function main() { var x = 1; }

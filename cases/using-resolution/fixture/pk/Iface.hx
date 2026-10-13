@@ -1,0 +1,3 @@
+package pk;
+
+interface Iface { }

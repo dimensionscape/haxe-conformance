@@ -1,0 +1,2753 @@
+--- build-macro-succeeds
+@:build(M.build()) class P { static function main() { trace(P.added); } }
+
+--- build-macro-returns-null
+@:build(M.buildNull()) class P { static function main() {} }
+
+--- build-macro-reports-through-context-error
+@:build(M.buildError()) class P { static function main() {} }
+
+--- build-macro-throws-raw
+@:build(M.buildThrow()) class P { static function main() {} }
+
+--- build-macro-target-does-not-exist
+@:build(M.nope()) class P { static function main() {} }
+
+--- build-macro-class-does-not-exist
+@:build(Nope.build()) class P { static function main() {} }
+
+--- expression-macro-succeeds
+class P { static function main() { trace(M.twice(3)); } }
+
+--- expression-macro-reports
+class P { static function main() { M.fail(1); } }
+
+--- expression-macro-wrong-arity
+class P { static function main() { M.twice(1, 2); } }
+
+--- build-macro-on-an-enum
+@:build(M.build()) enum E { A; }
+class P { static function main() {} }
+
+--- enum-build-adds-a-constructor
+@:build(M.buildEnum()) enum E { A; }
+class P { static function main() { var e:E = Extra; trace(e); } }
+
+--- enum-build-constructor-argument-without-a-type
+@:build(M.buildEnumNoArgType()) enum E { A; }
+class P { static function main() { var e:E = A; trace(e); } }
+
+--- enum-build-result-that-is-not-a-constructor
+@:build(M.buildEnumWithBody()) enum E { A; }
+class P { static function main() { var e:E = A; trace(e); } }
+
+--- enum-build-sees-the-enum-as-its-local-type
+@:build(M.buildEnumLocalType()) enum E { A; }
+class P { static function main() { for (n in Type.getEnumConstructs(E)) trace(n); } }
+
+--- build-macro-on-a-typedef
+@:build(M.build()) typedef T = Int;
+class P { static function main() { var x:T = 1; } }
+
+--- build-macro-on-an-abstract
+@:build(M.build()) abstract A(Int) { }
+class P { static function main() {} }
+
+--- macro-function-called-in-macro-context
+class P { static function main() {} }
+
+--- macro-type-resolves-through-the-call
+typedef T = haxe.macro.MacroType<[MT.make()]>;
+class P { static function main() { var s:T = "hello"; var n:Int = s.length; } }
+
+--- macro-type-result-is-what-the-macro-returned
+typedef T = haxe.macro.MacroType<[MT.make()]>;
+class P { static function main() { var s:T = 1; } }
+
+--- macro-type-accepts-a-complex-type-result
+typedef T = haxe.macro.MacroType<[MT.makeComplex()]>;
+class P { static function main() { var s:T = 1; var n:Int = s + 1; } }
+
+--- macro-type-passes-its-arguments
+typedef T = haxe.macro.MacroType<[MT.makePicked(1)]>;
+class P { static function main() { var s:T = "hello"; var n:Int = s.length; } }
+
+--- macro-type-returning-nothing-leaves-a-monomorph
+typedef T = haxe.macro.MacroType<[MT.makeNothing()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-defines-the-type-it-returns
+typedef T = haxe.macro.MacroType<[MT.makeDefined()]>;
+class P { static function main() { var n:Int = MTMade.hi(); } }
+
+--- macro-type-recursion-is-caught
+typedef T = haxe.macro.MacroType<[MT.makeRecursive()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-method-not-found
+typedef T = haxe.macro.MacroType<[MT.nope()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-class-not-found
+typedef T = haxe.macro.MacroType<[Nope.make()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-through-an-import
+import haxe.macro.MacroType;
+typedef T = MacroType<[MT.make()]>;
+class P { static function main() { var s:T = "hello"; var n:Int = s.length; } }
+
+--- macro-type-in-a-hint-rather-than-a-typedef
+class P { static function main() { var s:haxe.macro.MacroType<[MT.make()]> = "hello"; var n:Int = s.length; } }
+
+--- macro-type-inside-a-type-parameter
+class P { static function main() { var s:Array<haxe.macro.MacroType<[MT.make()]>> = ["a"]; var n:Int = s[0].length; } }
+
+--- macro-type-without-a-parameter
+typedef T = haxe.macro.MacroType;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-two-calls-is-not-one
+typedef T = haxe.macro.MacroType<[MT.make(), MT.make()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-a-bare-ident-has-no-class-to-look-in
+typedef T = haxe.macro.MacroType<[make()]>;
+class P { static function main() { var s:T = null; } }
+
+--- macro-type-a-bare-ident-naming-a-static-of-the-class
+class P {
+	public static macro function mine():haxe.macro.Type { return haxe.macro.Context.getType("String"); }
+	static var v:haxe.macro.MacroType<[mine()]> = "abc";
+	static function main() { var n:Int = v.length; }
+}
+
+--- build-macro-target-is-not-a-method
+@:build(MB.notAMethod()) class P { static function main() {} }
+
+--- metadata-string-that-does-not-parse + --macro "addMetadata('@:bad !! syntax', 'P')"
+class P { static function main() {} }
+
+--- global-metadata-string-that-does-not-parse + --macro "addGlobalMetadata('P', '@:bad !! syntax')"
+class P { static function main() {} }
+
+--- a-well-formed-metadata-string-stays-quiet + --macro "addMetadata('@:keep', 'P')"
+class P { static function main() {} }
+
+--- build-macro-declared-with-the-wrong-return-type
+@:build(M.buildWrongReturn()) class P { static function main() {} }
+
+--- macro-type-returning-a-haxe-macro-type
+class P {
+	public static macro function mine():haxe.macro.Type { return haxe.macro.Context.getType("String"); }
+	static var v:haxe.macro.MacroType<[P.mine()]> = "abc";
+	static function main() { var n:Int = v.length; }
+}
+
+--- macro-type-returning-a-type-that-is-not-string
+class C { public var n:Int = 1; public function new() {} }
+class P {
+	public static macro function mine():haxe.macro.Type { return haxe.macro.Context.getType("C"); }
+	static var v:haxe.macro.MacroType<[P.mine()]> = null;
+	static function main() { v = new C(); trace(v.n); }
+}
+
+--- resolve-path-walks-the-class-path
+class P {
+	macro static function rp() {
+		trace(haxe.macro.Context.resolvePath("P.hx"));
+		try trace(haxe.macro.Context.resolvePath("nope.hx")) catch (e:Dynamic) trace("miss: " + e);
+		return macro null;
+	}
+	static function main() { rp(); }
+}
+
+--- build-returns-a-wrong-value-then-a-body-error
+@:build(M.wrongValue()) class P { static function main() { nope(); } }
+
+--- build-context-error-then-a-body-error
+@:build(M.buildError()) class P { static function main() { nope(); } }
+
+--- build-throws-then-a-body-error
+@:build(M.throws()) class P { static function main() { nope(); } }
+
+--- build-returns-null-then-a-body-error
+@:build(M.buildNull()) class P { static function main() { nope(); } }
+
+--- build-returns-a-wrong-value-then-another-class-error
+@:build(M.wrongValue()) class P { static function main() { nope(); } }
+class Q { static function f() { nope2(); } }
+
+--- build-adds-a-macro-function-through-metadata + --macro "addMetadata('@:build(M.addMacroFn())', 'P')"
+class P { static function main() {} }
+
+--- build-adds-a-macro-function-through-metadata-and-calls-it + --macro "addMetadata('@:build(M.addMacroFn())', 'P')"
+class P { static function main() { m(); } }
+
+--- build-adds-a-macro-function-through-metadata-calls-it-then-errs + --macro "addMetadata('@:build(M.addMacroFn())', 'P')"
+class P { static function main() { m(); nope(); } }
+
+--- build-adds-a-macro-function-through-metadata-beside-a-macro + --macro "addMetadata('@:build(M.addMacroFn())', 'P')"
+class P {
+	public static macro function h() { return macro null; }
+	static function main() {}
+}
+
+--- direct-build-adds-a-macro-function-and-calls-it
+@:build(M.addMacroFn()) class P { static function main() { m(); } }
+
+--- direct-build-adds-a-macro-function-and-calls-it-twice
+@:build(M.addMacroFn()) class P { static function main() { m(); m(); } }
+
+--- direct-build-adds-a-macro-function-calls-it-then-errs
+@:build(M.addMacroFn()) class P { static function main() { m(); nope(); } }
+
+--- direct-build-adds-a-macro-function-beside-a-body-error
+@:build(M.addMacroFn()) class P { static function main() { nope(); } }
+
+--- build-adds-a-macro-function-to-a-class-the-macro-world-holds + --macro "addMetadata('@:build(P.Mk.addMacro())', 'P')"
+class Mk {
+#if macro
+	public static function addMacro():Array<haxe.macro.Expr.Field> {
+		var fields = haxe.macro.Context.getBuildFields();
+		fields.push({name: "m", access: [AStatic, AMacro], kind: FFun({args: [], ret: null, expr: macro return macro null}), pos: haxe.macro.Context.currentPos()});
+		return fields;
+	}
+	public static function passThrough():Array<haxe.macro.Expr.Field> return haxe.macro.Context.getBuildFields();
+#end
+}
+class P { static function main() {} }
+
+--- build-adds-a-macro-function-the-class-already-declares + --macro "addMetadata('@:build(P.Mk.addMacro())', 'P')"
+class Mk {
+#if macro
+	public static function addMacro():Array<haxe.macro.Expr.Field> {
+		var fields = haxe.macro.Context.getBuildFields();
+		fields.push({name: "m", access: [AStatic, AMacro], kind: FFun({args: [], ret: null, expr: macro return macro null}), pos: haxe.macro.Context.currentPos()});
+		return fields;
+	}
+#end
+}
+class P { macro static function m() { return macro null; } static function main() {} }
+
+--- build-passes-a-declared-macro-function-through + --macro "addMetadata('@:build(P.Mk.passThrough())', 'P')"
+class Mk {
+#if macro
+	public static function passThrough():Array<haxe.macro.Expr.Field> return haxe.macro.Context.getBuildFields();
+#end
+}
+class P { macro static function m() { return macro null; } static function main() {} }
+
+--- build-on-a-lowercase-class
+@:build(b.f()) class P { static function main() {} }
+
+--- build-on-a-lowercase-packed-class
+@:build(a.b.f()) class P { static function main() {} }
+
+--- build-on-a-bare-method
+@:build(f()) class P { static function main() {} }
+
+--- on-demand-build-from-a-static-call + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { Q.f(); nope(); } }
+
+--- on-demand-build-from-two-static-calls + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { Q.f(); Q.f(); } }
+
+--- on-demand-build-from-new + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var q = new Q(); nope(); } }
+
+--- on-demand-build-from-a-local-hint + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var q:Q = null; nope(); } }
+
+--- on-demand-build-from-a-local-hint-then-a-field + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var q:Q = null; q.x; } }
+
+--- on-demand-build-from-a-check-type + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var v = (null : Q); nope(); } }
+
+--- on-demand-build-from-a-cast + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var v = cast(null, Q); nope(); } }
+
+--- on-demand-build-from-a-type-parameter + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { var a:Array<Q> = []; nope(); } }
+
+--- on-demand-build-from-a-type-as-value + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static function main() { Std.isOfType(null, Q); nope(); } }
+
+--- build-from-a-field-hint + --macro "addGlobalMetadata('Q', '@:build(M.wrongValue())')"
+class P { static var q:Q; static function main() { nope(); } }
+
+--- api-get-type-of-a-missing-type
+class P { static function main() { M.getTypeMissing(); } }
+
+--- api-error-with-a-null-position
+class P { static function main() { M.errorNullPos(); } }
+
+--- api-follow-of-a-null-type
+class P { static function main() { M.followNull(); } }
+
+--- api-make-expr-of-a-function
+class P { static function main() { M.makeExprOfFunction(); } }
+
+--- api-define-a-type-twice
+class P { static function main() { M.defineTwice(); } }
+
+--- expression-macro-answers-null
+class P { static function main() { M.answersNull(); } }
+
+--- api-parse-of-a-bad-string
+class P { static function main() { M.parseBad(); } }
+
+--- api-inline-parse-of-a-bad-string
+class P { static function main() { M.parseInlineBad(); } }
+
+--- api2-get-module-missing
+class P { static function main() { M.getModuleMissing(); } }
+
+--- api2-get-module-bad-path
+class P { static function main() { M.getModuleBadPath(); } }
+
+--- api2-local-method-outside
+class P { static function main() { M.localMethodOutside(); } }
+
+--- api2-local-type-outside
+class P { static function main() { M.localTypeOutside(); } }
+
+--- api2-local-module-outside
+class P { static function main() { M.localModuleOutside(); } }
+
+--- api2-macro-stack
+class P { static function main() { M.macroStack(); } }
+
+--- api2-define-module-twice
+class P { static function main() { M.defineModuleTwice(); } }
+
+--- api2-define-module-empty
+class P { static function main() { M.defineModuleEmpty(); } }
+
+--- api2-define-module-name-mismatch
+class P { static function main() { M.defineModuleNameMismatch(); } }
+
+--- api2-global-meta-bad-pattern
+class P { static function main() { M.globalMetaBadPattern(); } }
+
+--- api2-global-meta-bad-meta
+class P { static function main() { M.globalMetaBadMeta(); } }
+
+--- api2-type-and-store-bad
+class P { static function main() { M.typeAndStoreBad(); } }
+
+--- api2-unify-null
+class P { static function main() { M.unifyNull(); } }
+
+--- api2-to-complex-null
+class P { static function main() { M.toComplexNull(); } }
+
+--- api2-module-type-to-type-null
+class P { static function main() { M.moduleTypeToTypeNull(); } }
+
+--- api2-position-to-range-null
+class P { static function main() { M.positionToRangeNull(); } }
+
+--- api2-pos-infos-null
+class P { static function main() { M.posInfosNull(); } }
+
+--- api2-include-file-missing
+class P { static function main() { M.includeFileMissing(); } }
+
+--- api2-include-file-bad-pos
+class P { static function main() { M.includeFileBadPos(); } }
+
+--- api2-apply-params-mismatch
+class P { static function main() { M.applyParamsMismatch(); } }
+
+--- api2-follow-abstracts-null
+class P { static function main() { M.followAbstractsNull(); } }
+
+--- api2-get-typed-expr-null
+class P { static function main() { M.getTypedExprNull(); } }
+
+--- api2-store-expr-null
+class P { static function main() { M.storeExprNull(); } }
+
+--- api2-with-imports-using-bad
+class P { static function main() { M.withImportsUsingBad(); } }
+
+--- api2-info-null-pos
+class P { static function main() { M.infoNullPos(); } }
+
+--- api2-defined-null
+class P { static function main() { M.definedNull(); } }
+
+--- api2-defined-value-missing
+class P { static function main() { M.definedValueMissing(); } }
+
+--- api2-format-string-bad
+class P { static function main() { M.formatStringBad(); } }
+
+--- api2-contains-display-null
+class P { static function main() { M.containsDisplayNull(); } }
+
+--- api2-type-not-found-throws
+class P { static function main() { M.typeNotFoundThrows(); } }
+
+--- api2-type-not-found-bad-return
+class P { static function main() { M.typeNotFoundBadReturn(); } }
+
+--- api2-filter-throws
+class P { static function main() { M.filterThrows(); } }
+
+--- api2-messages-count
+class P { static function main() { M.messagesCount(); } }
+
+--- api2-init-macros-done-value
+class P { static function main() { M.initMacrosDoneValue(); } }
+
+--- api2-after-init-macros-late
+class P { static function main() { M.afterInitMacrosLate(); } }
+
+--- api2-resolve-type-null-pos
+class P { static function main() { M.resolveTypeNullPos(); } }
+
+--- api2-make-expr-cyclic
+class P { static function main() { M.makeExprCyclic(); } }
+
+--- api2-make-monomorph-value
+class P { static function main() { M.makeMonomorphValue(); } }
+
+--- api2-get-class-path-count
+class P { static function main() { M.getClassPathCount(); } }
+
+--- api2-type-expr-null-expr
+class P { static function main() { M.typeExprNullExpr(); } }
+
+--- api2-typeof-null-expr
+class P { static function main() { M.typeofNullExpr(); } }
+
+--- api2-parse-null-string
+class P { static function main() { M.parseNullString(); } }
+
+--- api2-parse-null-pos
+class P { static function main() { M.parseNullPos(); } }
+
+--- api2-error-null-msg
+class P { static function main() { M.errorNullMsg(); } }
+
+--- api2-define-type-null
+class P { static function main() { M.defineTypeNull(); } }
+
+--- api2-get-build-fields-in-expr
+class P { static function main() { M.getBuildFieldsInExpr(); } }
+
+--- api2-type-not-found-throws-with-using
+class P { static function main() { MU.typeNotFoundThrows(); } }
+
+--- typeof-of-an-abstract-type-expression
+abstract A(Int) {}
+class P { static function main() { M.typeofOf(A); } }
+
+--- typeof-of-a-runtime-value-coretype
+@:coreType @:runtimeValue abstract Foo {}
+class P { static function main() { M.typeofOf(Foo); } }
+
+--- api3-allow-package-null
+class P { static function main() { MC.allowPackageNull(); } }
+
+--- api3-remove-field-null
+class P { static function main() { MC.removeFieldNull(); } }
+
+--- api3-set-custom-js-generator-null
+class P { static function main() { MC.setCustomJSGeneratorNull(); } }
+
+--- api3-add-class-path-null
+class P { static function main() { MC.addClassPathNull(); } }
+
+--- api3-exclude-file-null
+class P { static function main() { MC.excludeFileNull(); } }
+
+--- api3-patch-types-null
+class P { static function main() { MC.patchTypesNull(); } }
+
+--- api3-flush-disk-cache
+class P { static function main() { MC.flushDiskCacheCall(); } }
+
+--- api3-add-native-lib-unknown
+class P { static function main() { MC.addNativeLibUnknown(); } }
+
+--- api3-add-native-lib-null
+class P { static function main() { MC.addNativeLibNull(); } }
+
+--- api3-add-native-arg
+class P { static function main() { MC.addNativeArgCall(); } }
+
+--- api3-type-to-string-null
+class P { static function main() { MC.toStringNull(); } }
+
+--- api3-position-here-in-macro
+class P { static function main() { MC.positionHerePrint(); } }
+
+--- api3-define-then-defined
+class P { static function main() { MC.defineThenDefined(); } }
+
+--- api3-define-twice
+class P { static function main() { MC.defineTwice(); } }
+
+--- api3-configuration-platform
+class P { static function main() { MC.getConfigurationPlatform(); } }
+
+--- api3-include-file-bad-position
+class P { static function main() { MC.includeFileBadPosition(); } }
+
+--- api3-position-make-negative
+class P { static function main() { MC.positionMakeNegative(); } }
+
+--- api3-get-class-non-class
+class P { static function main() { MC.typeGetClassNonClass(); } }
+
+--- api4-get-type-empty
+class P { static function main() { MD.getTypeEmpty(); } }
+
+--- api4-get-type-trailing-dot
+class P { static function main() { MD.getTypeTrailingDot(); } }
+
+--- api4-get-type-leading-dot
+class P { static function main() { MD.getTypeLeadingDot(); } }
+
+--- api4-get-type-missing-sub
+class P { static function main() { MD.getTypeMissingSub(); } }
+
+--- api4-get-type-map-string
+class P { static function main() { MD.getTypeMapString(); } }
+
+--- api4-resolve-type-anon
+class P { static function main() { MD.resolveTypeAnon(); } }
+
+--- api4-all-module-types-during-typing
+class P { static function main() { MD.allModuleTypesDuringTyping(); } }
+
+--- api4-type-not-found-wrong-name
+class P { static function main() { MD.typeNotFoundWrongName(); } }
+
+--- api4-timer-closed-twice
+class P { static function main() { MD.timerClosedTwice(); } }
+
+--- api4-parse-inline-string-empty
+class P { static function main() { MD.parseInlineStringEmpty(); } }
+
+--- api4-store-expr-ids
+class P { static function main() { MD.storeExprIds(); } }
+
+--- api4-signature-of-type
+class P { static function main() { MD.signatureOfType(); } }
+
+--- api4-to-complex-type-mono
+class P { static function main() { MD.toComplexTypeMono(); } }
+
+--- api4-defines-sorted
+class P { static function main() { MD.definesSorted(); } }
+
+--- api4-expr-iter-null-fn
+class P { static function main() { MD.exprIterNullFn(); } }
+
+--- api4-type-map-null-fn
+class P { static function main() { MD.typeMapNullFn(); } }
+
+--- api4-typeof-anon-field-order
+class P { static function main() { MD.typeofAnonFieldOrder(); } }
+
+--- api4-get-module-print-names
+class P { static function main() { MD.getModulePrintNames(); } }
+
+--- api4-resolve-type-fun
+class P { static function main() { MD.resolveTypeFun(); } }
+
+--- api4-local-class-name
+class P { static function main() { MD.localClassName(); } }
+
+--- api4-local-method-name
+class P { static function main() { MD.localMethodName(); } }
+
+--- api4-current-pos-print
+class P { static function main() { MD.currentPosPrint(); } }
+
+--- api4-pos-infos-current
+class P { static function main() { MD.posInfosCurrent(); } }
+
+--- api4-warning-unknown-file
+class P { static function main() { MD.warningUnknownFile(); } }
+
+--- api4-on-generate-order
+class P { static function main() { MD.onGenerateOrder(); } }
+
+--- api4-on-after-typing-throws
+class P { static function main() { MD.onAfterTypingThrows(); } }
+
+--- api4-store-typed-expr-ids
+class P { static function main() { MD.storeTypedExprIds(); } }
+
+--- api4-get-typed-expr-round-trip
+class P { static function main() { MD.getTypedExprRoundTrip(); } }
+
+--- api4-typed-expr-to-string-block
+class P { static function main() { MD.typedExprToStringBlock(); } }
+
+--- api4-expr-to-string-switch
+class P { static function main() { MD.exprToStringSwitch(); } }
+
+--- api4-typeof-function-string
+class P { static function main() { MD.typeofFunctionString(); } }
+
+--- api4-follow-mono-string
+class P { static function main() { MD.followMonoString(); } }
+
+--- api4-define-module-mismatched-pack
+class P { static function main() { MD.defineModuleMismatchedPack(); } }
+
+--- api4-add-resource-twice
+class P { static function main() { MD.addResourceTwice(); } }
+
+--- api4-get-module-package
+class P { static function main() { MD.getModulePackage(); } }
+
+--- api4-defines-view
+class P { static function main() { MD.defs(); } }
+
+--- api4-parse-empty-non-inline
+class P { static function main() { MD.parseNonInline(); } }
+
+--- api4-complex-type-of-mono
+class P { static function main() { MD.ctOfMono(); } }
+
+--- api4-defines-after-define
+class P { static function main() { MD.definesAfterDefine(); } }
+
+--- api4-parse-inline-nul-char
+class P { static function main() { MD.nul(); } }
+
+--- api4-call-null-through-inline
+class P { static function main() { MD.viaInline(); } }
+
+--- api4-call-null-through-plain
+class P { static function main() { MD.viaPlain(); } }
+
+--- api4-call-null-through-call-inline
+class P { static function main() { MD.viaCallInline(); } }
+
+--- api4-macro-module-with-errors-skips-the-call
+class P { static function main() { MDE.fine(); } }
+
+--- api4-macro-module-with-errors-skips-every-call
+class P { static function main() { MDE.fine(); MDE.fine(); var y:Int = MDE.fine(); } }
+
+--- api5-reify-value-function
+class P { static function main() { ME.vFunction(); } }
+
+--- api5-reify-value-class
+class P { static function main() { ME.vClass(); } }
+
+--- api5-reify-value-date
+class P { static function main() { ME.vDate(); } }
+
+--- api5-reify-value-bytes
+class P { static function main() { ME.vBytes(); } }
+
+--- api5-reify-path-null
+class P { static function main() { ME.pNull(); } }
+
+--- api5-reify-value-null
+class P { static function main() { ME.vNull(); } }
+
+--- api5-reify-value-float-whole
+class P { static function main() { ME.vFloatWhole(); } }
+
+--- api5-reify-value-nan
+class P { static function main() { ME.vNaN(); } }
+
+--- api5-reify-value-object-order
+class P { static function main() { ME.vObjectOrder(); } }
+
+--- api5-reify-value-enum-args
+class P { static function main() { ME.vEnumArgs(); } }
+
+--- api5-reify-value-map
+class P { static function main() { ME.vMap(); } }
+
+--- api5-reify-ident-spaces
+class P { static function main() { ME.iSpaces(); } }
+
+--- api5-reify-ident-null
+class P { static function main() { ME.iNull(); } }
+
+--- api5-reify-path
+class P { static function main() { ME.pPath(); } }
+
+--- api5-reify-path-empty
+class P { static function main() { ME.pEmpty(); } }
+
+--- api5-reify-array-null
+class P { static function main() { ME.aNull(); } }
+
+--- api5-reify-array-null-element
+class P { static function main() { ME.aWithNullElement(); } }
+
+--- api5-reify-expr-null
+class P { static function main() { ME.eNull(); } }
+
+--- api5-reify-block-null
+class P { static function main() { ME.bNull(); } }
+
+--- api5-reify-complex-type-null
+class P { static function main() { ME.ctNull(); } }
+
+--- api5-reify-type-param-null
+class P { static function main() { ME.ctParamNull(); } }
+
+--- api5-reify-pos-meta
+class P { static function main() { ME.posMeta(); } }
+
+--- api5-reify-position
+class P { static function main() { ME.reifyPos(); } }
+
+--- api5-print-function
+class P { static function main() { ME.printFunction(); } }
+
+--- api5-print-switch-guard
+class P { static function main() { ME.printSwitchGuard(); } }
+
+--- api5-print-string-interpolation
+class P { static function main() { ME.printStringInterp(); } }
+
+--- api5-print-regex
+class P { static function main() { ME.printRegex(); } }
+
+--- api5-reify-class-definition
+class P { static function main() { ME.tdClass(); } }
+
+--- api5-reify-class-name
+class P { static function main() { ME.tdClassName(); } }
+
+--- api5-reify-class-define-and-use
+class P { static function main() { ME.tdDefineAndUse(); } }
+
+--- api5-reify-class-fields
+class P { static function main() { ME.tdFieldsCount(); } }
+
+--- api5-build-fields-twice
+@:build(MB5.fieldsTwice()) class P { static function main() {} }
+
+--- api5-build-duplicate-field
+@:build(MB5.duplicateField()) class P { static function main() {} }
+
+--- api5-build-var-no-type-no-expr
+@:build(MB5.varNoTypeNoExpr()) class P { static function main() {} }
+
+--- api5-build-double-static
+@:build(MB5.fieldDoubleStatic()) class P { static function main() {} }
+
+--- api5-build-inline-var-no-expr
+@:build(MB5.inlineVarNoExpr()) class P { static function main() {} }
+
+--- api5-build-fun-null-args
+@:build(MB5.funNullArgs()) class P { static function main() {} }
+
+--- api5-build-prop-bad-access
+@:build(MB5.propBadAccess()) class P { static function main() {} }
+
+--- api5-build-define-with-build
+@:build(MB5.defineWithBuild()) class P { static function main() {} }
+
+--- api5-build-override-no-parent
+@:build(MB5.fieldDocAndOverride()) class P { static function main() {} }
+
+--- api5-build-field-null-pos
+@:build(MB5.fieldNullPos()) class P { static function main() {} }
+
+--- api5-build-field-null-name
+@:build(MB5.fieldNullName()) class P { static function main() {} }
+
+--- api5-build-field-null-kind
+@:build(MB5.fieldNullKind()) class P { static function main() {} }
+
+--- api5-build-local-class
+@:build(MB5.localClassInBuild()) class P { static function main() {} }
+
+--- api5-build-get-type-of-self
+@:build(MB5.getTypeOfSelf()) class P { static function main() {} }
+
+--- api5-build-null-element
+@:build(MB5.nullElement()) class P { static function main() {} }
+
+--- api5-build-empty-list
+@:build(MB5.emptyList()) class P { static function main() {} }
+
+--- api5-build-fun-null-expr
+@:build(MB5.funNullExpr()) class P { static function main() {} }
+
+--- api5-build-prop-null-access
+@:build(MB5.propNullAccess()) class P { static function main() {} }
+
+--- api5-build-returns-int
+@:build(MB5.returnsInt()) class P { static function main() {} }
+
+--- api5-build-throws
+@:build(MB5.throwsInBuild()) class P { static function main() {} }
+
+--- api5-build-error
+@:build(MB5.errorInBuild()) class P { static function main() {} }
+
+--- api5-build-mutate-then-null
+@:build(MB5.mutateThenNull()) class P { static function main() { added; } }
+
+--- api5-build-order
+@:build(MB5.buildOrderA()) @:build(MB5.buildOrderB()) class P { static function main() {} }
+
+--- api5-build-same-fields-reports-once
+@:build(MB6.same()) class P { static var v; static function main() {} }
+
+--- api5-build-same-override-reports-once
+@:build(MB6.same()) class P { override function f() {} static function main() {} }
+
+--- api5-for-iterable-null
+class P { static function main() { MF.forIterable(); } }
+
+--- api5-for-array-null
+class P { static function main() { MF.forArray(); } }
+
+--- api5-for-iterator-null
+class P { static function main() { MF.forIterator(); } }
+
+--- api5-for-key-value-null-map
+class P { static function main() { MF.forKeyValue(); } }
+
+--- api5-lambda-fold-null
+class P { static function main() { MF.foldNull(); } }
+
+--- api5-to-field-expr-null
+class P { static function main() { MF.toFieldNull(); } }
+
+--- api5-lambda-fold-array
+class P { static function main() { MF.foldArray(); } }
+
+--- api5-map-key-value-iterator-null
+class P { static function main() { MF.mapKv(); } }
+
+--- api5-string-map-key-value-iterator-null
+class P { static function main() { MF.stringMapKv(); } }
+
+--- api5-new-map-key-value-iterator
+class P { static function main() { MF.newKvIter(); } }
+
+--- api5-new-map-key-value-iterator-null
+class P { static function main() { MF.newKvIterNull(); } }
+
+--- api5-new-map-key-value-iterator-explicit-params
+class P { static function main() { MF.stdIterExplicit(); } }
+
+--- api5-map-loops
+class P { static function main() { MF.mapLoops(); } }
+
+--- api5-array-iterators
+class P { static function main() { MF.arrayIters(); } }
+
+--- api5-int-map-key-value
+class P { static function main() { MF.intMapKv(); } }
+
+--- api5-list-and-dynamic-loops
+class P { static function main() { MF.listAndDyn(); } }
+
+--- api6-json-parse-null
+class P { static function main() { MG.jsonParseNull(); } }
+
+--- api6-json-parse-empty
+class P { static function main() { MG.jsonParseEmpty(); } }
+
+--- api6-json-parse-open-brace
+class P { static function main() { MG.jsonParseOpenBrace(); } }
+
+--- api6-json-parse-trailing-comma
+class P { static function main() { MG.jsonParseTrailingComma(); } }
+
+--- api6-json-parse-bad-exponent
+class P { static function main() { MG.jsonParseBadExponent(); } }
+
+--- api6-json-parse-bad-unicode
+class P { static function main() { MG.jsonParseBadUnicode(); } }
+
+--- api6-json-parse-tru
+class P { static function main() { MG.jsonParseTru(); } }
+
+--- api6-json-parse-two-values
+class P { static function main() { MG.jsonParseTwoValues(); } }
+
+--- api6-json-parse-spaces
+class P { static function main() { MG.jsonParseSpaces(); } }
+
+--- api6-json-parse-nested
+class P { static function main() { MG.jsonParseNested(); } }
+
+--- api6-json-parse-big-int
+class P { static function main() { MG.jsonParseBigInt(); } }
+
+--- api6-json-parse-neg-zero
+class P { static function main() { MG.jsonParseNegZero(); } }
+
+--- api6-json-stringify-null
+class P { static function main() { MG.jsonStringifyNull(); } }
+
+--- api6-json-stringify-function
+class P { static function main() { MG.jsonStringifyFunction(); } }
+
+--- api6-json-stringify-infinity
+class P { static function main() { MG.jsonStringifyInfinity(); } }
+
+--- api6-json-stringify-na-n
+class P { static function main() { MG.jsonStringifyNaN(); } }
+
+--- api6-json-stringify-indent
+class P { static function main() { MG.jsonStringifyIndent(); } }
+
+--- api6-json-stringify-replacer
+class P { static function main() { MG.jsonStringifyReplacer(); } }
+
+--- api6-json-stringify-enum
+class P { static function main() { MG.jsonStringifyEnum(); } }
+
+--- api6-json-stringify-map
+class P { static function main() { MG.jsonStringifyMap(); } }
+
+--- api6-json-stringify-cycle
+class P { static function main() { MG.jsonStringifyCycle(); } }
+
+--- api6-json-stringify-control
+class P { static function main() { MG.jsonStringifyControl(); } }
+
+--- api6-path-null
+class P { static function main() { MG.pathNull(); } }
+
+--- api6-path-empty
+class P { static function main() { MG.pathEmpty(); } }
+
+--- api6-path-without-extension-null
+class P { static function main() { MG.pathWithoutExtensionNull(); } }
+
+--- api6-path-join-null
+class P { static function main() { MG.pathJoinNull(); } }
+
+--- api6-path-join-empty
+class P { static function main() { MG.pathJoinEmpty(); } }
+
+--- api6-path-normalize-up
+class P { static function main() { MG.pathNormalizeUp(); } }
+
+--- api6-path-add-trailing-slash-empty
+class P { static function main() { MG.pathAddTrailingSlashEmpty(); } }
+
+--- api6-path-is-absolute-null
+class P { static function main() { MG.pathIsAbsoluteNull(); } }
+
+--- api6-path-extension-tar
+class P { static function main() { MG.pathExtensionTar(); } }
+
+--- api6-path-backslashes
+class P { static function main() { MG.pathBackslashes(); } }
+
+--- api6-list-first-empty
+class P { static function main() { MG.listFirstEmpty(); } }
+
+--- api6-list-remove-null
+class P { static function main() { MG.listRemoveNull(); } }
+
+--- api6-list-map-null
+class P { static function main() { MG.listMapNull(); } }
+
+--- api6-list-filter-null
+class P { static function main() { MG.listFilterNull(); } }
+
+--- api6-list-join-null
+class P { static function main() { MG.listJoinNull(); } }
+
+--- api6-list-nested
+class P { static function main() { MG.listNested(); } }
+
+--- api6-list-iter-modify
+class P { static function main() { MG.listIterModify(); } }
+
+--- api6-template-null
+class P { static function main() { MG.templateNull(); } }
+
+--- api6-template-unterminated
+class P { static function main() { MG.templateUnterminated(); } }
+
+--- api6-template-missing-var
+class P { static function main() { MG.templateMissingVar(); } }
+
+--- api6-template-execute-null
+class P { static function main() { MG.templateExecuteNull(); } }
+
+--- api6-template-if-foreach
+class P { static function main() { MG.templateIfForeach(); } }
+
+--- api6-template-unknown-macro
+class P { static function main() { MG.templateUnknownMacro(); } }
+
+--- api6-template-macro
+class P { static function main() { MG.templateMacro(); } }
+
+--- api6-template-bad-expr
+class P { static function main() { MG.templateBadExpr(); } }
+
+--- api6-exception-null-message
+class P { static function main() { MG.exceptionNullMessage(); } }
+
+--- api6-exception-thrown-uncaught
+class P { static function main() { MG.exceptionThrownUncaught(); } }
+
+--- api6-exception-thrown-string-caught
+class P { static function main() { MG.exceptionThrownStringCaught(); } }
+
+--- api6-exception-stack-string
+class P { static function main() { MG.exceptionStackString(); } }
+
+--- api6-exception-with-previous
+class P { static function main() { MG.exceptionWithPrevious(); } }
+
+--- api6-date-tools-format-null
+class P { static function main() { MG.dateToolsFormatNull(); } }
+
+--- api6-date-tools-format-unknown
+class P { static function main() { MG.dateToolsFormatUnknown(); } }
+
+--- api6-date-tools-format-dangling
+class P { static function main() { MG.dateToolsFormatDangling(); } }
+
+--- api6-date-tools-parse-null
+class P { static function main() { MG.dateToolsParseNull(); } }
+
+--- api6-date-tools-delta-null
+class P { static function main() { MG.dateToolsDeltaNull(); } }
+
+--- api6-date-tools-format-all
+class P { static function main() { MG.dateToolsFormatAll(); } }
+
+--- api6-int-iterator-reversed
+class P { static function main() { MG.intIteratorReversed(); } }
+
+--- api6-int-iterator-null
+class P { static function main() { MG.intIteratorNull(); } }
+
+--- api6-sys-tools-quote-null
+class P { static function main() { MG.sysToolsQuoteNull(); } }
+
+--- api6-sys-tools-quote-win-null
+class P { static function main() { MG.sysToolsQuoteWinNull(); } }
+
+--- api6-sys-tools-quote
+class P { static function main() { MG.sysToolsQuote(); } }
+
+--- api6-serialize-null
+class P { static function main() { MG.serializeNull(); } }
+
+--- api6-serialize-function
+class P { static function main() { MG.serializeFunction(); } }
+
+--- api6-serialize-cycle
+class P { static function main() { MG.serializeCycle(); } }
+
+--- api6-serialize-nested
+class P { static function main() { MG.serializeNested(); } }
+
+--- api6-unserialize-empty
+class P { static function main() { MG.unserializeEmpty(); } }
+
+--- api6-unserialize-bad-char
+class P { static function main() { MG.unserializeBadChar(); } }
+
+--- api6-unserialize-truncated
+class P { static function main() { MG.unserializeTruncated(); } }
+
+--- api6-unserialize-object
+class P { static function main() { MG.unserializeObject(); } }
+
+--- api6-unserialize-bad-ref
+class P { static function main() { MG.unserializeBadRef(); } }
+
+--- api6-unserialize-null
+class P { static function main() { MG.unserializeNull(); } }
+
+--- api6-unserialize-unknown-class
+class P { static function main() { MG.unserializeUnknownClass(); } }
+
+--- api6-unserialize-round-trip
+class P { static function main() { MG.unserializeRoundTrip(); } }
+
+--- api6-base64-decode-bad
+class P { static function main() { MG.base64DecodeBad(); } }
+
+--- api6-base64-encode-null
+class P { static function main() { MG.base64EncodeNull(); } }
+
+--- api6-base64-round-trip
+class P { static function main() { MG.base64RoundTrip(); } }
+
+--- api6-md5-null
+class P { static function main() { MG.md5Null(); } }
+
+--- api6-hashes-empty
+class P { static function main() { MG.hashesEmpty(); } }
+
+--- api6-hmac-null-key
+class P { static function main() { MG.hmacNullKey(); } }
+
+--- api6-hmac-make
+class P { static function main() { MG.hmacMake(); } }
+
+--- api6-base-code-odd-base
+class P { static function main() { MG.baseCodeOddBase(); } }
+
+--- api6-base-code-round-trip
+class P { static function main() { MG.baseCodeRoundTrip(); } }
+
+--- api6-adler-crc-null
+class P { static function main() { MG.adlerCrcNull(); } }
+
+--- api6-adler-crc
+class P { static function main() { MG.adlerCrc(); } }
+
+--- api6-bytes-input-null
+class P { static function main() { MG.bytesInputNull(); } }
+
+--- api6-bytes-input-eof
+class P { static function main() { MG.bytesInputEof(); } }
+
+--- api6-bytes-input-eof-caught
+class P { static function main() { MG.bytesInputEofCaught(); } }
+
+--- api6-bytes-input-negative
+class P { static function main() { MG.bytesInputNegative(); } }
+
+--- api6-bytes-input-int32-short
+class P { static function main() { MG.bytesInputInt32Short(); } }
+
+--- api6-bytes-input-pos-len
+class P { static function main() { MG.bytesInputPosLen(); } }
+
+--- api6-bytes-output-null
+class P { static function main() { MG.bytesOutputNull(); } }
+
+--- api6-bytes-output-round-trip
+class P { static function main() { MG.bytesOutputRoundTrip(); } }
+
+--- api6-stack-depth-under-limit
+class P { static function main() { MQ17.d995(); } }
+
+--- api6-stack-depth-over-limit
+class P { static function main() { MQ17.d1005(); } }
+
+--- api7-exp-no-hint
+class P { static function main() { var x = MH.expected(); } }
+
+--- api7-exp-int
+class P { static function main() { var x:Int = MH.expected(); } }
+
+--- api7-exp-void
+class P { static function main() { MH.expected(); } }
+
+--- api7-exp-array
+class P { static function main() { var a:Array<String> = [MH.expected()]; } }
+
+--- api7-exp-arg
+class P { static function f(s:String) {} static function main() { f(MH.expected()); } }
+
+--- api7-exp-return
+class P { static function g():Bool return MH.expected(); static function main() { g(); } }
+
+--- api7-exp-build
+@:build(MH.expectedBuild()) class P { static function main() {} }
+
+--- api7-exp-object-field
+class P { static function main() { var o:{x:Float} = {x: MH.expected()}; } }
+
+--- api7-exp-ternary
+class P { static function main() { var x:Float = true ? MH.expected() : 1; } }
+
+--- api7-exp-binop
+class P { static function main() { var y:Int = 1 + MH.expected(); } }
+
+--- api7-gca-macro
+class P { static function main() { MH.gcaMacro(); } }
+
+--- api7-gca-generic-new
+class GImpl { public function new(a:Int, b:String) {} } @:genericBuild(MH.gcaBuild()) class G<T> {} class P { static function main() { new G<Int>(1, "a"); } }
+
+--- api7-gca-generic-hint
+class GImpl { public function new(a:Int, b:String) {} } @:genericBuild(MH.gcaBuild()) class G<T> {} class P { static function main() { var g:G<Int> = null; } }
+
+--- api7-gca-generic-nested
+class GImpl { public function new(a:Int, b:String) {} } @:genericBuild(MH.gcaBuild()) class G<T> {} class P { static function f(x:Int) return x; static function main() { new G<Int>(f(1), "b" + "c"); } }
+
+--- api7-imports
+import haxe.ds.StringMap; import haxe.io.*; import haxe.macro.Expr.Field as F; using StringTools; using Lambda; class P { static function main() { MH.imports(); } }
+
+--- api7-imports-none
+class P { static function main() { MH.imports(); } }
+
+--- api7-imports-build
+import haxe.ds.StringMap; using StringTools; @:build(MH.importsBuild()) class P { static function main() {} }
+
+--- api7-tv-basic
+class P { static function main() { var a = 1; var b = "s"; MH.tvars(); } }
+
+--- api7-tv-build
+@:build(MH.tvarsBuild()) class P { static function main() {} }
+
+--- api7-tv-closure
+class P { static function main() { var a = 1; var f = function() { var c = 2; MH.tvars(); }; f(); } }
+
+--- api7-tv-shadow
+class P { static function main() { var a = 1; { var a = "s"; MH.tvars(); } } }
+
+--- api7-tv-args
+class P { static function h(q:Float) { MH.tvars(); } static function main() { h(1); } }
+
+--- api7-tv-after-scope
+class P { static function main() { { var z = 1; } MH.tvars(); } }
+
+--- api7-tv-loop
+class P { static function main() { for (i in 0...2) MH.tvars(); } }
+
+--- api7-tv-catch
+class P { static function main() { try {} catch (e:String) MH.tvars(); } }
+
+--- api7-gme-macro
+class P { static function main() { MH.gmeMacro(); } }
+
+--- api7-gme-generate
+class P { static function main() { MH.gmeGenerate(); } }
+
+--- api7-gme-after-typing
+class P { static function main() { MH.gmeAfterTyping(); } }
+
+--- api7-gme-after-generate
+class P { static function main() { MH.gmeAfterGenerate(); } }
+
+--- api7-rmd-ok
+class P { static function main() { MH.rmdOk(); } }
+
+--- api7-rmd-missing
+class P { static function main() { MH.rmdMissing(); } }
+
+--- api7-rmd-null-module
+class P { static function main() { MH.rmdNullModule(); } }
+
+--- api7-rmd-null-file
+class P { static function main() { MH.rmdNullFile(); } }
+
+--- api7-rmd-empty-module
+class P { static function main() { MH.rmdEmptyModule(); } }
+
+--- api7-rmd-empty-file
+class P { static function main() { MH.rmdEmptyFile(); } }
+
+--- api7-rmd-std
+class P { static function main() { MH.rmdStd(); } }
+
+--- api7-re-basic
+class P { static function main() { MH.reBasic(); } }
+
+--- api7-re-twice
+class P { static function main() { MH.reTwice(); } }
+
+--- api7-re-null-pos
+class P { static function main() { MH.reNullPos(); } }
+
+--- api7-re-null-msg
+class P { static function main() { MH.reNullMsg(); } }
+
+--- api7-re-depth1
+class P { static function main() { MH.reDepth1(); } }
+
+--- api7-re-caught
+class P { static function main() { MH.reCaught(); } }
+
+--- api7-fe-basic
+class P { static function main() { MH.feBasic(); } }
+
+--- api7-fe-null-pos
+class P { static function main() { MH.feNullPos(); } }
+
+--- api7-fe-null-msg
+class P { static function main() { MH.feNullMsg(); } }
+
+--- api7-fe-depth1
+class P { static function main() { MH.feDepth1(); } }
+
+--- api7-fe-caught
+class P { static function main() { MH.feCaught(); } }
+
+--- api7-fe-build
+@:build(MH.feBuild()) class P { static function main() {} }
+
+--- api7-fe-generate
+class P { static function main() { MH.feGenerate(); } }
+
+--- api7-re-generate
+class P { static function main() { MH.reGenerate(); } }
+
+--- api7-oag-basic
+class P { static function main() { MH.oagBasic(); } }
+
+--- api7-oag-twice
+class P { static function main() { MH.oagTwice(); } }
+
+--- api7-oag-throws
+class P { static function main() { MH.oagThrows(); } }
+
+--- api7-oag-null
+class P { static function main() { MH.oagNull(); } }
+
+--- api7-oag-with-error
+class P { static function main() { MH.oagWithError(); } }
+
+--- api7-oag-nested
+class P { static function main() { MH.oagNested(); } }
+
+--- api7-oag-from-generate
+class P { static function main() { MH.oagFromGenerate(); } }
+
+--- api7-oag-error
+class P { static function main() { MH.oagError(); } }
+
+--- api7-wo-inline-off
+class P { static function main() { MH.woInlineOff(); } }
+
+--- api7-wo-inline-default
+class P { static function main() { MH.woInlineDefault(); } }
+
+--- api7-wo-inline-on
+class P { static function main() { MH.woInlineOn(); } }
+
+--- api7-wo-transform-off-property
+class PropHolder { public var v(get, never):Int; function get_v() return 1; public function new() {} } class P { static function main() { MH.woTransformOffProperty(); } }
+
+--- api7-wo-empty
+class P { static function main() { MH.woEmpty(); } }
+
+--- api7-wo-null
+class P { static function main() { MH.woNull(); } }
+
+--- api7-wo-null-code
+class P { static function main() { MH.woNullCode(); } }
+
+--- api7-wo-throws
+class P { static function main() { MH.woThrows(); } }
+
+--- api7-wo-nested
+class P { static function main() { MH.woNested(); } }
+
+--- api7-wo-return
+class P { static function main() { MH.woReturn(); } }
+
+--- api7-loc-basic
+class P { static function main() { MH.locBasic(); } }
+
+--- api7-loc-null
+class P { static function main() { MH.locNull(); } }
+
+--- api7-loc-made
+class P { static function main() { MH.locMade(); } }
+
+--- api7-loc-unknown-file
+class P { static function main() { MH.locUnknownFile(); } }
+
+--- api7-loc-negative
+class P { static function main() { MH.locNegative(); } }
+
+--- api7-loc-multiline
+class P {
+	static function main() {
+		MH.locMultiline();
+	}
+}
+
+--- api7-loc-reversed
+class P { static function main() { MH.locReversed(); } }
+
+--- api7-inc-nope
+class P { static function main() { MH.incNope(); } }
+
+--- api7-inc-nope-strict
+class P { static function main() { MH.incNopeStrict(); } }
+
+--- api7-inc-null
+class P { static function main() { MH.incNull(); } }
+
+--- api7-inc-empty
+class P { static function main() { MH.incEmpty(); } }
+
+--- api7-inc-haxe-ds
+class P { static function main() { MH.incHaxeDs(); } }
+
+--- api7-inc-ignore
+class P { static function main() { MH.incIgnore(); } }
+
+--- api7-inc-class-path-nope
+class P { static function main() { MH.incClassPathNope(); } }
+
+--- api7-exc-nope
+class P { static function main() { MH.excNope(); } }
+
+--- api7-exc-null
+class P { static function main() { MH.excNull(); } }
+
+--- api7-exc-haxe-ds
+class P { static function main() { MH.excHaxeDs(); } }
+
+--- api7-keep-nope
+class P { static function main() { MH.keepNope(); } }
+
+--- api7-keep-null
+class P { static function main() { MH.keepNull(); } }
+
+--- api7-keep-both
+class P { static function main() { MH.keepBoth(); } }
+
+--- api7-keep-package
+class P { static function main() { MH.keepPackage(); } }
+
+--- api7-out-get
+class P { static function main() { MH.outGet(); } }
+
+--- api7-out-set-get
+class P { static function main() { MH.outSetGet(); } }
+
+--- api7-out-set-null
+class P { static function main() { MH.outSetNull(); } }
+
+--- api7-rcd-basic
+class P { static function main() { MH.rcdBasic(); } }
+
+--- api7-rcd-null
+class P { static function main() { MH.rcdNull(); } }
+
+--- api7-rcd-null-name
+class P { static function main() { MH.rcdNullName(); } }
+
+--- api7-rcd-null-doc
+class P { static function main() { MH.rcdNullDoc(); } }
+
+--- api7-rcd-bad-platform
+class P { static function main() { MH.rcdBadPlatform(); } }
+
+--- api7-rcd-platforms
+class P { static function main() { MH.rcdPlatforms(); } }
+
+--- api7-rcd-twice
+class P { static function main() { MH.rcdTwice(); } }
+
+--- api7-rcd-existing
+class P { static function main() { MH.rcdExisting(); } }
+
+--- api7-rcm-basic
+class P { static function main() { MH.rcmBasic(); } }
+
+--- api7-rcm-bad-target
+class P { static function main() { MH.rcmBadTarget(); } }
+
+--- api7-rcm-targets
+class P { static function main() { MH.rcmTargets(); } }
+
+--- api7-rcm-null
+class P { static function main() { MH.rcmNull(); } }
+
+--- api7-rcm-null-name
+class P { static function main() { MH.rcmNullName(); } }
+
+--- api7-rcm-existing
+class P { static function main() { MH.rcmExisting(); } }
+
+--- api7-gdp-none
+class P { static function main() { MH.gdpNone(); } }
+
+--- api7-gdm-none
+class P { static function main() { MH.gdmNone(); } }
+
+--- api7-omcr-register
+class P { static function main() { MH.omcrRegister(); } }
+
+--- api7-omcr-null
+class P { static function main() { MH.omcrNull(); } }
+
+--- api7-err-caught
+class P { static function main() { MH.errCaught(); } }
+
+--- api7-err-generate
+class P { static function main() { MH.errGenerate(); } }
+
+--- api7-err-after-generate
+class P { static function main() { MH.errAfterGenerate(); } }
+
+--- api7-err-nested
+class P { static function main() { MH.errNested(); } }
+
+--- api7-err-build
+@:build(MH.errBuild()) class P { static function main() {} }
+
+--- api7-typeof-uncaught-then-use
+class P { static function main() { var x:String = MH.tou(); Sys.println(x.length); } }
+
+--- api7-full-path-empty
+class P { static function main() { MH.fullPathEmpty(); } }
+
+--- api7-full-path-dot
+class P { static function main() { MH.fullPathDot(); } }
+
+--- api7-full-path-null
+class P { static function main() { MH.fullPathNull(); } }
+
+--- api7-catch-type-not-found
+class P { static function f(v:Dynamic) {} static function main() { try {} catch (e:nope.Nope) f(e); } }
+
+--- api7-catch-type-not-found-macro
+class P { static function main() { MHB.bad(); } }
+
+--- api7-gm-bad-package
+class P { static function main() { MH.gmBadPackage(); } }
+
+--- api7-gm-bad-package-caught
+class P { static function main() { MH.gmBadPackageCaught(); } }
+
+--- api7-wo-transform-off-to-string
+class PropHolder { public var v(get, never):Int; function get_v() return 1; public function new() {} } class P { static function main() { MH.woTransformOffToString(); } }
+
+--- api7-wo-transform-default-to-string
+class PropHolder { public var v(get, never):Int; function get_v() return 1; public function new() {} } class P { static function main() { MH.woTransformDefaultToString(); } }
+
+--- api7-wo-transform-off-optional
+class P { static function main() { MH.woTransformOffOptional(); } }
+
+--- api7-wo-transform-default-optional
+class P { static function main() { MH.woTransformDefaultOptional(); } }
+
+--- api7-wo-transform-off-using
+abstract Wrap(Int) from Int { public function twice() return this * 2; @:arrayAccess function get(i:Int) return this + i; } class P { static function main() { MH.woTransformOffUsing(); } }
+
+--- api7-wo-transform-default-using
+abstract Wrap(Int) from Int { public function twice() return this * 2; @:arrayAccess function get(i:Int) return this + i; } class P { static function main() { MH.woTransformDefaultUsing(); } }
+
+--- api7-wo-transform-off-array
+abstract Wrap(Int) from Int { public function twice() return this * 2; @:arrayAccess function get(i:Int) return this + i; } class P { static function main() { MH.woTransformOffArray(); } }
+
+--- api7-wo-transform-default-array
+abstract Wrap(Int) from Int { public function twice() return this * 2; @:arrayAccess function get(i:Int) return this + i; } class P { static function main() { MH.woTransformDefaultArray(); } }
+
+--- api7-wo-bad-option
+class P { static function main() { MH.woBadOption(); } }
+
+--- signature-s-int
+class P { static function main() { MI.sInt(); } }
+
+--- signature-s-str
+class P { static function main() { MI.sStr(); } }
+
+--- signature-s-obj
+class P { static function main() { MI.sObj(); } }
+
+--- signature-s-arr
+class P { static function main() { MI.sArr(); } }
+
+--- signature-s-fun
+class P { static function main() { MI.sFun(); } }
+
+--- signature-s-type-int
+class P { static function main() { MI.sTypeInt(); } }
+
+--- signature-s-type-string
+class P { static function main() { MI.sTypeString(); } }
+
+--- signature-s-type-array
+class P { static function main() { MI.sTypeArray(); } }
+
+--- signature-s-ref-only
+class P { static function main() { MI.sRefOnly(); } }
+
+--- signature-s-anon
+class P { static function main() { MI.sAnon(); } }
+
+--- signature-s-expr
+class P { static function main() { MI.sExpr(); } }
+
+--- signature-s-same-twice
+class P { static function main() { MI.sSameTwice(); } }
+
+--- signature-s-differs
+class P { static function main() { MI.sDiffers(); } }
+
+--- fields-of-instance
+class P { static function main() { MI.fieldsOfInstance(); } }
+
+--- fields-of-object
+class P { static function main() { MI.fieldsOfObject(); } }
+
+--- fields-of-ref
+class P { static function main() { MI.fieldsOfRef(); } }
+
+--- ref-round-trip
+class P { static function main() { MI.refRoundTrip(); } }
+
+--- generic-specialization-from-heritage-keeps-the-initializer
+@:generic class Node<T> extends Foo<T> { public function new() { super(); } }
+@:generic class Foo<T> { public var s:String = ""; public var n:Int = 4; public function new() {} }
+class StringNode extends Node<StringNode> {}
+class P { static function main() { MV.dumpGenerated("Foo", false); new StringNode(); } }
+
+--- generated-metadata-on-a-class
+class Q {
+	@:value(1) public var s:Int = 2;
+	public var t:String = "x";
+	public var u(default, null):Int = 5;
+	@:value({a: 9}) public function f(a:Int = 3, ?b:String, c = "z") {}
+	public function g(@:nullSafety(Off) a:String, @:foo b = 1) {}
+	@:overload(function(x:Int = 4, @:bar y:String):Void {})
+	@:overload(function(z:Float):Void {})
+	public function h(q:Bool = true):Void {}
+	public function new() {}
+}
+class P { static function main() { MV.dumpGenerated("Q", true); new Q(); } }
+
+--- generated-metadata-on-an-enum-abstract
+enum abstract E(Int) {
+	var A = 1;
+	var B;
+	public function m(k = 7, @:baz j:Int) return k;
+}
+class P { static function main() { MV.dumpGenerated("E", true); var e = E.A; e.m(1, 2); } }
+
+--- generated-metadata-on-a-local-function
+class R {
+	public static function run() {
+		function plain(x:Int) return x;
+		function withDefault(a = 1, ?b:String) return a;
+		function withMeta(@:nullSafety(Off) s:String, k = "q") return s;
+		plain(1); withDefault(); withMeta("s");
+	}
+}
+class P { static function main() { MV.dumpLocalFunctions("R"); R.run(); } }
+
+--- after-typing-callbacks-run-newest-first
+class P { static function main() { MAT.order(); } }
+
+--- after-typing-runs-again-for-the-types-it-defined
+class P { static function main() { MAT.rounds(); } }
+
+--- null-safety-reporters-run-newest-first-with-the-newest-error-first
+@:nullSafety
+class P {
+	static function f(a:String) {}
+	static function main() {
+		MAT.nullSafetyReporters();
+		f(null);
+		var s:String = null;
+		f(null);
+	}
+}
+
+--- enum-type-constructs-is-a-string-map
+enum E { A; B(x:Int); C; }
+class P { static function main() { MX.constructs(); } }
+
+--- enum-constructor-params-and-their-marker
+enum E<T> { A<U>(u:U, t:T); B; }
+class P { static function main() { MX.ctorParams(); } }
+
+--- doc-strings-through-the-macro-api
+/** The class C. */
+@:build(MX.build())
+class C {
+	/** field x
+	    on two lines */
+	public var x:Int = 1;
+	/**
+	 * A method.
+	 */
+	public function m() {}
+	public var noDoc:Int = 2;
+	/** a static */
+	public static var s = 3;
+	public function new() {}
+}
+/** The enum. */
+enum E {
+	/** ctor A */
+	A;
+	B;
+}
+/** The typedef. */
+typedef T = { a:Int };
+/** The abstract. */
+abstract A(Int) {}
+class P { static function main() { MX.typedDocs(); new C(); var e = E.A; var t:T = {a: 1}; } }
+
+--- doc-strings-through-define-type
+class P { static function main() { MX.definedDocs(); } }
+
+--- define-type-alias
+class P { static function main() { MX.alias(); var a:AliasInt = 3; } }
+
+--- define-module-with-module-level-fields
+class P { static function main() { MX.moduleFields(); var n:Int = gen.Fields.answer + gen.Fields.twice(4); } }
+
+--- define-type-pack-ending-in-an-underscored-name
+class P {
+	static function main() {
+		MX.definePacked("_Foo", "X1"); MX.moduleTypes("p._Foo");
+		MX.definePacked("__Foo", "X2"); MX.moduleTypes("p.__Foo");
+		MX.definePacked("Foo", "X3"); MX.moduleTypes("p.Foo");
+		MX.definePacked("_", "X4"); MX.moduleTypes("p._.X4");
+		MX.definePacked("__", "X5"); MX.moduleTypes("p.__.X5");
+		MX.definePacked("_1", "X6"); MX.moduleTypes("p._1.X6");
+		MX.definePacked("_foo", "X7"); MX.moduleTypes("p._foo.X7");
+		var a:p._Foo.X1 = null;
+		$type(a);
+		$type(p.__Foo.X2);
+	}
+}
+
+--- define-type-underscored-module-holds-the-type-in-the-outer-pack
+class P { static function main() { MX.definePacked("_Foo", "X"); MX.definePacked("_Bar", "X"); } }
+
+--- define-type-empty-last-pack-element
+class P { static function main() { MX.definePacked("", "X8"); } }
+
+--- get-type-does-not-skip-underscores
+class P { static function main() { MX.definePacked("_Foo", "X1"); MX.typeByPath("p._Foo.X1"); } }
+
+--- on-generate-not-persistent-runs-after-the-rest
+class P { static function main() { MX.generateOrder(); } }
+
+--- class-and-field-values-through-the-macro-api
+@:build(MSH.build())
+private class C extends Base {
+	static var s1 = 1;
+	static var s0 = 0;
+	static function __init__() { trace("init"); }
+	public final fin:Int = 1;
+	extern static inline function ext() {}
+	override function over() {}
+	public function gen<@:m T:Int>(@:am a:Int = 1, ?b:String):T { return null; }
+	public function new() { super(); }
+}
+class Base { public function over() {} public function new() {} }
+abstract class Sub { abstract function ab():Void; public function new() {} }
+@:generic class Gen<T> { public function new() {} }
+abstract Ab(Int) {}
+typedef Td = {a:Int};
+enum En { X; }
+class P { static function main() { MSH.typed(); new C(); new Gen<Int>(); } }
+
+--- local-function-vars-through-the-macro-api
+class P {
+	static function locals() {
+		function plain() return 1;
+		inline function inl() return 2;
+		function gen<T>(x:T):T return x;
+		var v = 3;
+		var cl = function() return v;
+		function rec(n:Int):Int return n <= 0 ? 0 : rec(n - 1);
+		plain(); inl(); gen(1); cl(); rec(2);
+	}
+	static function main() { MX.localVars("P"); locals(); }
+}
+
+--- field-order-of-macro-api-objects
+import haxe.ds.StringMap;
+@:build(MFO.build())
+class P {
+	var x:haxe.ds.StringMap<Int> = null;
+	var y:Int = 1;
+	function m(a:Int, ?b:String) {}
+	static function main() {}
+}
+
+--- context-natives-return-shapes
+import haxe.ds.StringMap;
+using StringTools;
+@:keep class P {
+	static function main() {
+		var local = 1;
+		var s:String = MCN.probe(local + 1);
+	}
+}
+
+--- a-macro-built-new-reports-at-a-computed-position
+class P { static function main() {
+	MNP.bare();
+	MNP.reified();
+	MNP.roundTrip(new Nope3());
+	MNP.withArgs();
+} }
+
+--- type-typeof-of-a-position-before-getclass
+class P {
+	static macro function f() {
+		var p:Dynamic = haxe.macro.Context.currentPos();
+		Sys.println(Type.typeof(p));
+		Sys.println(Type.getClass(p));
+		return macro null;
+	}
+	static function main() { f(); }
+}
+
+--- compiler-configuration-without-a-target
+class P { static function main() { MCF.config(); } }
+
+--- compiler-configuration-for-js + --js out.js
+class P { static function main() { MCF.config(); } }
+
+--- compiler-configuration-for-js-es6 + --js out.js -D js-es=6
+class P { static function main() { MCF.config(); } }
+
+--- compiler-configuration-for-cpp + --cpp out
+class P { static function main() { MCF.config(); } }
+
+--- compiler-configuration-for-eval + --interp
+class P { static function main() { MCF.config(); } }
+
+--- unify-answers-through-cast-or-unify
+class P { static function main() { MUN.unify(); } }
+
+--- build-macro-sees-the-superclass-inherited-constructor
+class A { public var q:Int; public function new(q:Int = 7, ?s:String) { this.q = q; } }
+class B extends A { public var fi = 1; }
+class C extends B {}
+@:build(MAC.build()) class D extends C {}
+@:build(MAC.build()) class E extends B {}
+class F { public var z = 3; }
+@:build(MAC.build()) class G extends F {}
+class P { static function main() { new D(5); new E(); } }
+
+--- reflect-type-std-natives-at-their-edges
+class P { static function main() { MEV.natives(); } }
+
+--- eval-natives-decode-their-arguments
+class P { static function main() { MED.decoders(); MED.sortAndNan(); } }
+
+--- eval-natives-decode-their-arguments-2
+class P { static function main() { MED2.decoders(); MED2.datesAndCalls(); MED2.maps(); } }
+
+--- eval-native-exception-ends-the-compile
+class P { static function main() { MED2.uncaught(); } }
+
+--- eval-emitter-decodes-typed-accesses
+class P { static function main() { MED3.emitter(); MED3.arity(); } }
+
+--- eval-filesystem-failures-carry-errno
+class P { static function main() { MED4.run(); } }
+
+--- eval-macro-world-runs-handle-abstract-casts
+class P { static function main() { MED5.run(); } }
+
+--- eval-exceptions-through-the-filter
+class P { static function main() { MED6.run(); } }
+
+--- abstract-members-reach-a-build-macro-as-declared + --macro MABS.typed()
+@:build(MABS.show())
+abstract Ab(Int) {
+	public inline function new(v:Int) this = v;
+	public function twice():Int return this * 2;
+	@:op(A + B) static function add(a:Ab, b:Ab):Ab return new Ab(a.toInt() + b.toInt());
+	public function toInt():Int return this;
+	public var half(get, never):Int;
+	function get_half() return this >> 1;
+	@:to function toStr():String return "ab" + this;
+	@:from static function fromS(s:String):Ab return new Ab(s.length);
+}
+@:build(MABS.show())
+abstract Gen<T>(Array<T>) {
+	public function new() this = [];
+	public function push<U>(x:T, u:U):Int return this.push(x);
+	public function first():T return this[0];
+}
+@:build(MABS.show())
+enum abstract Color(Int) {
+	var Red;
+	var Green = 5;
+	public function isRed() return this == Red;
+}
+class P {
+	static function main() {
+		var a = new Ab(3);
+		var s:String = a;
+		var b:Ab = "xy";
+		var g = new Gen<String>();
+		g.push("q", 1);
+		trace(a.twice() + (a + a).toInt() + a.half + s + b.toInt() + g.first() + Red.isRed() + Green);
+	}
+}
+
+--- a-build-macro-adds-enum-abstract-values
+@:build(MABS.addValues())
+enum abstract Color2(Int) {
+	var Red;
+	var Green = 5;
+}
+@:build(MABS.addValues())
+enum abstract SColor2(String) {
+	var Red;
+}
+class P {
+	static function main() {
+		trace([Red, Green, Color2.Blue, Color2.Cyan]);
+		trace([SColor2.Red, SColor2.Blue]);
+		var c:Color2 = Color2.Blue;
+		trace(switch (c) { case Red: "r"; case Green: "g"; case Blue: "b"; case Cyan: "c"; });
+	}
+}
+
+--- macro-world-type-filters
+class P { static function main() { MTF.run(); } }
+
+--- inlined-abstract-constructor-this-reads-are-cast + --macro MINL.typed()
+abstract M(Float) {
+	public inline function new(v:Float) this = v;
+	public inline function get():Float return this;
+}
+class P {
+	static function g():Float {
+		var q = Math.random();
+		var m = new M(q);
+		var m3 = new M(2);
+		return m.get() + m3.get();
+	}
+	static function main() g();
+}
+
+--- macro-world-class-inits-in-type-order
+class Zed { public static var z = { Sys.println("Zed.z"); 1; }; static function __init__() Sys.println("Zed.__init__ z=" + z); }
+class Alpha { public static var a = { Sys.println("Alpha.a"); 2; }; static function __init__() Sys.println("Alpha.__init__ a=" + a + " b=" + Beta.b); }
+class Beta { public static var b = { Sys.println("Beta.b"); 4; }; static function __init__() Sys.println("Beta.__init__"); }
+class P {
+	macro static function atMacro() { Sys.println("macro sees " + Alpha.a); return macro null; }
+	static function main() atMacro();
+}
+
+--- typed-expression-positions + --macro MPOS.run('P',false)
+class Base { public function new(m:String) {} }
+abstract Meters(Float) {
+	public inline function new(v:Float) this = v;
+	public inline function raw():Float return this;
+	@:op(A + B) static function add(a:Meters, b:Meters):Meters return new Meters(a.raw() + b.raw());
+}
+class P extends Base {
+	public function new() { super("x"); }
+	static function caught(value:Any):haxe.Exception {
+		if (Std.isOfType(value, haxe.Exception)) return value;
+		return (value:haxe.Exception);
+	}
+	static function cons<T>(e:Enum<T>) return Type.getEnumConstructs(e);
+	static function sum() return new Meters(1) + new Meters(2);
+	static function tr(?p:haxe.PosInfos) return p.lineNumber;
+	static function main() { trace(tr()); new P(); }
+}
+
+--- typed-expression-positions-after-filters + --macro MPOS.run('P',true)
+class Base { public function new(m:String) {} }
+abstract Meters(Float) {
+	public inline function new(v:Float) this = v;
+	public inline function raw():Float return this;
+	@:op(A + B) static function add(a:Meters, b:Meters):Meters return new Meters(a.raw() + b.raw());
+}
+class P extends Base {
+	public function new() { super("x"); }
+	static function caught(value:Any):haxe.Exception {
+		if (Std.isOfType(value, haxe.Exception)) return value;
+		return (value:haxe.Exception);
+	}
+	static function cons<T>(e:Enum<T>) return Type.getEnumConstructs(e);
+	static function sum() return new Meters(1) + new Meters(2);
+	static function tr(?p:haxe.PosInfos) return p.lineNumber;
+	static function main() { trace(tr()); new P(); }
+}
+
+--- a-macro-in-call-arguments-catches-typeof-errors
+class P {
+	macro static function errText(e:haxe.macro.Expr) {
+		var msg = try { haxe.macro.Context.typeof(e); "none"; } catch (err:haxe.macro.Expr.Error) err.message;
+		return macro $v{msg};
+	}
+	static function show(s:String) {}
+	static function main() {
+		var a:Any = 1;
+		show(errText(a[0]));
+		show(errText(a.f));
+	}
+}
+
+--- abstract-to-cast-types-are-followed
+typedef OtherStruct = {b:Int};
+abstract C(Int) {
+	public function new(i) this = i;
+	@:to function toS():OtherStruct return {b: this};
+	@:to function toN():Null<Float> return this;
+	@:to function toU() return "x";
+	@:to function toD():Dynamic return this;
+	@:to static function toP(v:Int, ?p:haxe.PosInfos):Array<Int> return [v];
+}
+class P {
+	macro static function casts() {
+		switch (haxe.macro.Context.getType("C")) {
+			case TAbstract(a, _): for (c in a.get().to) trace(haxe.macro.TypeTools.toString(c.t) + " " + (c.field == null ? "-" : c.field.name));
+			case _:
+		}
+		return macro null;
+	}
+	static function main() {
+		casts();
+		var c = new C(1);
+		var s:OtherStruct = c;
+		var u:String = c;
+		var a:Array<Int> = c;
+	}
+}
+
+--- generic-class-instance-method-parameters-belong-to-the-instance
+@:generic class C2<T> {
+	public function new() {}
+	@:generic public function test<S:T>(s:S) {}
+}
+class P {
+	macro static function show() {
+		switch (haxe.macro.Context.getType("C2_String")) {
+			case TInst(c, _):
+				for (f in c.get().fields.get()) for (p in f.params) switch (p.t) {
+					case TInst(pc, _): trace(f.name + " " + p.name + " " + pc.get().module);
+					case _:
+				}
+			case _:
+		}
+		return macro null;
+	}
+	static function main() {
+		var x = new C2<String>();
+		x.test("foo");
+		show();
+	}
+}
+
+--- a-macro-modules-failing-static-initializer-ends-the-compile
+class M {
+	static var x:Int = boom();
+	static function boom():Int { Sys.println("static init ran"); throw "boom"; }
+	public static macro function f() { Sys.println("macro ran"); return macro null; }
+}
+class P {
+	static function main() { M.f(); }
+}
+
+--- a-macro-called-in-its-own-module-is-macro-in-macro
+class M {
+	public static macro function say(s:String) { Sys.println("typed " + s); return macro null; }
+}
+class P {
+	static function s1() { M.say("s1"); }
+	static var sv = M.say("sv");
+	static function main() { M.say("main"); }
+}
+
+--- field-bodies-type-in-declaration-order
+class P {
+	static function s1() { MSAY.say("s1"); }
+	function i1() { MSAY.say("i1"); }
+	public function new() { MSAY.say("ctor"); }
+	static function s2() { MSAY.say("s2"); }
+	var v1 = MSAY.say("v1");
+	static var sv = MSAY.say("sv");
+	function i2() { MSAY.say("i2"); }
+	static function main() { MSAY.say("main"); }
+}
+
+--- eval-strings-are-bytes
+class P { static function main() { MSTR.bytes(); } }
+
+--- eval-native-exception-after-recorded-warnings
+class P { static function main() { MSTR.fatal(); } }
+
+--- eval-ereg-on-bytes
+class P { static function main() { MREG.bytes(); } }
+
+--- eval-ereg-map-bad-utf
+class P { static function main() { MREG.mapBadUtf(); } }
+
+--- eval-ereg-map-bad-offset
+class P { static function main() { MREG.mapBadOffset(); } }
+
+--- eval-ereg-matched-pos-bad-utf
+class P { static function main() { MREG.posBadUtf(); } }
+
+--- eval-luv-sync
+class P { static function main() { MLUV.sync(); } }
+
+--- eval-luv-loop
+class P { static function main() { MLUV.loop(); } }
+
+--- eval-luv-errors
+class P { static function main() { MLUV.errors(); } }
+
+--- eval-luv-overlay-reflection
+class P { static function main() { MLUV.reflection(); } }
+
+--- eval-instance-fields-ptmap-order
+class P { static function main() { MLUV.fields(); } }
+
+--- eval-luv-callback-exception
+class P { static function main() { MLUV.callbackException(); } }
+
+--- eval-luv-close-exception
+class P { static function main() { MLUV.closeException(); } }
+
+--- eval-luv-unhandled-exception-handler
+class P { static function main() { MLUV.handler(); } }
+
+--- macro-sys-exit-in-expression-macro
+class P { static function main() { MEXIT.expr(); } }
+
+--- macro-sys-exit-in-build-macro
+@:build(MEXIT.build()) class P { static function main() {} }
+
+--- macro-native-exception-in-build-macro
+@:build(MEXIT.buildNative()) class P { static function main() {} }
+
+--- eval-integers-parse
+class P { static function main() { MINT.parse(); } }
+
+--- eval-integers-arithmetic
+class P { static function main() { MINT.arithmetic(); } }
+
+--- eval-luv-buffer
+class P { static function main() { MLUVA.buffer(); } }
+
+--- eval-luv-buffer-out-of-bounds
+class P { static function main() { MLUVA.outOfBounds(); } }
+
+--- eval-luv-buffer-char-of-int
+class P { static function main() { MLUVA.charOfInt(); } }
+
+--- eval-luv-sockaddr
+class P { static function main() { MLUVA.sockaddr(); } }
+
+--- eval-luv-env-process-environment
+class P { static function main() { MLUVA.env(); } }
+
+--- eval-luv-tcp-echo
+class P { static function main() { MLUVB.echo(); } }
+
+--- eval-luv-tcp-unconnected
+class P { static function main() { MLUVB.unconnected(); } }
+
+--- eval-luv-tcp-domains
+class P { static function main() { MLUVB.domains(); } }
+
+--- eval-luv-stream-decoders
+class P { static function main() { MLUVB.decoders(); } }
+
+--- eval-luv-signal
+class P { static function main() { MLUVB.signals(); } }
+
+--- eval-luv-connection-callback-exception
+class P { static function main() { MLUVB.callbackException(); } }
+
+--- eval-null-static-slot
+class P { static function main() { MLUVB.nullSlot(); } }
+
+--- eval-luv-udp
+class P { static function main() { MLUVC.udp(); } }
+
+--- eval-luv-connected-udp
+class P { static function main() { MLUVC.connected(); } }
+
+--- eval-luv-udp-errors
+class P { static function main() { MLUVC.udpErrors(); } }
+
+--- eval-luv-pipe
+class P { static function main() { MLUVC.pipe(); } }
+
+--- eval-luv-pipe-errors
+class P { static function main() { MLUVC.pipeErrors(); } }
+
+--- eval-luv-fs-event
+class P { static function main() { MLUVC.fsEvent(); } }
+
+--- eval-jit-missing-static-slot
+class P { static function main() { MJIT.go(); } }
+
+--- eval-jit-connected-udp-try-send
+class P { static function main() { MJITU.go(); } }
+
+--- eval-luv-file-sync
+class P { static function main() { MLUVD.sync(); } }
+
+--- eval-luv-file-async
+class P { static function main() { MLUVD.async(); } }
+
+--- eval-luv-dir
+class P { static function main() { MLUVD.dirs(); } }
+
+--- eval-luv-fs-poll
+class P { static function main() { MLUVD.poll(); } }
+
+--- eval-luv-file-errors
+class P { static function main() { MLUVD.errors(); } }
+
+--- eval-luv-random
+class P { static function main() { MLUVE.random(); } }
+
+--- eval-luv-dns
+class P { static function main() { MLUVE.dns(); } }
+
+--- eval-luv-process
+class P { static function main() { MLUVE.process(); } }
+
+--- eval-luv-threads
+class P { static function main() { MLUVE.threads(); } }
+
+--- eval-jit-dns-create-name-request
+class P { static function main() { MJITD.go(); } }
+
+--- eval-ssl-certificates
+class P { static function main() { MSSL.certificates(); } }
+
+--- eval-ssl-keys
+class P { static function main() { MSSL.keys(); } }
+
+--- eval-ssl-key-error-codes
+class P { static function main() { MSSL.keyErrorCodes(); } }
+
+--- eval-ssl-contexts
+class P { static function main() { MSSL.contexts(); } }
+
+--- eval-ssl-decoders
+class P { static function main() { MSSL.decoders(); } }
+
+--- with-imports-parse-unterminated-string
+class P { static function main() { MWI.check(['a"b'], [], [], [], []); } }
+
+--- with-imports-parse-missing-semicolon
+class P { static function main() { MWI.check(['a.'], [], [], [], []); } }
+
+--- with-imports-parse-two-dots
+class P { static function main() { MWI.check(['haxe..ds'], [], [], [], []); } }
+
+--- with-imports-parse-dot-then-semicolon
+class P { static function main() { MWI.check(['a.;'], [], [], [], []); } }
+
+--- with-imports-parse-empty
+class P { static function main() { MWI.check([''], [], [], [], []); } }
+
+--- with-imports-parse-number
+class P { static function main() { MWI.check(['1'], [], [], [], []); } }
+
+--- with-imports-parse-two-names
+class P { static function main() { MWI.check(['a b'], [], [], [], []); } }
+
+--- with-imports-parse-trailing-semicolon
+class P { static function main() { MWI.check(['haxe.ds.StringMap;'], [], [], [], []); } }
+
+--- with-imports-parse-in-without-a-name
+class P { static function main() { MWI.check(['haxe.ds.StringMap in'], [], [], [], []); } }
+
+--- with-imports-parse-as-without-a-name
+class P { static function main() { MWI.check(['haxe.ds.StringMap as'], [], [], [], []); } }
+
+--- with-imports-parse-past-a-wildcard
+class P { static function main() { MWI.check(['haxe.ds.*.x'], [], [], [], []); } }
+
+--- with-imports-parse-unclosed-conditional
+class P { static function main() { MWI.check(['#if true haxe.ds.StringMap'], [], [], [], []); } }
+
+--- with-imports-parse-conditional
+class P { static function main() { MWI.check(['#if true haxe.ds.StringMap #end'], [], ['StringMap'], [], []); } }
+
+--- with-imports-parse-spaces-and-a-comment
+class P { static function main() { MWI.check(['  haxe.ds.StringMap // c'], [], ['StringMap'], [], []); } }
+
+--- with-imports-parse-a-keyword-segment
+class P { static function main() { MWI.check(['haxe.macro.Context'], [], ['Context'], [], []); } }
+
+--- with-imports-using-parse-missing-name
+class P { static function main() { MWI.check([], ['a.'], [], [], []); } }
+
+--- with-imports-using-parse-unterminated-string
+class P { static function main() { MWI.check([], ['a"b'], [], [], []); } }
+
+--- with-imports-using-parse-empty
+class P { static function main() { MWI.check([], [''], [], [], []); } }
+
+--- with-imports-using-parse-two-names
+class P { static function main() { MWI.check([], ['a b'], [], [], []); } }
+
+--- with-imports-using-parse-trailing-semicolon
+class P { static function main() { MWI.check([], ['StringTools;'], [], [], []); } }
+
+--- with-imports-a-later-parse-error-first
+class P { static function main() { MWI.check(['haxe.ds.StringMap', 'a"b'], [], [], [], []); } }
+
+--- with-imports-a-using-parse-error-before-an-import-load
+class P { static function main() { MWI.check(['nope.Nope'], ['a"b'], [], [], []); } }
+
+--- with-imports-a-type
+class P { static function main() { MWI.check(['haxe.ds.StringMap'], [], ['StringMap'], [new StringMap<Int>()], ['StringMap']); } }
+
+--- with-imports-a-module-and-its-sub-types
+class P { static function main() { MWI.check(['wipk.WMod'], [], ['WMod', 'Sub', 'En', 'TD', 'Priv'], [modFn(), A], ['Sub']); } }
+
+--- with-imports-a-sub-type
+class P { static function main() { MWI.check(['wipk.WMod.Sub'], [], ['Sub', 'WMod'], [], []); } }
+
+--- with-imports-a-package-wildcard
+class P { static function main() { MWI.check(['haxe.ds.*'], [], ['StringMap', 'IntMap'], [new IntMap<Int>()], ['StringMap']); } }
+
+--- with-imports-a-type-wildcard
+class P { static function main() { MWI.check(['wipk.WMod.*'], [], [], [sfn(), sv], []); } }
+
+--- with-imports-an-enum-wildcard
+class P { static function main() { MWI.check(['wipk.WMod.En.*'], [], [], [B, C(1)], []); } }
+
+--- with-imports-an-in-alias
+class P { static function main() { MWI.check(['haxe.ds.StringMap in SM'], [], ['SM'], [new SM<Int>()], ['SM']); } }
+
+--- with-imports-an-as-alias
+class P { static function main() { MWI.check(['haxe.ds.StringMap as SM2'], [], ['SM2'], [], []); } }
+
+--- with-imports-an-alias-over-a-core-type
+class P { static function main() { MWI.check(['wipk.WMod.Sub in String'], [], ['String'], [], ['String']); } }
+
+--- with-imports-a-static-field
+class P { static function main() { MWI.check(['wipk.WMod.sfn'], [], [], [sfn()], []); } }
+
+--- with-imports-a-static-field-alias
+class P { static function main() { MWI.check(['wipk.WMod.sfn as g'], [], [], [g()], []); } }
+
+--- with-imports-a-module-field
+class P { static function main() { MWI.check(['wipk.WMod.modFn'], [], [], [modFn()], []); } }
+
+--- with-imports-a-sub-type-static
+class P { static function main() { MWI.check(['wipk.WMod.Sub.subFn'], [], [], [subFn()], []); } }
+
+--- with-imports-a-missing-static-field
+class P { static function main() { MWI.check(['wipk.WMod.nofield'], [], ['WMod'], [], []); } }
+
+--- with-imports-a-missing-sub-type-name
+class P { static function main() { MWI.check(['wipk.WMod.Nope'], [], ['WMod'], [], []); } }
+
+--- with-imports-a-sub-type-missing-field
+class P { static function main() { MWI.check(['wipk.WMod.Sub.nofield'], [], ['Sub'], [], []); } }
+
+--- with-imports-a-wildcard-without-statics
+class P { static function main() { MWI.check(['wipk.WMod.TD.*'], [], ['TD'], [], []); } }
+
+--- with-imports-a-using
+class P { static function main() { MWI.check([], ['StringTools'], [], ["abc".startsWith("a")], []); } }
+
+--- with-imports-a-using-of-a-sub-type
+class P { static function main() { MWI.check([], ['wipk.WMod.Ext'], ['Ext'], [3.twice()], []); } }
+
+--- with-imports-a-using-of-a-module
+class P { static function main() { MWI.check([], ['wipk.WMod'], ['Ext', 'WMod'], [3.twice()], ['Ext']); } }
+
+--- with-imports-a-using-of-a-missing-module
+class P { static function main() { MWI.check([], ['nope.Nope'], [], [], []); } }
+
+--- with-imports-a-using-of-a-package
+class P { static function main() { MWI.check([], ['haxe'], [], [], []); } }
+
+--- with-imports-imports-and-usings-together
+class P { static function main() { MWI.check(['haxe.ds.StringMap', 'StringTools.endsWith', 'StringTools.*', 'StringTools.startsWith as sw'], ['StringTools'], [], [{ StringMap; endsWith("foo", "o"); startsWith("foo", "o"); sw("foo", "f"); "foo".endsWith("o"); }], []); } }
+
+--- with-imports-the-same-twice
+class P { static function main() { MWI.check(['haxe.ds.StringMap', 'haxe.ds.StringMap'], ['StringTools', 'StringTools'], ['StringMap'], ["abc".startsWith("a")], []); } }
+
+--- with-imports-nested
+class P { static function main() { MWI.nested(); } }
+
+--- with-imports-callback-value
+class P { static function main() { MWI.callbackValue(); } }
+
+--- with-imports-callback-reports
+class P { static function main() { MWI.callbackReports(); } }
+
+--- with-imports-callback-throws
+class P { static function main() { MWI.callbackThrows(); } }
+
+--- with-imports-callback-throws-a-macro-error
+class P { static function main() { MWI.callbackThrowsMacroError(); } }
+
+--- with-imports-callback-api-error
+class P { static function main() { MWI.callbackApiError(); } }
+
+--- with-imports-null-callback
+class P { static function main() { MWI.badArgument("null-callback"); } }
+
+--- with-imports-callback-not-a-function
+class P { static function main() { MWI.badArgument("not-a-function"); } }
+
+--- with-imports-null-imports
+class P { static function main() { MWI.badArgument("null-imports"); } }
+
+--- with-imports-null-usings
+class P { static function main() { MWI.badArgument("null-usings"); } }
+
+--- with-imports-null-import-string
+class P { static function main() { MWI.badArgument("null-element"); } }
+
+--- with-imports-parse-before-the-callback
+class P { static function main() { MWI.badArgument("parse-before-callback"); } }
+
+--- with-imports-imports-before-usings
+class P { static function main() { MWI.badArgument("imports-before-usings"); } }
+
+--- with-imports-parse-error-escapes-a-try
+class P { static function main() { MWI.escapesTry("parse"); } }
+
+--- with-imports-using-load-error-escapes-a-try
+class P { static function main() { MWI.escapesTry("using-load"); } }
+
+--- with-imports-no-statics-escapes-a-try
+class P { static function main() { MWI.escapesTry("no-statics"); } }
+
+--- with-imports-init-unterminated-string + --macro MWI.init('unterminated-string')
+class P { static function main() {} }
+
+--- with-imports-init-missing-semicolon + --macro MWI.init('missing-semicolon')
+class P { static function main() {} }
+
+--- with-imports-init-using-missing-name + --macro MWI.init('using-missing-name')
+class P { static function main() {} }
+
+--- with-imports-init-a-type + --macro MWI.init('type')
+class P { static function main() {} }
+
+--- with-imports-init-a-module + --macro MWI.init('module')
+class P { static function main() {} }
+
+--- with-imports-init-an-in-alias + --macro MWI.init('in-alias')
+class P { static function main() {} }
+
+--- with-imports-init-a-package-wildcard + --macro MWI.init('wildcard')
+class P { static function main() {} }
+
+--- with-imports-init-a-using-of-a-missing-module + --macro MWI.init('using-missing-module')
+class P { static function main() {} }
+
+--- with-imports-init-a-wildcard-without-statics + --macro MWI.init('no-statics')
+class P { static function main() {} }
+
+--- with-imports-init-package-wildcard-after-the-call + --macro MWI.init('wildcard-after')
+class P { static function main() {} }
+
+--- with-imports-init-type-expr + --macro MWI.init('type-expr')
+class P { static function main() {} }
+
+--- with-imports-init-callback-throws + --macro MWI.init('callback-throws')
+class P { static function main() {} }
+
+--- init-macro-type-expr-in-the-host-world + --macro MHT.go('type-expr-world')
+class P { static function main() {} }
+
+--- init-macro-type-expr-plain + --macro MHT.go('type-expr-plain')
+class P { static function main() {} }
+
+--- init-macro-type-expr-return-outside-a-function + --macro MHT.go('type-expr-return')
+class P { static function main() {} }
+
+--- init-macro-type-expr-this + --macro MHT.go('type-expr-this')
+class P { static function main() {} }
+
+--- init-macro-type-expr-leaves-no-local + --macro MHT.go('type-expr-local')
+class P { static function main() {} }
+
+--- init-macro-typeof + --macro MHT.go('typeof')
+class P { static function main() {} }
+
+--- init-macro-store-expr + --macro MHT.go('store-expr')
+class P { static function main() {} }
+
+--- init-macro-type-and-store-expr + --macro MHT.go('type-and-store')
+class P { static function main() {} }
+
+--- init-macro-get-typed-expr + --macro MHT.go('get-typed-expr')
+class P { static function main() {} }
+
+--- init-macro-store-typed-expr + --macro MHT.go('store-typed-expr')
+class P { static function main() {} }
+
+--- init-macro-unify + --macro MHT.go('unify')
+class P { static function main() {} }
+
+--- init-macro-resolve-type + --macro MHT.go('resolve-type')
+class P { static function main() {} }
+
+--- init-macro-resolve-type-not-imported + --macro MHT.go('resolve-type-not-imported')
+class P { static function main() {} }
+
+--- init-macro-local-context + --macro MHT.go('locals')
+class P { static function main() {} }
+
+--- init-macro-with-imports-type-expr + --macro MHT.go('with-imports-type-expr')
+class P { static function main() {} }
+
+--- init-macro-with-imports-using-type-expr + --macro MHT.go('with-imports-using-type-expr')
+class P { static function main() {} }
+
+--- init-macro-package-wildcard-after-the-call + --macro MHT.go('wildcard-after')
+class P { static function main() {} }
+
+--- init-macro-package-wildcard-in-a-later-init-macro + --macro MHT.go('wildcard-set') --macro MHT.go('wildcard-read')
+class P { static function main() {} }
+
+--- init-macro-after-init-callback-in-the-host-world + --macro MHT.go('after-init')
+class P { static function main() {} }
+
+--- init-macro-after-init-callback-sees-the-wildcard + --macro MHT.go('after-init-wildcard')
+class P { static function main() {} }
+
+--- init-macro-type-expr-error-escapes + --macro MHT.go('type-expr-error-uncaught')
+class P { static function main() {} }
+
+--- init-macro-type-expr-return-error-escapes + --macro MHT.go('type-expr-return-uncaught')
+class P { static function main() {} }
+
+--- type-and-store-expr-answers-a-marker-and-a-ref
+class P { static function main() { $type(MHT.typeAndStore()); } }
+
+--- with-options-init-callback-throws + --macro MCP.init('options-callback-throws')
+class P { static function main() {} }
+
+--- init-callback-calls-a-throwing-helper + --macro MCP.init('callback-calls-a-throwing-helper')
+class P { static function main() {} }
+
+--- init-callback-native-fails + --macro MCP.init('callback-native-fails')
+class P { static function main() {} }
+
+--- init-callback-in-a-callback-throws + --macro MCP.init('callback-in-a-callback-throws')
+class P { static function main() {} }
+
+--- init-callback-throws-past-a-try + --macro MCP.init('callback-throws-past-a-try')
+class P { static function main() {} }
+
+--- init-macro-throws + --macro MCP.init('throws')
+class P { static function main() {} }
+
+--- init-macro-native-fails + --macro MCP.init('native-fails')
+class P { static function main() {} }
+
+--- init-macro-depth + --macro MCP.init('depth')
+class P { static function main() {} }
+
+--- init-error-in-a-callback-then-throws + --macro MCP.init('error-in-a-callback-then-throws')
+class P { static function main() {} }
+
+--- init-error-then-throws + --macro MCP.init('error') --macro MCP.init('throws')
+class P { static function main() {} }
+
+--- init-error-then-callback-throws + --macro MCP.init('error') --macro MCP.init('options-callback-throws')
+class P { static function main() {} }
+
+--- init-error-then-depth + --macro MCP.init('error') --macro MCP.init('depth')
+class P { static function main() {} }
+
+--- init-error-then-expression-depth + --macro MCP.init('error')
+class P { static function main() { MCP.depthNow(); } }
+
+--- init-after-init-callback-throws + --macro MCP.init('after-init-throws')
+class P { static function main() {} }
+
+--- build-callback-throws
+@:build(MCP.buildCallbackThrows()) class P { static function main() {} }
+
+--- expression-error-then-throws
+class P { static function main() { MCP.error(); MCP.throws(); } }
+
+--- expression-callback-error-then-throws
+class P { static function main() { MCP.callbackThrows(); MCP.throws(); } }
+
+--- build-throws-indented + -D message.reporting=indent
+@:build(MCP.buildThrows()) class P { static function main() {} }
+
+--- build-callback-throws-indented + -D message.reporting=indent
+@:build(MCP.buildCallbackThrows()) class P { static function main() {} }
+
+--- build-throws-a-macro-error
+@:build(MCP.buildMacroError()) class P { static function main() {} }
+
+--- build-type-expr-fails
+@:build(MCP.buildTypeExprFails()) class P { static function main() {} }
+
+--- build-depth
+@:build(MCP.buildDepth()) class P { static function main() {} }
+
+--- enum-build-callback-throws
+@:build(MCP.buildCallbackThrows()) enum E { A; }
+class P { static function main() { var e = E.A; } }
+
+--- enum-build-throws-a-macro-error
+@:build(MCP.buildMacroError()) enum E { A; }
+class P { static function main() { var e = E.A; } }
+
+--- body-forced-build-callback-throws
+class P { static function main() { var x = 1; MCPQ.f(); var y:Int = "s"; } }
+
+--- body-forced-build-callback-throws-in-a-var
+class P { static function main() { var v = MCPQ.f(); var y:Int = "s"; } }
+
+--- body-forced-build-callback-throws-in-an-argument + -D message.reporting=indent
+class P { static function main() { trace(MCPQ.f()); var y:Int = "s"; } }
+
+--- body-forced-build-throws-a-macro-error
+class P { static function main() { var x = 1; MCPR.f(); var y:Int = "s"; } }
+
+--- expression-macro-throws-in-an-argument-indented + -D message.reporting=indent
+class P { static function main() { trace(MCP.throws()); var y:Int = "s"; } }
+
+--- expression-error-then-depth
+class P { static function main() { MCP.error(); MCP.depthNow(); } }
+
+--- expression-callback-error-then-depth
+class P { static function main() { MCP.callbackThrows(); MCP.depthNow(); } }
+
+--- generic-build-throws
+@:genericBuild(MCP.typeThrows()) class G<T> {}
+class P { static function main() { var g:G<Int> = null; } static function other() { var z:Int = "t"; } }
+
+--- generic-build-callback-throws
+@:genericBuild(MCP.typeCallbackThrows()) class G<T> {}
+class P { static function main() { var g:G<Int> = null; } }
+
+--- generic-build-reports
+@:genericBuild(MCP.typeReports()) class G<T> {}
+class P { static function main() { var g:G<Int> = null; var y:Int = "s"; } }
+
+--- generic-build-depth
+@:genericBuild(MCP.typeDepth()) class G<T> {}
+class P { static function main() { var g:G<Int> = 1; } }
+
+--- macro-type-throws
+class P { static function main() { var x:haxe.macro.MacroType<[MCP.typeThrows()]> = null; } static function other() { var z:Int = "t"; } }
+
+--- macro-type-callback-throws
+class P { static function main() { var x:haxe.macro.MacroType<[MCP.typeCallbackThrows()]> = null; } }
+
+--- macro-type-reports
+class P { static function main() { var x:haxe.macro.MacroType<[MCP.typeReports()]> = null; var y:Int = "s"; } }
+
+--- macro-type-depth
+class P { static function main() { var x:haxe.macro.MacroType<[MCP.typeDepth()]> = 1; } }
+
+--- expression-macro-api-error-in-an-argument
+class P { static function main() { trace(MCP.apiError()); } }
+
+--- expression-macro-api-error-in-an-initializer
+class P { static var v:Int = MCP.apiError(); static function main() {} static function other() { var y:Int = "s"; } }
+
+--- after-init-throw-ends-the-run + --macro MAI.init('throw-then-print')
+class P { static function main() {} }
+
+--- after-init-print-then-throw + --macro MAI.init('print-then-throw')
+class P { static function main() {} }
+
+--- after-init-error-then-the-next-runs + --macro MAI.init('error-then-print')
+class P { static function main() {} }
+
+--- after-init-error-leaves-its-frames + --macro MAI.init('error-then-throw')
+class P { static function main() {} }
+
+--- after-init-report-error-then-the-next-runs + --macro MAI.init('report-error-then-print')
+class P { static function main() {} }
+
+--- after-init-macro-error + --macro MAI.init('macro-error')
+class P { static function main() {} }
+
+--- after-init-fatal-error + --macro MAI.init('fatal')
+class P { static function main() {} }
+
+--- after-init-native-fails + --macro MAI.init('native-fails')
+class P { static function main() {} }
+
+--- after-init-typing-error + --macro MAI.init('typing-fails')
+class P { static function main() {} }
+
+--- after-init-throwing-helper + --macro MAI.init('helper')
+class P { static function main() {} }
+
+--- after-init-bound-method + --macro MAI.init('bound-method')
+class P { static function main() {} }
+
+--- after-init-registered-while-running + --macro MAI.init('registered-while-running')
+class P { static function main() {} }
+
+--- after-init-caught + --macro MAI.init('caught')
+class P { static function main() {} }
+
+--- after-init-two-init-macros + --macro MAI.init('print') --macro MAI.init('throws')
+class P { static function main() {} }
+
+--- after-init-throw-before-typing + --macro MAI.init('throws')
+class P { static function main() { var x:Int = "s"; } }
+
+--- after-init-error-then-typing + --macro MAI.init('error-then-print')
+class P { static function main() { var x:Int = "s"; } }
+
+--- after-init-throw-after-an-init-error + --macro MAI.init('error') --macro MAI.init('throws')
+class P { static function main() {} }
+
+--- help-user-defines-before-a-callback + --help-user-defines --macro MAI.init('register') --macro MAI.init('print')
+class P { static function main() {} }
+
+--- help-user-defines-before-a-throwing-callback + --help-user-defines --macro MAI.init('register') --macro MAI.init('throws')
+class P { static function main() {} }
+
+--- help-user-defines-then-metas + --help-user-defines --help-user-metas --macro MAI.init('register')
+class P { static function main() {} }
+
+--- help-user-metas-then-defines + --help-user-metas --help-user-defines --macro MAI.init('register')
+class P { static function main() {} }
+
+--- help-user-defines-keeps-a-warning + --help-user-defines --macro MAI.init('register') --macro MAI.init('warn')
+class P { static function main() {} }
+
+--- help-user-defines-keeps-an-error + --help-user-defines --macro MAI.init('register') --macro MAI.init('error')
+class P { static function main() {} }
+
+--- macro-error-children-init + --macro MAI.init('children')
+class P { static function main() {} }
+
+--- macro-error-children-init-indent + -D message.reporting=indent --macro MAI.init('children')
+class P { static function main() {} }
+
+--- macro-error-empty-children-init + --macro MAI.init('empty-children')
+class P { static function main() {} }
+
+--- macro-error-child-not-an-error + --macro MAI.init('bad-child')
+class P { static function main() {} }
+
+--- macro-error-children-with-options + --macro MAI.init('options-children')
+class P { static function main() {} }
+
+--- macro-error-children-after-init + --macro MAI.init('after-init-children')
+class P { static function main() {} }
+
+--- macro-error-children-expression
+class P { static function main() { MAI.throwChildren(); var x:Int = "after"; } }
+
+--- macro-error-children-expression-indent + -D message.reporting=indent
+class P { static function main() { MAI.throwChildren(); var x:Int = "after"; } }
+
+--- macro-error-children-after-typing + --macro MAI.init('after-typing-children')
+class P { static function main() {} }
+
+--- macro-error-children-on-generate + --macro MAI.init('generate-children')
+class P { static function main() {} }
+
+--- macro-error-children-after-generate + --macro MAI.init('after-generate-children')
+class P { static function main() {} }
+
+--- macro-error-children-type-not-found + --macro MAI.init('type-not-found-children')
+class P { static function main() { var x:NopeType = null; } }

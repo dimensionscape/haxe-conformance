@@ -1,0 +1,23 @@
+{
+	"not-enough-arguments": "P.hx:1: characters 98-102 : Not enough arguments, expected b:String",
+	"not-enough-arguments-none-given": "P.hx:1: characters 88-91 : Not enough arguments, expected a:Int",
+	"too-many-arguments": "P.hx:1: characters 92-93 : Too many arguments",
+	"too-many-arguments-past-optionals": "P.hx:1: characters 118-119 : Too many arguments",
+	"too-many-arguments-all-optional": "P.hx:1: characters 108-109 : Too many arguments",
+	"argument-type-mismatch-is-decorated": "P.hx:1: characters 100-103 : String should be Int\nP.hx:1: characters 100-103 : ... For function argument 'a'",
+	"skip-optional-to-reach-a-later-argument": "",
+	"skip-defaulted-to-reach-a-later-argument": "",
+	"rest-mismatch-cross": "P.hx:1: characters 96-99 : String should be Int\nP.hx:1: characters 96-99 : ... For function argument 'rest'",
+	"rest-mismatch-js": "P.hx:1: characters 96-99 : String should be Int\nP.hx:1: characters 96-99 : ... For function argument 'rest'",
+	"rest-spread-not-last-cross": "P.hx:1: characters 132-136 : Cannot spread arguments with additional rest arguments\nP.hx:1: characters 132-136 : ... For function argument 'rest'",
+	"rest-spread-not-last-js": "P.hx:1: characters 132-136 : Cannot spread arguments with additional rest arguments\nP.hx:1: characters 132-136 : ... For function argument 'rest'",
+	"rest-spread-of-the-wrong-element-type-cross": "P.hx:1: characters 128-129 : Array<String> should be haxe.Rest<Int>\nP.hx:1: characters 128-129 : ... For function argument 'rest'",
+	"rest-spread-of-the-wrong-element-type-js": "P.hx:1: characters 128-129 : Array<String> should be haxe.Rest<Int>\nP.hx:1: characters 128-129 : ... For function argument 'rest'",
+	"rest-accepts-many-cross": "",
+	"rest-accepts-many-js": "",
+	"rest-accepts-none-cross": "",
+	"rest-accepts-a-spread-cross": "",
+	"rest-accepts-a-spread-js": "",
+	"rest-of-dynamic-accepts-mixed": "",
+	"array-write-value-is-typed-once": "idx two setters typed (1)"
+}

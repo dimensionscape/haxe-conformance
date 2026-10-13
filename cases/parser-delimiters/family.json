@@ -1,0 +1,12 @@
+{
+	"name": "parser-delimiters",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "quick",
+	"args": [
+		"-cp",
+		".",
+		"P",
+		"--no-output"
+	]
+}

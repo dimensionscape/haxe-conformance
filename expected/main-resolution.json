@@ -1,0 +1,14 @@
+{
+	"a-private-main-class": "Cannot access private type P in module P",
+	"main-names-an-enum": "Invalid -main : P is not a class",
+	"main-names-a-typedef": "Invalid -main : P is not a class",
+	"main-names-an-abstract": "Invalid -main : P is not a class",
+	"the-module-does-not-define-that-type": "Module pk.Mod does not define type Mod",
+	"no-static-main": "P.hx:1: characters 7-8 : Invalid -main : P does not have static function main",
+	"main-is-not-static": "P.hx:1: characters 7-8 : Invalid -main : P does not have static function main",
+	"main-takes-an-argument": "P.hx:1: characters 1-43 : Invalid -main : P has invalid main function",
+	"main-returns-int": "P.hx:1: characters 27-31 : Return type of main function should be Void (found Int)",
+	"main-returns-void-explicitly": "",
+	"a-plain-main-still-compiles": "",
+	"main-on-a-module-level-static": ""
+}

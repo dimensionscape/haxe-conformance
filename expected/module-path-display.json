@@ -1,0 +1,4 @@
+{
+	"type-path-completion-after-an-underscore-led-module": "<list>\n<i n=\"X1\" k=\"type\"><t>usc.X1</t><d></d></i>\n<i n=\"_Foo\" k=\"type\"><t>usc._Foo</t><d></d></i>\n</list>",
+	"type-path-completion-after-a-digit-led-module": "<list>\n<i n=\"Z\" k=\"type\"><t>usc.Z</t><d></d></i>\n</list>"
+}

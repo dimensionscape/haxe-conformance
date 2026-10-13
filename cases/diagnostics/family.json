@@ -1,0 +1,18 @@
+{
+	"name": "diagnostics",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "quick",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"$module",
+		"--no-output",
+		"--display",
+		"{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/diagnostics\",\"params\":{\"file\":\"$FILEJSON\"}}"
+	],
+	"live": [
+		"two-file-buckets-come-out-in-hash-order"
+	]
+}

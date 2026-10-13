@@ -1,0 +1,13 @@
+tests/*/bin/
+tests/sys/test-res/
+tests/misc/projects/**/*.n
+tests/misc/projects/**/js.js
+tests/misc/projects/**/whatever.js
+tests/misc/projects/inline-constructors/extern.js
+tests/misc/projects/inline-constructors/force-inline.js
+tests/sys/*-out.txt
+tests/sys/*-err.txt
+tests/threads/*-out.txt
+tests/threads/*-err.txt
+tests/unit/out-*.txt
+tests/unit/issue3088-*.txt

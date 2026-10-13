@@ -1,0 +1,16 @@
+{
+	"bare-body-not-found-twice": "P.hx:2: characters 26-30 : Type not found : Nope",
+	"bare-body-not-found-then-block-unify": "P.hx:2: characters 26-30 : Type not found : Nope",
+	"block-unify-then-bare-body-not-found": "P.hx:2: characters 24-40 : String should be Int\nP.hx:3: characters 26-30 : Type not found : Nope",
+	"block-bare-block": "P.hx:2: characters 28-32 : Type not found : Nope\nP.hx:3: characters 26-30 : Type not found : Nope",
+	"bare-body-unknown-identifier-twice": "P.hx:2: characters 22-26 : Unknown identifier : nope",
+	"bare-body-dotted-call-twice": "P.hx:2: characters 22-26 : Type not found : Nope",
+	"initializer-not-found-twice": "P.hx:2: characters 21-25 : Type not found : Nope",
+	"initializer-then-body": "P.hx:2: characters 21-25 : Type not found : Nope",
+	"bare-body-unify-verdict-is-recorded": "P.hx:3: characters 22-29 : String should be Int\nP.hx:4: characters 22-29 : String should be Int",
+	"bare-body-var-is-recorded": "P.hx:2: characters 22-25 : String should be Int\nP.hx:3: characters 22-25 : String should be Int",
+	"bare-body-return-is-recorded": "P.hx:2: characters 33-37 : Type not found : Nope\nP.hx:3: characters 33-37 : Type not found : Nope",
+	"instance-bare-body-twice": "P.hx:2: characters 19-23 : Type not found : Nope",
+	"second-class-never-typed": "P.hx:2: characters 22-31 : Type not found : Issue3390",
+	"bare-body-then-bad-heritage": "P.hx:4: characters 17-22 : Type not found : Nope2"
+}

@@ -1,0 +1,91 @@
+--- best-rated-overload-is-called
+class A {
+	public function new() {}
+	extern overload public inline function f(a:Int):String return "f:Int";
+	extern overload public inline function f(a:Float):String return "f:Float";
+	extern overload public inline function g(a:Float, ?b:Int):String return "g:Float,?Int";
+	extern overload public inline function g(a:Float):String return "g:Float";
+	extern overload public inline function h(a:Dynamic):String return "h:Dynamic";
+	extern overload public inline function h(a:String):String return "h:String";
+	extern overload public inline function k(a:Array<Int>):String return "k:Array";
+	extern overload public inline function k(a:Iterable<Int>):String return "k:Iterable";
+	extern overload public inline function m(...a:Int):String return "m:Rest";
+	extern overload public inline function m(a:Int):String return "m:Int";
+	extern overload public inline function n(a:Float):String return "n:Float";
+	extern overload public inline function n(a:Int):String return "n:Int";
+}
+class P {
+	static function main() {
+		var a = new A();
+		Sys.println([a.f(1), a.f(1.5), a.g(2.0), a.h("s"), a.k([1]), a.m(1), a.n(1)].join(" "));
+	}
+}
+
+--- equally-good-overloads-are-ambiguous
+class A {
+	public function new() {}
+	extern overload public inline function f(a:Int, b:Float):String return "Int,Float";
+	extern overload public inline function f(a:Float, b:Int):String return "Float,Int";
+}
+class P { static function main() { Sys.println(new A().f(1, 1)); } }
+
+--- inherited-overload-is-a-candidate
+class A {
+	public function new() {}
+	extern overload public inline function f(a:Int):String return "A.f:Int";
+}
+class B extends A {
+	extern overload public inline function f(a:String):String return "B.f:String";
+}
+class P { static function main() { var b = new B(); Sys.println(b.f(1) + " " + b.f("s")); } }
+
+--- private-overload-is-checked-at-the-call
+class A {
+	public function new() {}
+	extern overload inline function f(a:Int):String return "f:Int";
+	extern overload inline function f(a:String):String return "f:String";
+	extern overload inline function g(a:Int):String return "g:Int";
+}
+class P { static function main() { var a = new A(); Sys.println(a.f(1) + a.g(1)); } }
+
+--- same-typed-signature-is-a-duplicate
+class A {
+	public function new() {}
+	extern overload public inline function o(a:Null<Int>):String return "o:Null<Int>";
+	extern overload public inline function o(a:Int):String return "o:Int";
+}
+class P { static function main() { Sys.println(new A().o(1)); } }
+
+--- dynamic-override-of-a-normal-method
+class A {
+	public function new() {}
+	public dynamic function f() return "A.f";
+	public function g() return "A.g";
+}
+class B extends A {
+	override public function f() return "B.f";
+	override public dynamic function g() return "B.g";
+}
+class P { static function main() { Sys.println(new B().f() + new B().g()); } }
+
+--- override-through-a-generic-parent
+class Base<T> { public function new() {} public function f(x:T):String return "Base"; }
+class Mid<U> extends Base<U> {}
+class C extends Mid<Int> { override public function f(x:Int):String return "C"; }
+class P { static function main() { Sys.println(new C().f(1)); } }
+
+--- override-nothing-suggests-a-name
+class A { public function new() {} public function toString() return "A"; public function tostr() return "x"; }
+class B extends A { override public function tostring() return "B"; }
+class P { static function main() { Sys.println(new B()); } }
+
+--- abstract-method-implemented-by-an-abstract-parent
+abstract class A { public function new() {} abstract public function f():String; abstract public function g(x:Int):String; }
+abstract class B extends A { public function f() return "B.f"; }
+class C extends B { public function g(x:Int) return "C.g"; }
+class P { static function main() { Sys.println(new C().f() + new C().g(1)); } }
+
+--- missing-abstract-methods-in-name-order
+abstract class A { public function new() {} abstract public function zeta():String; abstract public function alpha(x:Int, y:String):String; abstract public function mid():Void; }
+class C extends A { }
+class P { static function main() { Sys.println(new C()); } }

@@ -1,0 +1,17 @@
+{
+	"guarded-case-leaves-the-constructor-whole": "P.hx:2: characters 57-58 : Unmatched patterns: A",
+	"guarded-case-on-an-argument-less-constructor": "P.hx:2: characters 57-58 : Unmatched patterns: A",
+	"guarded-case-on-a-bool-subject": "P.hx:1: characters 58-59 : Unmatched patterns: true",
+	"guard-on-the-last-case-only": "P.hx:2: characters 57-58 : Unmatched patterns: B",
+	"constant-sub-pattern-reports-the-refined-shape": "P.hx:2: characters 69-70 : Unmatched patterns: A(_)",
+	"missing-constructor-reports-whole": "P.hx:2: characters 57-58 : Unmatched patterns: A",
+	"missing-constructor-alongside-an-unrelated-error": "P.hx:2: characters 61-62 : Unmatched patterns: A\nP.hx:2: characters 76-84 : Int should be String",
+	"variable-sub-pattern-covers-the-constructor": "",
+	"or-pattern-covers-two-constructors": "",
+	"ill-typed-sub-pattern-still-reports-unmatched": "P.hx:2: characters 73-76 : String should be Int\nP.hx:2: characters 73-76 : Unmatched patterns: A(_)\nP.hx:2: characters 89-97 : Int should be String",
+	"ill-typed-or-pattern-under-a-guard-still-reports-unmatched": "P.hx:2: characters 78-79 : String should be Int\nP.hx:2: characters 66-67 : Unmatched patterns: A | B\nP.hx:2: characters 111-119 : Int should be String",
+	"an-ident-naming-a-local-still-captures": "",
+	"a-conflicting-or-pattern-binding-is-still-rejected": "P.hx:2: characters 69-70 : Variable v must appear exactly once in each sub-pattern",
+	"a-compatible-or-pattern-binding-is-usable": "",
+	"an-exhaustive-switch-as-a-value": ""
+}

@@ -1,0 +1,58 @@
+--- guarded-case-leaves-the-constructor-whole
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case A(v) if (true): trace(v); case B: } } }
+
+--- guarded-case-on-an-argument-less-constructor
+enum E { A; B; }
+class P { static function main() { var e:E = B; switch (e) { case A if (true): case B: } } }
+
+--- guarded-case-on-a-bool-subject
+class P { static function main() { var b = true; switch (b) { case true if (1 > 0): case false: } } }
+
+--- guard-on-the-last-case-only
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case A(v): trace(v); case B if (true): } } }
+
+--- constant-sub-pattern-reports-the-refined-shape
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case A(1): case B: } } }
+
+--- missing-constructor-reports-whole
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case B: } } }
+
+--- missing-constructor-alongside-an-unrelated-error
+enum E { A(v:Int); B; }
+class P { static function f():String { var e:E = B; switch (e) { case B: } return 1; } static function main() { f(); } }
+
+--- variable-sub-pattern-covers-the-constructor
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case A(v): trace(v); case B: } } }
+
+--- or-pattern-covers-two-constructors
+enum E { A(v:Int); B(v:String); C(v:Int); }
+class P { static function main() { var e:E = C(1); switch (e) { case A(v) | C(v): trace(v); case B(_): } } }
+
+--- ill-typed-sub-pattern-still-reports-unmatched
+enum E { A(v:Int); B; }
+class P { static function f():String { var e:E = B; switch (e) { case A("s"): case B: } return 1; } static function main() { f(); } }
+
+--- ill-typed-or-pattern-under-a-guard-still-reports-unmatched
+enum E { A(v:Int); B(v:String); }
+class P { static function f():String { var e:E = B("x"); switch (e) { case A(v) | B(v) if (true): trace(v); } return 1; } static function main() { f(); } }
+
+--- an-ident-naming-a-local-still-captures
+enum E { A; B; }
+class P { static function main() { var e:E = A; var x = 5; switch (e) { case x: trace(x); } } }
+
+--- a-conflicting-or-pattern-binding-is-still-rejected
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; switch (e) { case A(v) | B: trace(v); } } }
+
+--- a-compatible-or-pattern-binding-is-usable
+enum E { A(v:Int); C(v:Int); B; }
+class P { static function main() { var e:E = C(1); switch (e) { case A(v) | C(v): trace(v + 1); case B: } } }
+
+--- an-exhaustive-switch-as-a-value
+enum E { A(v:Int); B; }
+class P { static function main() { var e:E = B; var r = switch (e) { case A(v): v; case B: 0; }; trace(r); } }

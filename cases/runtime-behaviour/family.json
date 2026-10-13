@@ -1,0 +1,14 @@
+{
+	"name": "runtime-behaviour",
+	"oracle": "expected",
+	"kind": "run",
+	"cost": "medium",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"--main",
+		"$module",
+		"--interp"
+	]
+}

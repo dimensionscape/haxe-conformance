@@ -1,0 +1,22 @@
+--- non-physical-property-read-in-its-own-getter
+class P { public var p(get,set):Int; function get_p() return p;
+	function set_p(v) { p = v; return v; } static function main() {} }
+
+--- non-physical-property-with-isvar-is-clean
+class P { @:isVar public var p(get,set):Int; function get_p() return p;
+	function set_p(v) { p = v; return v; } static function main() {} }
+
+--- pattern-binding-sharing-a-non-physical-property-name
+private enum E { A; B(n:Int); }
+class P { var e:E; var n(get,never):Null<Int>;
+	function get_n() return switch (e) { case A: null; case B(n): n; }
+	static function main() { new P(); }
+	function new() { e = B(12); } }
+
+--- read-only-property-read-in-its-own-getter
+class P { public var q(get,never):Int; function get_q() return q;
+	static function main() {} }
+
+--- physical-property-read-in-its-own-getter-is-clean
+class P { public var r(default,set):Int; function set_r(v) { r = v; return v; }
+	static function main() {} }

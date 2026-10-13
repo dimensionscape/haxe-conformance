@@ -1,0 +1,1106 @@
+--- field-completion-on-a-string + --display P.hx@50
+class P { static function main() { var s = "x"; s.} }
+
+--- field-completion-on-an-array + --display P.hx@50
+class P { static function main() { var a = [1]; a.} }
+
+--- field-completion-on-a-class + --display P.hx@39
+class P { static function main() { Std.} }
+
+--- field-completion-on-an-anon + --display P.hx@52
+class P { static function main() { var o = {a:1}; o.} }
+
+--- field-completion-on-an-enum + --display P.hx@48
+class P { static function main() { var e = haxe.ds.Option.None; e.} }
+
+--- completion-inside-a-call + --display P.hx@50
+class P { static function main() { Std.string(Std.) } }
+
+--- type-at-a-local + --display P.hx@49@type
+class P { static function main() { var s = "x"; s; } }
+
+--- type-of-a-call + --display P.hx@56@type
+class P { static function main() { var v = Std.string(1); } }
+
+--- position-of-a-field + --display P.hx@45@position
+class P { static function main() { Std.string(1); } }
+
+--- toplevel-completion + --display P.hx@35@toplevel
+class P { static function main() { } }
+
+--- no-completion-point-here + --display P.hx@38@type
+class P { static function main() { var s = "x"; } }
+
+--- no-completion-point-bare-request + --display P.hx@10
+class P { static function main() { var x = 1; } }
+
+--- preprocessor-fault-in-the-display-file + --display P.hx@40@position
+class P { static function main() { #if ("foo" == version("4.0.0")) #end } }
+
+--- type-inside-deep-nesting + --display P.hx@2043@type
+class P { static function main() { var x = ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((1)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))); } }
+
+--- position-inside-deep-nesting + --display P.hx@2043@position
+class P { static function main() { var x = ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((1)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))); } }
+
+--- bare-unresolved-heritage-is-dropped + --display P.hx@49@position
+class P extends Nope { static function main() { var q = 1; } }
+
+--- packaged-unresolved-heritage-still-reports + --display P.hx@52@position
+class P extends pk.Nope { static function main() { var q = 1; } }
+
+--- unresolved-name-under-the-cursor-answers + --display P.hx@42@position
+class P extends Nope { function test() { eq(12); } static function main() { } }
+
+--- unresolved-name-in-another-field-is-never-typed + --display P.hx@55@position
+class P extends Nope { function test() { eq(12); } static function main() { } }
+
+--- unresolved-name-inside-the-marked-call-answers + --display P.hx@47@position
+class P extends Nope { function test() { eq(12); } static function main() { } }
+
+--- cursor-in-the-block-gap-still-answers + --display P.hx@39@position
+class P extends Nope { function test() { eq(12); } static function main() { } }
+
+--- cursor-inside-a-line-comment-answers-nothing + --display P.hx@45@toplevel
+class P { static function main() { } }
+// cursor lands here
+class AfterTheComment { }
+
+--- cursor-on-the-comment-slash-still-completes + --display P.hx@39@toplevel
+class P { static function main() { } }
+// cursor lands here
+class AfterTheComment { }
+
+--- comment-in-the-gap-after-a-dot-answers-nothing + --display P.hx@57@
+class P { static function main() { var s = "x"; s.
+// cursor lands here
+} }
+
+--- comment-stop-reports-nothing-not-even-a-type-error + --display P.hx@48@
+class P { static function main() { foo(1,
+// cursor lands here
+2); } }
+
+--- string-stop-still-reports-the-type-error + --display P.hx@40@
+class P { static function main() { foo("bar"); } }
+
+--- signature-on-a-local + --display P.hx@47@signature
+class P { static function main() { var x = 1; x; } }
+
+--- signature-on-a-literal + --display P.hx@44@signature
+class P { static function main() { var x = 1; } }
+
+--- signature-on-an-array-access + --display P.hx@51@signature
+class P { static function main() { var a = [1]; a[0]; } }
+
+--- usage-of-trace + --display P.hx@37@usage
+class P { static function main() { trace("x"); } }
+
+--- hover-on-trace + --display P.hx@37@type
+class P { static function main() { trace("x"); } }
+
+--- definition-of-trace + --display P.hx@37@position
+class P { static function main() { trace("x"); } }
+
+--- structure-completion-in-object + --display P.hx@52
+class P { static function main() { var o:{a:Int} = {}; } }
+
+--- structure-completion-in-block + --display P.hx@58
+class P { static function main() { var o:{a:Int} = {a: 1, }; } }
+
+--- import-completion-empty-package + --display P.hx@16
+import nonexist.
+class P { static function main() {} }
+
+--- import-completion-existing-package + --display P.hx@15
+import haxe.ds.
+class P { static function main() {} }
+
+--- using-completion-empty-package + --display P.hx@15
+using nonexist.
+class P { static function main() {} }
+
+--- field-completion-on-an-abstract-type + --display P.hx@149
+abstract A(Int) { public static var s = 1; public static function f() return 2; public function m() return 1; } class P { static function main() { A.} }
+
+--- field-completion-on-an-enum-abstract-type + --display P.hx@81
+enum abstract Foo(Int) { var Value = 0; } class P { static function main() { Foo.} }
+
+--- field-completion-on-a-forward-statics-abstract + --display P.hx@138
+class C { public static function foo():Int return 1; } @:forwardStatics abstract Boolean(C) {} class P { static function main() { Boolean.} }
+
+--- swallowed-error-still-reports-no-completion-point + --display P.hx@3@position
+typedef A = Zz;
+class P { static function main() {} }
+
+--- swallowed-error-no-completion-point-type-mode + --display P.hx@3@type
+typedef A = Zz;
+class P { static function main() {} }
+
+--- truncated-type-declaration-in-the-header + --display P.hx@7@position
+private typedef A = B<C
+
+--- truncated-type-declaration-at-the-name + --display P.hx@16@position
+private typedef A = B<C
+
+--- truncated-type-declaration-at-the-type + --display P.hx@20@position
+private typedef A = B<C
+
+--- unresolved-type-later-offset-still-types + --display P.hx@40@position
+typedef A = Zz;
+class P { static function main() {} }
+
+--- abstract-keyword-is-not-a-completion-point + --display P.hx@1@position
+abstract A(Int) { }
+class P { static function main() {} }
+
+--- abstract-name-resolves-to-itself + --display P.hx@9@position
+abstract A(Int) { }
+class P { static function main() {} }
+
+--- abstract-underlying-type-resolves + --display P.hx@13@position
+abstract A(Int) { }
+class P { static function main() {} }
+
+--- abstract-brace-is-not-a-completion-point + --display P.hx@16@position
+abstract A(Int) { }
+class P { static function main() {} }
+
+--- abstract-from-clause-is-not-a-completion-point + --display P.hx@24@position
+abstract A(Int) from Int { }
+class P { static function main() {} }
+
+--- abstract-member-modifier-is-not-a-completion-point + --display P.hx@20@position
+abstract G(Int) { public function f() { return 1; } public function g() { return 2; } }
+class P { static function main() {} }
+
+--- abstract-member-name-is-not-the-whole-field + --display P.hx@33@position
+abstract G(Int) { public function f() { return 1; } public function g() { return 2; } }
+class P { static function main() {} }
+
+--- abstract-member-body-answers-empty + --display P.hx@40@position
+abstract G(Int) { public function f() { return 1; } public function g() { return 2; } }
+class P { static function main() {} }
+
+--- abstract-second-member-modifier + --display P.hx@55@position
+abstract G(Int) { public function f() { return 1; } public function g() { return 2; } }
+class P { static function main() {} }
+
+--- hover-in-a-dead-block-has-no-result + --display P.hx@51@type
+class P { static function main() { #if false var dead = 1; #end var live = 2; } }
+
+--- position-in-a-dead-block-still-answers + --display P.hx@51@position
+class P { static function main() { #if false var dead = 1; #end var live = 2; } }
+
+--- hover-outside-the-dead-block-still-answers + --display P.hx@70@type
+class P { static function main() { #if false var dead = 1; #end var live = 2; } }
+
+--- hover-on-a-declared-name-answers-the-variable + --display P.hx@39@type
+class P { static function main() { var x = 1;   var y = 2; } }
+
+--- hover-one-past-a-declared-name-has-no-completion-point + --display P.hx@40@type
+class P { static function main() { var x = 1;   var y = 2; } }
+
+--- position-one-past-a-declared-name-still-answers + --display P.hx@40@position
+class P { static function main() { var x = 1;   var y = 2; } }
+
+--- hover-on-a-define-in-a-condition + --display P.hx@40@type
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- hover-on-a-define-in-a-parenthesised-condition + --display P.hx@65@type
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- hover-on-the-version-builtin + --display P.hx@74@type
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- hover-on-a-version-call-reports-its-value + --display P.hx@78@type
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- hover-on-a-whole-condition-reports-its-value + --display P.hx@62@type
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- position-in-a-condition-is-not-a-completion-point + --display P.hx@40@position
+class P { static function main() { #if js var a = 1; #end #if (haxe >= version("4.0.0")) var b = 2; #end } }
+
+--- position-on-a-callee-answers-its-declaration + --display P.hx@35@position
+class P { static function main() { m(2, "s"); } static function m(gg:Int, hh:String) return gg; }
+
+--- position-on-a-call-argument-answers-nothing + --display P.hx@37@position
+class P { static function main() { m(2, "s"); } static function m(gg:Int, hh:String) return gg; }
+
+--- hover-on-a-type-hint-carries-the-type-documentation + --display P.hx@70@type
+class P { static function main() { m(2, "s"); } static function m(gg:Int, hh:String) return gg; }
+
+--- an-unresolvable-import-reports-over-the-whole-statement-at-its-module-name + --display P.hx@28@position
+import pack.Nope;
+class P { static function main() {} }
+
+--- an-unresolvable-import-reports-over-the-path-elsewhere + --display P.hx@8@position
+import pack.Nope;
+class P { static function main() {} }
+
+--- a-cursor-in-a-macro-only-block-does-not-leak-the-exception + --display P.hx@40@type
+class P { static function main() { #if eval var x = 1; #end } }
+
+--- a-field-after-a-broken-one-still-answers + --display P.hx@118@type
+class P { static function broken(a:Int, b:Intfunction broken2(a:Int, b:Int) { return 1; } static function good() { return 2; } static function main() {} }
+
+--- a-catch-without-a-type-hint-ends-the-parse + --display P.hx@54@position
+class P {
+	static function main() {
+		try {
+			throw "foo";
+		} catch(ech(e:String) {
+			trace(e);
+		}
+	}
+}
+
+--- a-bad-call-does-not-sink-the-display-request + --display P.hx@62@type
+class P {
+	static function g(a:Int) {}
+	static function main() {
+		var q = 1;
+		g(1,2,3);
+	}
+}
+
+--- the-swallowed-call-recovers-to-dynamic + --display P.hx@66@type
+class P {
+	static function g(a:Int) {}
+	static function main() {
+		var q = 1;
+		g(1,2,3);
+	}
+}
+
+--- json-hover-a-swallowed-static-extension-call-recovers-too + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":95,\"wasAutoTriggered\":false}}
+using Lambda; class P { static function main() { var t = [1.5].fold((s, acc) -> acc + s, "x"); t; } }
+
+--- a-cursor-on-var-has-no-completion-point + --display P.hx@67@type
+class P {
+	static function g(a:Int) {}
+	static function main() {
+		var q = 1;
+		g(1,2,3);
+	}
+}
+
+--- a-type-hint-still-answers-after-that-give-up + --display P.hx@76@type
+class P {
+	static function main() {
+		var q:String = "s";
+	}
+}
+
+--- a-dangling-dot-does-not-continue-the-expression + --display P.hx@71@type
+class P { static function h(a:Int) {} static function main() { h(1,Std.in} }
+
+--- an-unknown-callee-under-the-cursor-has-no-answer + --display P.hx@46@type
+class P { static function main() { var q = 1; nope(q); } }
+
+--- a-cursor-on-a-type-parameter-declaration-answers + --display P.hx@12@type
+interface C<T> { function f(x:T):Bool; } class P<T> implements C<T> { public function new() {} public function f(x:T):Bool { return true; } static function main() { new P<Int>(); } }
+
+--- the-same-on-the-implementing-class + --display P.hx@49@type
+interface C<T> { function f(x:T):Bool; } class P<T> implements C<T> { public function new() {} public function f(x:T):Bool { return true; } static function main() { new P<Int>(); } }
+
+--- a-broken-macro-body-and-an-unknown-caller + --display P.hx@165@type
+private abstract IntKey(String) { @:from inline static function fromInt(v:Int):IntKey return cast ""; } class P extends Test { function test() { t(func()); } static macro function func() { var t1 = haxe.macro.Context.typeof(macro 1); var t2 = haxe.macro.Context.t var r = haxe.macro.Context.unify(t1, t2); return macro $v{r}; } }
+
+--- an-only-statement-that-does-not-resolve-leaves-the-block-void + --display P.hx@26@type
+class P { function test() { nope(); } }
+
+--- a-dropped-statement-before-a-literal-keeps-the-literal-type + --display P.hx@26@type
+class P { function test() { nope(); 1; } }
+
+--- two-unresolved-statements-still-leave-the-block-void + --display P.hx@26@type
+class P { function test() { nope(); other(); } }
+
+--- an-unresolved-call-in-value-position-recovers-to-dynamic + --display P.hx@26@type
+class P { function test() { var q = nope(); q; } }
+
+--- a-dangling-dot-outside-completion-mode-is-a-syntax-error + --display P.hx@43@position
+class P { static function main() { f(1,Std.in} }
+
+--- the-same-dangling-dot-asked-for-a-type + --display P.hx@43@type
+class P { static function main() { f(1,Std.in} }
+
+--- a-broken-argument-answers-from-the-enclosing-call + --display P.hx@69@position
+class P { static function g(a,b) {} static function main() { g(1,Std.} }
+
+--- the-enclosing-call-gives-that-cursor-its-type-too + --display P.hx@69@type
+class P { static function g(a,b) {} static function main() { g(1,Std.} }
+
+--- the-same-dot-in-completion-mode-still-completes + --display P.hx@43
+class P { static function main() { f(1,Std.in} }
+
+--- hovering-a-metadata-adds-its-platform-suffix + --display P.hx@15@type
+class P { @:readOnly var a:Int = 1; static function main() { } }
+
+--- hovering-a-metadata-adds-its-parameter-prefix + --display P.hx@14@type
+class P { @:access(Sys) static function main() { } }
+
+--- a-metadata-with-no-doc-still-answers-its-platform + --display P.hx@15@type
+class P { @:include("x.h") static function main() { } }
+
+--- a-metadata-with-neither-is-just-its-doc + --display P.hx@14@type
+class P { @:keep static function main() { } }
+
+--- a-cursor-in-a-macro-types-only-that-macro + --display P.hx@48@type
+class P { function test() { t(func()); } static macro function func() { var t1 = haxe.macro.Context.typeof(macro 1); var t2 = haxe.macro.Context.t var r = haxe.macro.Context.unify(t1, t2); return macro $v{r}; } }
+
+--- a-cursor-in-the-caller-types-the-caller + --display P.hx@29@type
+class P { function test() { t(func()); } static macro function func() { var t1 = haxe.macro.Context.typeof(macro 1); return macro 1; } }
+
+--- absolute-display-file-under-a-dotted-class-path + --display $FILE@48@type
+class P { static function main() { var s = "x"; s; } }
+
+--- hover-on-the-class-keyword-with-a-forced-constructor + --display P.hx@2@type
+class P { var o = 1; static function main() {} }
+
+--- hover-in-a-class-body-with-a-forced-constructor + --display P.hx@9@type
+class P { var o = 1; static function main() {} }
+
+--- position-request-inside-a-line-comment + --display P.hx@41@position
+class P { static function main() {} } // a note
+
+--- usage-request-inside-a-line-comment + --display P.hx@41@usage
+class P { static function main() {} } // a note
+
+--- json-definition-inside-a-line-comment + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":41,\"wasAutoTriggered\":false}}
+class P { static function main() {} } // a note
+
+--- hover-past-a-qualified-missing-supertype + --display P.hx@45@type
+abstract A(Int) { public static function f(j:A) {} } class P extends pk.Nope { static function main() {} }
+
+--- hover-past-an-unqualified-missing-supertype + --display P.hx@45@type
+abstract A(Int) { public static function f(j:A) {} } class P extends Nope { static function main() {} }
+
+--- keyword-after-dot-inside-call-args + --display P.hx@44
+class P { static function main() { f(1,Std.in} }
+
+--- marked-trace-callee-is-unsupported + --display P.hx@37
+class P { static function main() { trace(1,Std.in} } }
+
+--- local-function-without-parameters + --display P.hx@65@toplevel
+class P { static function main() { function hello() {} function a } }
+
+--- class-name-lists-types-unsorted + --display P.hx@6
+class P { static function main() {} }
+
+--- inside-a-var-field-hint + --display P.hx@18
+class P { var x:Int; static function main() {} }
+
+--- type-parameter-name + --display P.hx@31
+class P<T, U:Int> { function f<S>(s:S):T return null; static function main() {} }
+
+--- dot-after-unknown-package + --display P.hx@39
+class P { static function main() { foo.bar; } }
+
+--- dot-after-unknown-dotted-package + --display P.hx@43
+class P { static function main() { foo.bar.baz; } }
+
+--- import-path-lists-module-types-first + --display P.hx@9
+import haxe.ds.StringMap; class P { static function main() {} }
+
+--- toplevel-ranks-type-parameters-by-fit + --display P.hx@43
+class P<T> { function f<S>(s:S):T return null; static function main() {} }
+
+--- toplevel-item-type-after-the-expected-type-sort + --display P.hx@37
+class P { function f() { var a:Int = 0; } static function main() {} }
+
+--- pseudo-function-after-function-keyword-definition + --display P.hx@43@position
+class P { static function main() { function } }
+
+--- pseudo-function-after-function-keyword-hover + --display P.hx@43@type
+class P { static function main() { function } }
+
+--- local-function-keyword-definition + --display P.hx@36@position
+class P { static function main() { function f(a:Int) return a; f(1); } }
+
+--- local-function-keyword-hover + --display P.hx@36@type
+class P { static function main() { function f(a:Int) return a; f(1); } }
+
+--- display-on-a-file-that-does-not-exist + --display nope/Missing.hx@0
+class P { static function main() {} }
+
+--- diagnostics-on-a-file-named-in-another-case + --display p.hx@0@diagnostics
+class P { static function main() { var s:String = 1; } }
+
+--- position-in-a-file-named-in-another-case + --display p.hx@43@position
+class P { static function main() { var x = helper(); } static function helper() return 1; }
+
+--- json-toplevel-completion-outside-a-server + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":35,\"wasAutoTriggered\":false}}
+class P { static function main() { } }
+
+--- heritage-completion-outside-a-server + --display P.hx@54
+class P { static function main() {} } class C extends {}
+
+--- json-heritage-completion-outside-a-server + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":54,\"wasAutoTriggered\":false}}
+class P { static function main() {} } class C extends {}
+
+--- json-implements-completion-outside-a-server + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":34,\"wasAutoTriggered\":false}}
+interface I {} class P implements  { static function main() {} }
+
+--- json-toplevel-completion-lists-an-import-as-imported + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":61,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap; class P { static function main() { } }
+
+--- json-toplevel-completion-never-lists-an-implementation-class + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":88,\"wasAutoTriggered\":false}}
+abstract A(Int) { public function new(i) this = i; } class P { static function main() { } }
+
+--- position-on-the-paren-after-a-parameterized-new + --display P.hx@85@position
+class H<T> { public function new() {} } class P { static function main() { new H<Int>(); } }
+
+--- type-on-the-paren-after-a-parameterized-new + --display P.hx@85@type
+class H<T> { public function new() {} } class P { static function main() { new H<Int>(); } }
+
+--- position-on-the-close-angle-of-a-parameterized-new + --display P.hx@84@position
+class H<T> { public function new() {} } class P { static function main() { new H<Int>(); } }
+
+--- a-doc-in-a-skipped-branch-documents-nothing + --display P.hx@109
+class P { #if never_defined /** leaked doc **/ #end public static function f() {} static function main() { P. } }
+
+--- a-doc-outside-a-skipped-branch-is-kept + --display P.hx@84
+class P { /** kept doc **/ public static function f() {} static function main() { P. } }
+
+--- completion-inside-an-empty-type-parameter-list + --display P.hx@46
+class P { static function main() { var x:Null<> = null; } }
+
+--- json-toplevel-lists-enum-constructors-after-the-class-fields + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":58,\"wasAutoTriggered\":false}}
+import haxe.ds.Option; class P { static function main() {  } }
+
+--- json-toplevel-ranks-by-the-expected-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":62,\"wasAutoTriggered\":false}}
+enum E { X; Y; } class P { static function main() { var e:E =  } }
+
+--- json-toplevel-lists-a-type-parameter + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":28,\"wasAutoTriggered\":false}}
+class P<T> { function f() {  } static function main() {} }
+
+--- json-toplevel-lists-a-static-import + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":52,\"wasAutoTriggered\":false}}
+import Math.abs; class P { static function main() {  } }
+
+--- json-toplevel-lists-an-inherited-member-as-the-parent-s + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":90,\"wasAutoTriggered\":false}}
+class B { public function new() {} public var x:Int; } class P extends B { function f() {  } static function main() {} }
+
+--- json-toplevel-lists-enum-abstract-values-as-members + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":89,\"wasAutoTriggered\":false}}
+enum abstract Col(Int) { var Red = 1; var Blue = 2; } class P { static function main() {  } }
+
+--- json-toplevel-keeps-collection-order-once-a-name-is-typed + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = 1; var b = 2; ma } }
+
+--- json-hover-a-local-after-a-constructor-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":93,\"wasAutoTriggered\":false}}
+class P { public function new(a:Int, b:Int) {} static function main() { var m = new P(1, 2); m; } }
+
+--- json-signature-inside-trace + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":41,\"wasAutoTriggered\":false}}
+class P { static function main() { trace(1); } }
+
+--- json-signature-of-a-call-inside-trace + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":78,\"wasAutoTriggered\":false}}
+class P { static function f(a:Int) return a; static function main() { trace(f(1)); } }
+
+--- json-signature-of-a-local-named-trace + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":76,\"wasAutoTriggered\":false}}
+class P { static function main() { var trace = function(x:String) {}; trace("a"); } }
+
+--- json-signature-at-the-start-of-an-inner-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":76,\"wasAutoTriggered\":false}}
+class P { static function f(a:Int) return a; static function main() { trace(f(1)); } }
+
+--- json-signature-of-a-new-inside-a-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":108,\"wasAutoTriggered\":false}}
+class Q { public function new(side:Int) {} } class P { static function g(q:Q) {} static function main() { g(new Q(3)); } }
+
+--- json-hover-an-enum-declaration-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":5,\"wasAutoTriggered\":false}}
+enum E { A; } class P { static function main() {} }
+
+--- json-hover-a-typedef-declaration-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":8,\"wasAutoTriggered\":false}}
+typedef T = { a:Int }; class P { static function main() {} }
+
+--- json-hover-a-documented-class-declaration-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":22,\"wasAutoTriggered\":false}}
+/** doc of Q */ class Q<T> {} class P { static function main() {} }
+
+--- json-hover-an-abstract-declaration-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":9,\"wasAutoTriggered\":false}}
+abstract A(Int) {} class P { static function main() {} }
+
+--- json-type-hint-lists-a-type-parameter + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":26,\"wasAutoTriggered\":false}}
+class P<T> { function f(a:) {} static function main() {} }
+
+--- json-type-hint-sorts-the-module-s-types + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":66,\"wasAutoTriggered\":false}}
+class Q {} enum E { A; } class P { static function main() { var x: = null; } }
+
+--- json-type-hint-lists-an-import-as-imported + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":67,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap; class P { static function main() { var x: = null; } }
+
+--- json-structure-extension-keeps-structures + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":39,\"wasAutoTriggered\":false}}
+typedef S = { a:Int }; typedef T = { >  }; class P { static function main() {} }
+
+--- json-implements-keeps-interfaces-sorted + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":51,\"wasAutoTriggered\":false}}
+interface I2 {} interface I1 {} class P implements  { static function main() {} }
+
+--- json-extends-drops-a-final-class + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":57,\"wasAutoTriggered\":false}}
+class B2 {} class B1 {} final class F {} class P extends  { static function main() {} }
+
+--- json-new-keeps-reachable-constructors + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":106,\"wasAutoTriggered\":false}}
+class Q { public function new() {} } class R { function new() {} } class P { static function main() { new  } }
+
+--- json-hover-a-member-by-name-is-qualified + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":55,\"wasAutoTriggered\":false}}
+class P { var name:String; function f():Void { var x = name; } static function main():Void {} }
+
+--- json-hover-a-member-through-this-is-qualified + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":60,\"wasAutoTriggered\":false}}
+class P { var name:String; function f():Void { var x = this.name; } static function main():Void {} }
+
+--- json-hover-an-enum-constructor-in-a-case-is-qualified + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":81,\"wasAutoTriggered\":false}}
+enum C { Red; Green; } class P { static function f(c:C):Void { switch (c) { case Red: case Green: } } static function main():Void {} }
+
+--- json-hover-an-access-carries-its-expected-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":109,\"wasAutoTriggered\":false}}
+class P { var name:String; public function new() {} static function main():Void { var p = new P(); var x = p.name; } }
+
+--- json-hover-an-unhinted-initializer-expects-the-field-s-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":31,\"wasAutoTriggered\":false}}
+class P { static var counter = 0; static function main():Void {} }
+
+--- json-hover-a-hinted-initializer-expects-the-hint + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":35,\"wasAutoTriggered\":false}}
+class P { static var counter:Int = 0; static function main():Void {} }
+
+--- json-signature-on-an-import-path-answers-the-type-path + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":15,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class P { static function main() {} }
+
+--- json-completion-on-an-import-path-spans-the-path-so-far + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":12,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class P { static function main() {} }
+
+--- json-completion-on-a-using-path-cuts-the-replace-range + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":6,\"wasAutoTriggered\":false}}
+using StringTools;
+class P { static function main() {} }
+
+--- json-hover-a-field-reached-through-a-typedef-is-the-typedef-s + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":104,\"wasAutoTriggered\":false}}
+typedef Pt = {x:Int, y:Int}; class P { static function main():Void { var p:Pt = {x: 1, y: 2}; var v = p.x; } }
+
+--- json-hover-a-structure-field-declaration-is-a-class-field + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":15,\"wasAutoTriggered\":false}}
+typedef Pt = { x:Int, y:Int }; class P { static function main():Void {} }
+
+--- json-hover-an-object-literal-field-name-is-the-expected-field + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":81,\"wasAutoTriggered\":false}}
+typedef Pt = {x:Int, y:Int}; class P { static function main():Void { var p:Pt = {x: 1, y: 2}; } }
+
+--- json-hover-a-constructor-declaration-returns-its-class + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":43,\"wasAutoTriggered\":false}}
+class P { var name:String; public function new(name:String) { this.name = name; } static function main():Void {} }
+
+--- json-hover-a-pattern-capture-carries-the-pattern-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":115,\"wasAutoTriggered\":false}}
+enum C { Red; Blue(level:Int); } class P { static function f(c:C):Int { return switch (c) { case Red: 1; case Blue(level): level; } } static function main():Void {} }
+
+--- json-hover-a-construction-carries-its-expected-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":87,\"wasAutoTriggered\":false}}
+class Box { public function new() {} } class P { static function main():Void { var b = new Box(); } }
+
+--- json-completion-a-case-body-of-one-identifier-is-toplevel + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":80,\"wasAutoTriggered\":false}}
+class P { static function f(c:Int):Int { return switch (c) { case 1: 1; case _: c; } } static function main():Void {} }
+
+--- json-completion-after-a-dot-has-no-subject + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":52,\"wasAutoTriggered\":false}}
+class P { var name:String; function f():Void { this.name = "x"; } static function main():Void {} }
+
+--- json-completion-in-an-enum-abstract-value-is-a-static-s + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+enum C { Red; Blue; } enum abstract Mode(Int) { var Fast = 1; var Slow = 2; } class P { static function main():Void {} }
+
+--- json-completion-an-empty-list-is-incomplete + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":88,\"wasAutoTriggered\":false}}
+typedef Pt = { x:Int, y:Int }; class P { static function main():Void { var p:Pt = {x: 1, y: 2}; } }
+
+--- json-completion-of-a-metadata-name-is-a-field-list + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":13,\"wasAutoTriggered\":false}}
+class P { @:keep static function main():Void {} }
+
+--- json-hover-a-metadata-name-is-a-metadata-item + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":13,\"wasAutoTriggered\":false}}
+class P { @:keep static function main():Void {} }
+
+--- json-completion-on-an-import-of-an-enum-lists-its-constructors-first + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":22,\"wasAutoTriggered\":false}}
+import haxe.ds.Option.Some;
+class P { static function main():Void {} }
+
+--- json-completion-on-an-enum-lists-its-constructors-by-index + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":86,\"wasAutoTriggered\":false}}
+enum C { Red; Blue(x:Int); Green; } class P { static function main():Void { var c = C.Red; } }
+
+--- json-completion-of-a-class-s-statics-are-members-of-its-statics + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":136,\"wasAutoTriggered\":false}}
+class S { public static function area(x:Int):Float return 1.0; public static var count = 1; } class P { static function main():Void { S.area(1); } }
+
+--- json-completion-a-member-under-type-arguments-is-applied + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":172,\"wasAutoTriggered\":false}}
+class Box<T> { public var v:T; public function get():Null<T> return v; public function new(v:T) this.v = v; } class P { static function main():Void { var b = new Box(1); b.get(); } }
+
+--- json-completion-sorts-own-fields-before-static-extensions + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":75,\"wasAutoTriggered\":false}}
+using StringTools; class P { static function main():Void { var s = "ab"; s.trim(); } }
+
+--- json-completion-an-inherited-field-is-the-parent-s + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":162,\"wasAutoTriggered\":false}}
+class A { public var a:Int = 0; public function new() {} } class B extends A { public var b:Int = 0; } class P { static function main():Void { var x = new B(); x.b; } }
+
+--- json-completion-a-typedef-s-fields-are-the-typedef-s + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":96,\"wasAutoTriggered\":false}}
+typedef Pt = {x:Int, y:Int}; class P { static function main():Void { var p:Pt = {x: 1, y: 2}; p.x; } }
+
+--- json-completion-a-function-offers-a-builtin-bind + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":81,\"wasAutoTriggered\":false}}
+class P { static function f(a:Int):Int return a; static function main():Void { f.bind(1); } }
+
+--- json-completion-on-a-one-character-string-offers-code + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":52,\"wasAutoTriggered\":false}}
+class P { static function main():Void { var c = "a".code; } }
+
+--- json-hover-a-method-argument-is-allocated-when-its-body-types + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":63,\"wasAutoTriggered\":false}}
+class P { var cache:Map<String, Int> = null; static function f(v:Float):Void {} static function main():Void {} }
+
+--- json-hover-an-interface-argument-is-allocated-in-a-delay + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":25,\"wasAutoTriggered\":false}}
+interface I { function f(v:Float):Void; } class P { var cache:Map<String, Int> = null; static function main():Void {} }
+
+--- json-completion-a-display-request-types-no-inline-body + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":269,\"wasAutoTriggered\":false}}
+abstract M(Float) { public inline function new(v:Float) this = v; @:op(A + B) public function add(o:M):M return new M(this + 1); public function f():Float return this; } class P { static function main():Void { var d = new M(1.0) + new M(2.0); var g = d.f(); var e = 1;  } }
+
+--- json-hover-a-first-var-shows-a-class-with-no-fields-yet + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":21,\"wasAutoTriggered\":false}}
+class P { public var title:String; public function new() {} static function main() {} }
+
+--- json-hover-a-var-shows-the-fields-above-it-newest-first + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":101,\"wasAutoTriggered\":false}}
+class P { public var a:Int; static var s1:Int; public var b:Int; public function new() {} public var c:String; static function main() {} }
+
+--- json-hover-an-enum-constructor-before-its-enum-has-names + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":13,\"wasAutoTriggered\":false}}
+enum Color { Red; Green; } class P { static function main() {} }
+
+--- json-hover-a-construction-in-main-shows-main-uninferred + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":76,\"wasAutoTriggered\":false}}
+class P { public function new(s:String) {} static function main() { var m = new P("x"); } }
+
+--- json-hover-an-import-path-is-not-imported-yet + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":15,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap; class P { static function main() {} }
+
+--- json-hover-a-lambda-argument-before-it-unifies + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":77,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = [1,2]; var r = Lambda.fold(a, (s, acc) -> s + acc, 0); } }
+
+--- json-hover-in-metadata-types-the-marked-argument + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":98,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	@:op(A + B) public function add(o:Meters):Meters return new Meters(this + o.toFloat());
+	public function toFloat():Float return this;
+}
+class P { static function main() {} }
+
+--- json-definition-in-metadata-records-the-earlier-unknown-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":102,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	@:op(A + B) public function add(o:Meters):Meters return new Meters(this + o.toFloat());
+	public function toFloat():Float return this;
+}
+class P { static function main() {} }
+
+--- json-completion-in-metadata-completes-the-marked-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":102,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	@:op(A + B) public function add(o:Meters):Meters return new Meters(this + o.toFloat());
+	public function toFloat():Float return this;
+}
+class P { static function main() {} }
+
+--- json-signature-in-metadata-reports-every-unknown-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":98,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	@:op(A + B) public function add(o:Meters):Meters return new Meters(this + o.toFloat());
+	public function toFloat():Float return this;
+}
+class P { static function main() {} }
+
+--- json-hover-with-no-answer-reports-the-compile-errors + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":41,\"wasAutoTriggered\":false}}
+class P {
+	final items:Array<Int> = [];
+	public function new() {}
+	static function main() {}
+}
+
+--- json-signature-on-a-catch-keyword-is-call-expected + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":54,\"wasAutoTriggered\":false}}
+class P { static function main() { try { throw "x"; } catch (e:String) {
+		trace(e.length);
+	} } }
+
+--- json-hover-on-a-catch-keyword-answers-its-body + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":54,\"wasAutoTriggered\":false}}
+class P { static function main() { try { throw "x"; } catch (e:String) {
+		trace(e.length);
+	} } }
+
+--- json-completion-at-a-catch-body-statement-is-toplevel + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":75,\"wasAutoTriggered\":false}}
+class P { static function main() { try { throw "x"; } catch (e:String) {
+		trace(e.length);
+	} } }
+
+--- json-hover-in-a-marked-constructor-pattern-types-it + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":116,\"wasAutoTriggered\":false}}
+enum C { Rgb(r:Int, g:Int, b:Int); None; }
+class P { static function f(c:C):String { return switch (c) { case Rgb(_, _, _): "rgb"; case None: "none"; } } static function main() {} }
+
+--- json-hover-on-the-in-of-a-key-value-loop-is-an-error + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":67,\"wasAutoTriggered\":false}}
+class P { static function main() { var m = ["a" => 1]; for (k => v in m) trace(k, v); } }
+
+--- json-signature-in-an-overload-metadata-types-it + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":52,\"wasAutoTriggered\":false}}
+class Circle { public function new() {}
+	@:overload(function(scale:Int):Circle {})
+	public function scaled():Circle return this;
+}
+class P { static function main() {} }
+
+--- json-signature-of-an-abstract-constructor-is-its-impl-new + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":196,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	public function isBig():Bool return this > 10;
+}
+class P { static function main() { var d = new Meters(2.5); } }
+
+--- json-signature-of-a-multitype-constructor + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":68,\"wasAutoTriggered\":false}}
+class P { static function main() { var m:Map<String, Int> = new Map(); } }
+
+--- json-signature-the-innermost-call-answers-an-abstract-method + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":219,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float to Float {
+	public inline function new(v:Float) this = v;
+	public function isBig():Bool return this > 10;
+}
+class P { static function main() { var d = new Meters(2.5); trace(1, d.isBig()); } }
+
+--- json-signature-in-a-comprehension-is-the-written-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":86,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = ["x"]; var b = [for (s in a) s.toUpperCase()]; } }
+
+--- json-signature-of-a-using-call-leaves-the-receiver-open + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":142,\"wasAutoTriggered\":false}}
+using Lambda;
+interface Shape { function area():Int; }
+class P { static function main() { var items:Array<Shape> = []; var t = items.fold((s, acc) -> acc + s.area(), 0); } }
+
+--- json-completion-on-an-abstract-underlying-type-is-a-type-hint + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":16,\"wasAutoTriggered\":false}}
+abstract Meters(Float) from Float {}
+class P { static function main() {} }
+
+--- json-completion-on-an-implements-path-lists-interfaces + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":34,\"wasAutoTriggered\":false}}
+interface G {}
+class P implements G { static function main() {} }
+
+--- json-completion-in-a-type-parameter-answers-the-parameter + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":18,\"wasAutoTriggered\":false}}
+typedef T = Array<Int>;
+class P { static function main() {} }
+
+--- json-completion-at-a-marked-comprehension-loop-is-toplevel + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":57,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = [1]; var b = [for (s in a) s]; } }
+
+--- json-completion-in-a-comprehension-sees-no-accumulator + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":62,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = [1]; var b = [for (s in a) s]; } }
+
+--- json-definition-in-a-comprehension-head-is-the-loop-variable + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":64,\"wasAutoTriggered\":false}}
+class P { static function main() { var a = ["x"]; var b = [for (s in a) s.toUpperCase()]; } }
+
+--- json-completion-on-a-field-while-its-class-types-keeps-open-returns + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":86,\"wasAutoTriggered\":false}}
+class P { var size = 1; function new() {} static function main() { var m = new P(); m.size = 4; } }
+
+--- json-completion-in-a-string-interpolation-names-the-identifier + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":112,\"wasAutoTriggered\":false}}
+class P {
+	var size = 0;
+	public function new() {}
+	public function greet(who:String):String {
+		return 'Hello $who';
+	}
+	static function main() {}
+}
+
+--- json-completion-in-a-constructor-argument-has-the-unified-expected-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":149,\"wasAutoTriggered\":false}}
+class Box<T> { public var value:T; public function new(v:T) value = v; public function map<U>(f:T->U):Box<U> { var mapped = f(value); return new Box(mapped); } }
+class P { static function main() {} }
+
+--- json-completion-in-a-call-argument-keeps-what-typing-it-bound + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":106,\"wasAutoTriggered\":false}}
+class P { static var counter = 0; static function f(x:Int):Int return x; static function main() { trace(f(counter)); } }
+
+--- json-definition-in-a-trace-extra-argument-is-its-own + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":80,\"wasAutoTriggered\":false}}
+class P { static function g():Int return 1; static function main() { trace(1, P.g()); } }
+
+--- json-definition-of-a-multitype-construction-is-its-new + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+class P { static function main() { var m:Map<String,Int> = new Map(); } }
+
+--- json-hover-of-a-multitype-construction-is-its-new + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+class P { static function main() { var m:Map<String,Int> = new Map(); } }
+
+--- json-definition-of-a-bind-callee-is-the-bound-function + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":101,\"wasAutoTriggered\":false}}
+class P { static function first<T>(a:Array<T>):T return a[0]; static function main() { var f = first.bind([1]); } }
+
+--- json-definition-in-a-struct-init-literal-is-a-block + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":102,\"wasAutoTriggered\":false}}
+@:structInit class C { public var title:String; }
+class P { static function main() { var c:C = {title: "x"}; } }
+
+--- json-hover-an-enum-abstract-value-is-its-own-item + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":94,\"wasAutoTriggered\":false}}
+enum abstract L(Int) { var Lo = 1; var Hi = 2; }
+class P { static function main() { var l:L = Hi; } }
+
+--- json-hover-in-an-object-literal-is-its-structure + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":78,\"wasAutoTriggered\":false}}
+typedef Pt = {x:Int, y:Int};
+class P { static function main() { var p:Pt = {x: 1, y: 2}; } }
+
+--- json-hover-at-a-type-path-start-is-the-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":60,\"wasAutoTriggered\":false}}
+class P { static function old() {} static function main() { P.old(); } }
+
+--- json-hover-a-property-accessor-is-its-field + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":26,\"wasAutoTriggered\":false}}
+class P { public var size(get, set):Int; var _s = 0; function get_size() return _s; function set_size(v) return _s = v; static function main() {} }
+
+--- json-hover-a-later-enum-constructor-sees-no-names-yet + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":14,\"wasAutoTriggered\":false}}
+enum C { Red; Green; Blue(l:Int); }
+class P { static function main() {} }
+
+--- json-hover-a-marked-wildcard-pattern-is-a-typed-null + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":93,\"wasAutoTriggered\":false}}
+enum C { Rgb(r:Int, g:Int); None; }
+class P { static function f(c:C) { switch (c) { case Rgb(_, _): case None: } } static function main() {} }
+
+--- json-hover-a-type-expression-carries-its-documentation + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":43,\"wasAutoTriggered\":false}}
+class P { static function main() { var x = Math.PI; } }
+
+--- json-completion-a-dot-path-in-a-type-metadata-argument-completes-the-package + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":12,\"wasAutoTriggered\":false}}
+@:keep(haxe.ds) class P { static function main() {} }
+
+--- json-completion-a-dot-path-in-a-field-metadata-argument-completes-the-package + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":22,\"wasAutoTriggered\":false}}
+class P { @:keep(haxe.ds) static function main() {} }
+
+--- json-completion-a-metadata-argument-naming-no-package-answers-an-empty-list + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":12,\"wasAutoTriggered\":false}}
+@:keep(nope.x) class P { static function main() {} }
+
+--- json-completion-a-hint-on-an-imported-module-resolves-the-import + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":52,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class P { var x:StringMap.X; static function main() {} }
+
+--- json-completion-a-hint-on-a-module-that-does-not-load-answers-an-empty-list + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":21,\"wasAutoTriggered\":false}}
+class P { var x:Nope.X; static function main() {} }
+
+--- json-completion-an-import-of-no-package-answers-an-empty-list + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":12,\"wasAutoTriggered\":false}}
+import nope.X;
+class P { static function main() {} }
+
+--- json-completion-a-type-parameter-name-lists-its-type-without-parameters + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":12,\"wasAutoTriggered\":false}}
+class Store<T> {}
+class Q { static function main() {} }
+
+--- json-completion-a-type-parameter-name-lists-no-imported-types + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":38,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class Store<T> {}
+class Q { static function main() {} }
+
+--- json-completion-an-abstract-metadata-argument-lists-the-module-types + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":10,\"wasAutoTriggered\":false}}
+@:forward(x) abstract Vec({x:Float}) {}
+class Q { static function main() {} }
+
+--- json-completion-a-structure-literal-against-a-bare-structure-has-it-as-origin + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+class P { static function main() { var a:{x:Int, y:Int} = {x: 1}; } }
+
+--- json-completion-a-static-initializer-holding-the-cursor-prints-without-the-marker + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":59,\"wasAutoTriggered\":false}}
+class P {
+	static var cache:Map<Int, String> = [1 => "one", 2 => "two"];
+	static function main() {}
+}
+
+--- json-completion-in-the-last-field-lists-the-fields-newest-first-and-binds-its-return + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":55,\"wasAutoTriggered\":false}}
+class P { var a:Array<Int> = []; function c() return a.length; }
+
+--- json-completion-a-resumed-dot-ends-the-field-at-the-dot + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":123,\"wasAutoTriggered\":false}}
+class P { public var weight:Int = 0; public function new() {}
+	public function heavier(other:P):Bool return weight > other.weight;
+	static function main() {} }
+
+--- json-definition-an-abstract-unary-operator-is-its-op-function + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":176,\"wasAutoTriggered\":false}}
+abstract V(Float) { public function new(x) this = x; @:op(-A) public static function neg(a:V):V return new V(0); }
+class P { static function main() { var w = new V(1); var z = -w; } }
+
+--- json-definition-a-literal-inside-a-macro-argument-has-no-declaration + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/definition\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":156,\"wasAutoTriggered\":false}}
+class P {
+	macro static function show(e:haxe.macro.Expr):haxe.macro.Expr return macro Std.string($e);
+	static function main() { var w = 3; trace(P.show(w * 2)); }
+}
+
+--- json-completion-a-field-item-carries-its-argument-defaults + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":110,\"wasAutoTriggered\":false}}
+class C { public static function f(m:String, ?d:Int = 0):Int return d; }
+class P { static function main() { C.f("a"); } }
+
+--- json-completion-a-surplus-argument-in-a-macro-body-completes + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":77,\"wasAutoTriggered\":false}}
+class P {
+	macro static function m():haxe.macro.Expr {
+		var e = Math.random();
+		return macro null;
+	}
+	static function main() {}
+}
+
+--- json-completion-at-the-end-of-a-called-field-lists-its-receiver-fields + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":51,\"wasAutoTriggered\":false}}
+class P { static function main() { var c = Math.abs(3); } }
+
+--- json-completion-on-a-nullable-receiver-reports-the-followed-module-type + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":165,\"wasAutoTriggered\":false}}
+class Item { public function new() {} public function describe() return ""; }
+class P { static function get():Null<Item> return null; static function main() { get().describe(); } }
+
+--- json-hover-an-abstract-field-sees-the-operators-newest-first + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":203,\"wasAutoTriggered\":false}}
+abstract V({x:Float}) { public function new() this = {x: 0};
+	@:op(A + B) public static function add(a:V, b:V):V return a;
+	@:op(A * B) public static function scale(a:V, k:Float):V return a;
+	public var length(get, never):Float;
+	function get_length():Float return 0;
+}
+class Q { static function main() {} }
+
+--- json-completion-a-dot-in-a-macro-body-answers-before-the-rest-types + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":122,\"wasAutoTriggered\":false}}
+import haxe.macro.Context;
+class P {
+	macro static function build():Array<haxe.macro.Expr.Field> {
+		var fields = Context.getBuildFields();
+		var names = [for (f in fields) f.name];
+		return fields;
+	}
+	static function main() {}
+}
+
+--- json-completion-a-package-dot-in-a-macro-body-is-a-toplevel-completion + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":67,\"wasAutoTriggered\":false}}
+class P { macro static function m():haxe.macro.Expr { var s = haxe.ds.StringMap; return null; } static function main() {} }
+
+--- json-hover-the-literal-part-of-an-interpolation-answers-the-whole-string + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":50,\"wasAutoTriggered\":false}}
+class P { var x = 1; function f():String return '(${x}, ${x})'; static function main() {} }
+
+--- json-hover-a-macro-body-local-after-the-host-builds-its-imports + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":95,\"wasAutoTriggered\":false}}
+import haxe.macro.Context;
+class P {
+	public static macro function b():haxe.macro.Expr {
+		var fields = 1;
+		var names = [fields];
+		return null;
+	}
+	static function main() {}
+}
+
+--- json-completion-in-a-macro-body-after-the-host-builds-its-imports + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":122,\"wasAutoTriggered\":false}}
+import haxe.macro.Context;
+class P {
+	public static macro function b():haxe.macro.Expr {
+		var fields = 1;
+		var names = [fields];
+		return null;
+	}
+	static function main() {}
+}
+
+--- json-completion-replace-range-counts-lines-in-the-unsaved-contents + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"contents\":\"class P { static function main() { var s = [1]; s. } }\",\"offset\":50,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var s = [1];
+	}
+}
+
+--- json-completion-in-a-macro-whose-typing-failed-adds-nothing-to-the-interpreter + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":134,\"wasAutoTriggered\":false}}
+import haxe.macro.Expr;
+class P {
+	public static macro function show(e:Expr):Expr {
+		var s = "x";
+		return macro $v{s} + " = " + Std.string($e);
+	}
+	static function main() {}
+}
+
+--- json-decl-name-hover-before-global-keep + --macro keep('P') --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":6,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {}
+}
+
+--- json-enum-abstract-type-expression-mode + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":93,\"wasAutoTriggered\":false}}
+enum abstract E(Null<Int>) {
+	var A = 0;
+}
+class P {
+	static function main() {
+		var x:E = E.A;
+	}
+}
+
+--- json-hover-plain-object-field-expected + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":81,\"wasAutoTriggered\":false}}
+class P {
+	static function f(x:Dynamic) {}
+	static function main() {
+		f({alpha: 1});
+	}
+}
+
+--- json-signature-on-an-index-opening-bracket + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":122,\"wasAutoTriggered\":false}}
+class P {
+	static function g(y:Float):Int return 0;
+	static function main() {
+		var tiles:Array<Int> = [];
+		var t = tiles[g(2)];
+	}
+}
+
+--- json-hover-parenthesized-switch-subject + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":112,\"wasAutoTriggered\":false}}
+class P {
+	var id:String;
+	function new() {}
+	static function main() {
+		var c = new P();
+		var s = switch (c.id) {
+			case "a": 1;
+			default: 2;
+		}
+	}
+}
+
+--- json-signature-default-value + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":84,\"wasAutoTriggered\":false}}
+class P {
+	static function f(a:Int = 3, ?b:String) {}
+	static function main() {
+		f();
+	}
+}
+
+--- json-signature-local-function-default-value + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/signatureHelp\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":63,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		function g(a = 2) {}
+		g();
+	}
+}
+
+--- json-hover-global-metadata-position + --macro keep('P') --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":65,\"wasAutoTriggered\":false}}
+class P {
+	static var x = 1;
+	static function main() {
+		var a = x;
+	}
+}
+
+--- json-hover-super-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":80,\"wasAutoTriggered\":false}}
+class B {
+	public function new() {}
+}
+class P extends B {
+	function new() {
+		super();
+	}
+	static function main() {}
+}
+
+--- json-completion-super-call + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":82,\"wasAutoTriggered\":false}}
+class B {
+	public function new() {}
+}
+class P extends B {
+	function new() {
+		super();
+	}
+	static function main() {}
+}
+
+--- json-completion-inside-an-inline-field-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":74,\"wasAutoTriggered\":false}}
+class P {
+	static inline var XYZ = "abc";
+	static function main() {
+		P.XYZ;
+	}
+}
+
+--- json-completion-inside-an-abstract-inline-field-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":135,\"wasAutoTriggered\":false}}
+abstract T(String) to String {}
+class P {
+	public static inline var XYZ:T = cast "abc";
+	static function main() {
+		var s:String = P.XYZ;
+	}
+}
+
+--- json-hover-argument-param-doc + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":96,\"wasAutoTriggered\":false}}
+class P {
+	/**
+		@param a the a
+	**/
+	static function f(a:Int) {}
+	static function main() {
+		f(1);
+	}
+}
+
+--- json-import-completion-before-global-keep + --macro keep('P') --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":9,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class P {
+	static function main() {}
+}

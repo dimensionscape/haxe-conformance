@@ -1,0 +1,179 @@
+--- forward-with-a-non-identifier
+@:forward(1) abstract A(Array<Int>) {}
+class P { static function main() {} }
+
+--- forward-with-an-identifier
+@:forward(length) abstract A(Array<Int>) from Array<Int> {}
+class P { static function main() { var a:A = [1]; trace(a.length); } }
+
+--- forward-with-a-string
+@:forward("length") abstract A(Array<Int>) from Array<Int> {}
+class P { static function main() { var a:A = [1]; trace(a.length); } }
+
+--- inheritdoc-bad-target-path
+class A { public function new() {} }
+class P { @:inheritDoc(1) public function new() {} static function main() {} }
+
+--- inheritdoc-unknown-target
+class P { @:inheritDoc(nope.Nope.thing) public function new() {} static function main() {} }
+
+--- purity-unsupported-value
+class P { @:pure(maybe) static function f() {} static function main() {} }
+
+--- purity-true
+class P { @:pure(true) static function f() {} static function main() {} }
+
+--- event-field-not-private
+class P { @:event public var onThing:Int->Void; static function main() {} }
+
+--- rebind-a-non-dynamic-method
+class A { public function new() {} public function f() {} }
+class P { static function main() { var a = new A(); a.f = function() {}; } }
+
+--- rebind-a-dynamic-method
+class A { public function new() {} public dynamic function f() {} }
+class P { static function main() { var a = new A(); a.f = function() {}; } }
+
+--- compare-enums-with-arguments
+enum E { A(x:Int); B; }
+class P { static function main() { if (E.A(1) == E.A(1)) trace("y"); } }
+
+--- compare-enums-without-arguments
+enum E { A; B; }
+class P { static function main() { if (E.A == E.B) trace("y"); } }
+
+--- import-lowercase-module
+import haxe.ds.option;
+class P { static function main() {} }
+
+--- import-statics-from-a-non-type
+import haxe.ds.Option.*;
+class P { static function main() {} }
+
+--- strict-metadata-on-this-target
+class P { @:strict(Foo) static function f() {} static function main() {} }
+
+--- bodyless-function-in-a-class
+class P { public function f():Void; static function main() {} }
+
+--- bodyless-function-in-an-extern
+extern class E { public function f():Void; }
+class P { static function main() {} }
+
+--- abstract-modifier-without-a-body
+abstract class A { public function new() {} abstract public function f():Void; }
+class P { static function main() {} }
+
+--- macro-type-bad-parameter
+typedef T = haxe.macro.MacroType<1>;
+class P { static function main() { var x:T = null; } }
+
+--- expose-with-bad-parameters
+@:expose(1) class P { static function main() {} }
+
+--- bodyless-function-in-an-abstract-class
+abstract class A { public function new() {} public function f():Void; }
+class P { static function main() {} }
+
+--- bodyless-function-in-a-coretype-abstract
+@:coreType abstract A { public function f():Int; }
+class P { static function main() {} }
+
+--- bodyless-macro-function-in-the-host
+class P { macro static function m():haxe.macro.Expr; static function main() {} }
+
+--- deprecated-typedef-names-its-target
+@:deprecated typedef T = Int;
+class P { static function main() { var x:T = 1; } }
+
+--- deprecated-typedef-with-its-own-message
+@:deprecated("use U instead") typedef T = Int;
+class P { static function main() { var x:T = 1; } }
+
+--- deprecated-typedef-named-by-a-structure
+@:deprecated typedef T = { a:Int };
+class P { static function main() { var x:T = {a: 1}; } }
+
+--- deprecated-typedef-reached-before-its-own-declaration
+class A { public var v:T; public function new() { v = {a: 1}; } }
+@:deprecated typedef T = { a:Int };
+class P { static function main() { new A(); } }
+
+--- deprecated-typedef-reached-from-an-abstract-declared-first
+abstract AB(Int) to Int { public function new() this = 0; public function f():T return {a: 1}; }
+@:deprecated typedef T = { a:Int };
+class P { static function main() { new AB().f(); } }
+
+--- two-modules-warning-order + --macro include('ord')
+class P { static function main() {} }
+
+--- macro-body-that-does-not-compile-is-reported-uncalled
+class P { macro static function m():haxe.macro.Expr { var x:Int = "s"; return macro 1; } static function main() {} }
+
+--- macro-body-that-compiles-is-quiet-uncalled
+class P { macro static function m():haxe.macro.Expr { return macro 1; } static function main() {} }
+
+--- macro-world-only-error-is-reported
+class P { macro static function m() return null; static function main() { #if macro var x:Int = "s"; #end } }
+
+--- macro-world-only-error-in-a-helper
+class P {
+	#if macro static function helper() { var y:Int = "bad"; return 1; } #end
+	macro static function m() return null;
+	static function main() {}
+}
+
+--- reification-outside-a-macro-reports-once
+class P { static function main() { trace($i{"wtf"}); } }
+
+--- reification-outside-a-macro-in-a-macro-holding-module
+class P { static function main() { m(); trace($i{"wtf"}); } macro static function m() return macro null; }
+
+--- abstract-cast-typed-in-a-macro-holding-module
+class P { macro static function m() return macro null; static function main() { var u:UInt = 0; var f:Float = u; trace(P.m()); } }
+
+--- macro-call-inside-the-macro-half-is-not-run
+class P {
+	macro static function m() return macro null;
+	static function main() { #if macro m(); #end }
+}
+
+--- invalid-character-astral-reports-the-code-point
+class P { static function main() { 😀 } }
+
+--- invalid-character-bmp
+class P { static function main() { § } }
+
+--- invalid-character-ascii-is-quoted
+class P { static function main() { ` } }
+
+--- astral-character-inside-a-string-is-fine
+class P { static function main() { trace("😀"); } }
+
+--- null-safety-off-on-an-argument
+@:nullSafety
+class P {
+	static function f(@:nullSafety(Off) a:String, b:String) {}
+	function i(@:nullSafety(Off) s:String) {}
+	function new() {}
+	static function main() {
+		f(null, "x");
+		f("x", null);
+		new P().i(null);
+	}
+}
+
+--- null-safety-off-on-an-abstract-member-argument
+abstract A(Int) {
+	public function new(i) this = i;
+	public function m(@:nullSafety(Off) s:String) {}
+	public static function sm(@:nullSafety(Off) s:String) {}
+}
+@:nullSafety
+class P {
+	static function main() {
+		new A(1).m(null);
+		A.sm(null);
+	}
+}
+

@@ -1,0 +1,303 @@
+--- unknown-flag + --nope P --no-output
+class P { static function main() {} }
+
+--- unknown-define-shorthand + -DfineButOdd P --no-output
+class P { static function main() {} }
+
+--- missing-flag-argument + --main
+class P { static function main() {} }
+
+--- main-that-does-not-exist + --main Nope --no-output
+class P { static function main() {} }
+
+--- main-without-a-main-function + --main Q --no-output
+class P { static function main() {} }
+
+--- classpath-that-does-not-exist + -cp nosuchdir --main P --no-output
+class P { static function main() {} }
+
+--- no-input-at-all + --no-output
+class P { static function main() {} }
+
+--- version-flag + --version
+class P { static function main() {} }
+
+--- define-then-conditional + -D custom_flag --main P --no-output
+class P { static function main() { #if custom_flag var x = 1; #else this is not haxe #end } }
+
+--- undefined-conditional + --main P --no-output
+class P { static function main() { #if custom_flag this is not haxe #end } }
+
+--- dce-flag-bad-value + --main P --dce nope --no-output
+class P { static function main() {} }
+
+--- resource-that-does-not-exist + --main P --resource nosuchfile.txt@r --no-output
+class P { static function main() {} }
+
+--- macro-that-fails-to-parse + --main P --macro nonsense( --no-output
+class P { static function main() {} }
+
+--- library-that-does-not-exist + --main P -lib nosuchlib_xyz --no-output
+class P { static function main() {} }
+
+--- macro-with-a-trailing-semicolon + --main P --macro include('haxe.io'); --no-output
+class P { static function main() {} }
+
+--- macro-well-formed + --main P --macro include('haxe.io') --no-output
+class P { static function main() {} }
+
+--- two-targets-js-then-cpp + --main P -js out.js -cpp cppout --no-output
+class P { static function main() {} }
+
+--- two-targets-cpp-then-js + --main P -cpp cppout -js out.js --no-output
+class P { static function main() {} }
+
+--- the-same-target-twice + --main P -js a.js -js b.js --no-output
+class P { static function main() {} }
+
+--- interp-then-a-target + --main P --interp -js out.js --no-output
+class P { static function main() {} }
+
+--- a-target-then-interp + --main P -js out.js --interp --no-output
+class P { static function main() {} }
+
+--- a-target-then-cppia + --main P -js out.js -cppia out.cppia --no-output
+class P { static function main() {} }
+
+--- a-target-then-jvm + --main P -js out.js --jvm out.jar --no-output
+class P { static function main() {} }
+
+--- a-target-then-neko + --main P -js out.js -neko out.n --no-output
+class P { static function main() {} }
+
+--- a-target-then-x + --main P -js out.js -x P --no-output
+class P { static function main() {} }
+
+--- a-generatorless-target-second + --main P -js out.js -hl out.hl --no-output
+class P { static function main() {} }
+
+--- a-generatorless-target-first + --main P -swf out.swf -js out.js --no-output
+class P { static function main() {} }
+
+--- two-generatorless-targets + --main P -python out.py -lua out.lua --no-output
+class P { static function main() {} }
+
+--- version-then-two-targets + --version --main P -js out.js -cpp cppout --no-output
+class P { static function main() {} }
+
+--- one-target-is-not-multiple + --main P -js out.js --no-output
+class P { static function main() {} }
+
+--- swf-version-does-not-claim-the-target + --main P -js out.js -swf-version 11 --no-output
+class P { static function main() {} }
+
+--- run-swallows-the-target-flag-after-it + --run P -js out.js
+class P { static function main() { Sys.println("ok"); } }
+
+--- run-program-args-are-sys-args + --run P a -lib x b.hxml --next c
+class P { static function main() { Sys.println(Sys.args().join("|")); } }
+
+--- interp-sys-args-are-the-parameters + --main P --interp -D x
+class P { static function main() { Sys.println(Sys.args().join("|")); } }
+
+--- configuration-args-show-run-as-x + --macro P.show() --run P a
+class P { public static function show() Sys.println(haxe.macro.Compiler.getConfiguration().args.join("|") + " / " + Sys.args().join("|")); static function main() {} }
+
+--- run-without-a-module + --run
+class P { static function main() {} }
+
+--- main-given-twice + --main P --main P --no-output
+class P { static function main() {} }
+
+--- x-repeats-the-main + --main P -x P
+class P { static function main() { Sys.println("ok"); } }
+
+--- x-names-another-main + --main P -x Q
+class P { static function main() {} }
+
+--- x-then-main + -x P --main P
+class P { static function main() {} }
+
+--- haxelib-global-is-accepted + --haxelib-global --main P --no-output
+class P { static function main() {} }
+
+--- library-without-a-name + -lib
+class P { static function main() {} }
+
+--- suggestion-single + -jvm out.jar --no-output
+class P { static function main() {} }
+
+--- suggestion-pads-to-the-widest-row + --jso out.js --no-output
+class P { static function main() {} }
+
+--- suggestion-two-rows-two-categories + --macr0 x --no-output
+class P { static function main() {} }
+
+--- suggestion-names-the-official-spelling + -dc x --no-output
+class P { static function main() {} }
+
+--- suggestion-lists-every-official-name + --mian P --no-output
+class P { static function main() {} }
+
+--- suggestion-tie-is-broken-by-declaration-order + -pp out --no-output
+class P { static function main() {} }
+
+--- suggestion-run-stops-at-a-name-too-short-to-match + -mm P --no-output
+class P { static function main() {} }
+
+--- suggestion-deprecated-name-wins-the-tie + -hh out --no-output
+class P { static function main() {} }
+
+--- suggestion-none-when-nothing-is-close-enough + --libs nosuchlib --no-output
+class P { static function main() {} }
+
+--- suggestion-none-for-a-name-with-no-neighbours + --zzzzzzzz x --no-output
+class P { static function main() {} }
+
+--- suggestion-block-is-empty-for-a-row-with-no-official-name + --neko-lib-paths dir --no-output
+class P { static function main() {} }
+
+--- suggestion-name-is-cut-at-the-first-digit + --js1 out.js --no-output
+class P { static function main() {} }
+
+--- suggestion-name-with-no-letters-at-all + -1 x --no-output
+class P { static function main() {} }
+
+--- suggestion-row-for-a-flag-with-no-hint + --interpX x --no-output
+class P { static function main() {} }
+
+--- as3-is-not-an-option + -as3 out --no-output
+class P { static function main() {} }
+
+--- java-lib-extern-has-no-single-dash-alias + -java-lib-extern lib.jar --no-output
+class P { static function main() {} }
+
+--- init-macro-on-a-lowercase-module + --main P --macro nope.bar() --no-output
+class P { static function main() {} }
+
+--- init-macro-on-a-lowercase-packed-module + --main P --macro a.nope.bar() --no-output
+class P { static function main() {} }
+
+--- init-macro-on-a-missing-sub-type + --main P --macro haxe.macro.Compiler.Nope.bar() --no-output
+class P { static function main() {} }
+
+--- patched-build-on-a-missing-type + --main P --macro "haxe.macro.Compiler.addMetadata('@:build(Missing.f())', 'P')" --no-output
+class P { static function main() {} }
+
+--- global-build-on-a-missing-type + --main P --macro "addGlobalMetadata('', '@:build(Missing.f())')" --no-output
+class P { static function main() {} }
+
+--- global-build-on-a-missing-type-for-one-class + --main P --macro "addGlobalMetadata('P', '@:build(Missing.f())')" --no-output
+class P { static function main() {} }
+
+--- main-lowercase-class + --main lower --no-output
+class P { static function main() {} }
+
+--- main-invalid-character + --main foo.Bar-x --no-output
+class P { static function main() {} }
+
+--- main-underscore-uppercase + --main _Foo --no-output
+class P { static function main() {} }
+
+--- main-lowercase-last-part + --main foo.bar --no-output
+class P { static function main() {} }
+
+--- main-uppercase-package + --main Foo.lower --no-output
+class P { static function main() {} }
+
+--- x-lowercase-class + -x lower
+class P { static function main() {} }
+
+--- main-then-x-lowercase + --main P -x lower
+class P { static function main() {} }
+
+--- main-empty-package + --main foo..Bar --no-output
+class P { static function main() {} }
+
+--- main-starts-with-digit + --main 9Foo --no-output
+class P { static function main() {} }
+
+--- main-as-file-path + --main foo/bar.hx --no-output
+class P { static function main() {} }
+
+--- main-as-file-path-with-backslashes + --main foo\bar.hx --no-output
+class P { static function main() {} }
+
+--- main-as-file-path-with-a-doubled-backslash + --main foo\\Bar.hx --no-output
+class P { static function main() {} }
+
+--- main-as-file-path-with-an-empty-module-name + --main foo/.hx --no-output
+class P { static function main() {} }
+
+--- main-empty + --main "" --no-output
+class P { static function main() {} }
+
+--- bare-file-path-with-backslashes + --main P --no-output foo\Bar.hx
+class P { static function main() {} }
+
+--- bare-file-path-with-a-doubled-backslash + --main P --no-output foo\\Bar.hx
+class P { static function main() {} }
+
+--- bare-empty-argument + --main P --no-output ""
+class P { static function main() {} }
+
+--- bare-lowercase-file-path + --main P --no-output foo/bar.hx
+class P { static function main() {} }
+
+--- bare-file-path-with-an-empty-module-name + --main P --no-output foo/.hx
+class P { static function main() {} }
+
+--- bare-dot-path-with-an-empty-name + --main P --no-output foo.
+class P { static function main() {} }
+
+--- bare-underscore-uppercase + --main P --no-output _Foo
+class P { static function main() {} }
+
+--- bare-packed-underscore-uppercase + --main P --no-output foo._Foo
+class P { static function main() {} }
+
+--- bare-underscores-only + --main P --no-output __
+class P { static function main() {} }
+
+--- version-then-an-empty-name + --version foo/.hx
+class P { static function main() {} }
+
+--- init-macro-invalid-escape + --macro "trace('\q')" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- init-macro-invalid-character + --macro "trace(1 + `)" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- init-macro-unclosed-comment + --macro "trace(1) /* x" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- init-macro-unterminated-string + --macro "trace('abc)" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- set-field-type-trailing-token + --main P --macro "setFieldType('P', 'x', 'Int foo')" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- set-field-type-syntax-error + --main P --macro "setFieldType('P', 'x', 'Int<')" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- set-field-type-lexer-error + --main P --macro "setFieldType('P', 'x', '`')" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- set-field-type-structure + --main P --macro "setFieldType('P', 'x', '{a:Int, b:String->Void}')" --no-output
+class P { static var x:Int; static function main() {} }
+
+--- init-macro-context-parse-error + --main P --macro "P.bad()" --no-output
+class P { static var x:Int; static function main() {} #if macro public static function bad() { haxe.macro.Context.parse('1 +', haxe.macro.Context.currentPos()); } public static function badInline() { haxe.macro.Context.parseInlineString('\'abc', haxe.macro.Context.currentPos()); } public static function boom() { throw new haxe.macro.Expr.Error('boom', haxe.macro.Context.currentPos()); } #end }
+
+--- init-macro-parse-inline-string-error + --main P --macro "P.badInline()" --no-output
+class P { static var x:Int; static function main() {} #if macro public static function bad() { haxe.macro.Context.parse('1 +', haxe.macro.Context.currentPos()); } public static function badInline() { haxe.macro.Context.parseInlineString('\'abc', haxe.macro.Context.currentPos()); } public static function boom() { throw new haxe.macro.Expr.Error('boom', haxe.macro.Context.currentPos()); } #end }
+
+--- init-macro-throws-a-macro-error + --main P --macro "P.boom()" --no-output
+class P { static var x:Int; static function main() {} #if macro public static function bad() { haxe.macro.Context.parse('1 +', haxe.macro.Context.currentPos()); } public static function badInline() { haxe.macro.Context.parseInlineString('\'abc', haxe.macro.Context.currentPos()); } public static function boom() { throw new haxe.macro.Expr.Error('boom', haxe.macro.Context.currentPos()); } #end }
+
+--- remap-loads-redirecting-typedefs + --main P --remap fake:haxe --no-output
+import fake.ds.StringMap;
+class P { static function main() { var m:StringMap<Int> = null; $type(m); $type(fake.ds.StringMap); $type(new fake.ds.StringMap<String>()); } }
+
+--- remap-type-not-found-names-the-requested-path + --main P --remap fake:haxe --no-output
+class P { static function main() { var x:fake.Nope = null; } }

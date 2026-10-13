@@ -1,0 +1,23 @@
+{
+	"unknown-upper-then-lower-call": "P.hx:1: characters 36-40 : Type not found : Priv",
+	"unknown-upper-then-lower-get": "P.hx:1: characters 44-48 : Type not found : Priv",
+	"package-then-unknown-upper": "P.hx:1: characters 36-43 : Type not found : pk.Nope",
+	"known-module-unknown-sub": "P.hx:1: characters 43-47 : Class<pk.Lib> has no field Nope",
+	"unknown-module-with-sub": "P.hx:1: characters 36-44 : Type not found : Nope",
+	"deep-package-unknown": "P.hx:1: characters 36-44 : Type not found : a.b.Nope",
+	"known-module-bad-field": "P.hx:1: characters 43-47 : Class<pk.Lib> has no field nope",
+	"known-module-known-sub": "",
+	"all-lower-then-upper": "P.hx:1: characters 36-48 : Type not found : pk.lib.Thing",
+	"single-unknown-upper": "P.hx:1: characters 36-40 : Type not found : Nope",
+	"unknown-lower-chain": "P.hx:1: characters 36-39 : Unknown identifier : foo",
+	"field-on-a-function": "P.hx:1: characters 49-53 : (s : String) -> String has no field nope",
+	"unknown-upper-two-lower": "P.hx:1: characters 36-40 : Type not found : Priv",
+	"std-prefixed-unknown": "P.hx:1: characters 36-47 : Type not found : pk.Nope",
+	"private-sub-type-reached-from-another-module": "P.hx:1: characters 42-55 : Cannot access private type Hidden in module pk.Lib",
+	"the-module-does-not-define-that-type": "P.hx:1: characters 42-53 : Module pk.Lib does not define type Nope",
+	"the-module-itself-is-missing": "P.hx:1: characters 42-49 : Type not found : pk.Nope",
+	"the-package-is-missing": "P.hx:1: characters 42-54 : Type not found : nosuch.Thing",
+	"an-import-shadowing-a-std-type-still-reaches-its-module": "",
+	"a-field-missing-on-both-reports-on-the-std-module": "P.hx:2: characters 41-57 : Class<Type> has no field enumConstructor2 (Suggestion: enumConstructor)",
+	"missing-static-fields-report-at-the-field-name": "P.hx:2: characters 49-52 : Class<Math> has no field foo\nP.hx:2: characters 72-76 : Class<haxe.ds.StringMap> has no field nope\nP.hx:2: characters 90-94 : Class<Std> has no field nope\nP.hx:2: characters 108-112 : Class<P> has no field nope\nP.hx:2: characters 119-122 : Class<Math> has no field foo"
+}

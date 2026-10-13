@@ -1,0 +1,12 @@
+{
+	"name": "haxe-conformance",
+	"url": "https://github.com/dimensionscape/haxe-conformance",
+	"license": "GPL",
+	"tags": ["test", "compiler", "conformance"],
+	"description": "Conformance tests for Haxe compilers: the Haxe 4.3.7 test suites and cases recorded against Haxe 4.3.7.",
+	"version": "1.0.0",
+	"classPath": "harness",
+	"main": "Harness",
+	"releasenote": "First release.",
+	"contributors": ["Dimensionscape"]
+}

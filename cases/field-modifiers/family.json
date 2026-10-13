@@ -1,0 +1,13 @@
+{
+	"name": "field-modifiers",
+	"oracle": "haxe",
+	"kind": "compile-diff",
+	"cost": "quick",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"$module",
+		"--no-output"
+	]
+}

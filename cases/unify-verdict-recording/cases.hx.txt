@@ -1,0 +1,158 @@
+--- operator-body-reports-both-verdicts
+abstract A(Int) { @:op(A + A) public function add(b:A):A return this + b; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- operator-body-argument-verdict-alone
+abstract A(Int) { @:op(A + A) public function add(b:A):Int return this + b; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- operator-body-return-verdict-alone
+abstract A(Int) { @:op(A + A) public function add(b:A):A return this + 1; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- bodyless-operator-method
+abstract A(Int) { @:op(A + A) public function add(b:A):A; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- bodyless-operator-method-noexpr
+abstract A(Int) { @:op(A + A) @:noExpr public function add(b:A):A; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- bodyless-operator-incompatible-return
+abstract A(Int) { @:op(A + A) public function add(b:A):String; }
+class P { static function main() { var x:A = cast 1; trace(x + x); } }
+
+--- array-index-verdict
+abstract A(Int) {}
+class P { static function main() { var a:A = cast 1; var arr = [1]; trace(arr[a]); } }
+
+--- array-index-then-return-verdict
+abstract A(Int) {}
+class P { static function f():String { var arr = [1]; var a:A = cast 1; return arr[a]; } static function main() { f(); } }
+
+--- array-access-on-a-non-indexable-receiver
+abstract A(Int) {}
+class P { static function main() { var o = {}; var a:A = cast 1; trace(o[a]); } }
+
+--- return-nothing-from-a-non-void-function
+class P { static function f():Int { return; } static function main() { f(); } }
+
+--- return-nothing-then-a-bad-return
+class P { static function f():Int { if (true) return; return "s"; } static function main() { f(); } }
+
+--- field-default-reports-both-verdicts
+class P { static function f(x:Int = "s"):String { return 1; } static function main() { f(); } }
+
+--- field-default-verdict
+class P { static function f(x:Int = "s") { trace(x); } static function main() { f(); } }
+
+--- local-function-default-verdict
+class P { static function main() { function g(x:Int = "s") { trace(x); } g(); } }
+
+--- enum-abstract-default-still-casts
+enum abstract E(Int) { var A = 1; var B = 2; }
+class P { static function f(e:E = A) { trace(e); } static function main() { f(); } }
+
+--- equality-of-class-values-still-resolves
+class P { static function main() { var c:Class<Dynamic> = String; if (c == String) trace("y"); } }
+
+--- untyped-swallows-the-verdict
+abstract A(Int) {}
+class P { static function main() { var a:A = cast 1; untyped { var q = 1 + a; } } }
+
+--- call-argument-verdict-still-raises
+abstract A(Int) {}
+class P { static function g(s:String) {} static function main() { var a:A = cast 1; g(1 + a); } }
+
+--- shift-operand-verdict-then-return
+abstract A(Int) {}
+class P { static function f():String { var a:A = cast 1; return a << 1; } static function main() { f(); } }
+
+--- boolean-operand-verdict-then-return
+abstract A(Int) {}
+class P { static function f():String { var a:A = cast 1; return a && true; } static function main() { f(); } }
+
+--- unary-minus-verdict-then-return
+abstract A(Int) {}
+class P { static function f():String { var a:A = cast 1; return -a; } static function main() { f(); } }
+
+--- unary-not-verdict-then-return
+abstract A(Int) {}
+class P { static function f():String { var a:A = cast 1; return !a; } static function main() { f(); } }
+
+--- or-pattern-binding-conflict-reports-at-the-first-binding
+enum E { A(v:Int); B(v:String); }
+class P { static function main() { var e:E = B("x"); switch (e) { case A(v) | B(v): trace(v); } } }
+
+--- or-pattern-binding-compatible-still-resolves
+enum E { A(v:Int); B(v:String); C(v:Int); }
+class P { static function main() { var e:E = C(1); switch (e) { case A(v) | C(v): trace(v); case B(_): } } }
+
+--- assignment-verdict-then-unknown-in-array-literal
+class P { static var x:Int; static function main() { var arr = [x = "s", nope]; } }
+
+--- assignment-verdict-then-unknown-in-object-literal
+class P { static var x:Int; static function main() { var o = { a: (x = "s"), b: nope }; } }
+
+--- checktype-verdict-then-unknown
+class P { static function main() { var a = [("s" : Int), nope]; } }
+
+--- checktype-anonymous-target-verdict
+class P { static function main() { var a = (1 : { x:Int }); } }
+
+--- comparison-second-operand-verdict-then-unknown
+class P { static function main() { var a = ["s" == 1, nope]; } }
+
+--- typed-initializer-verdict-twice
+class P {
+	static var x:Int = "s";
+	static var y:Int = "t";
+	static function main() {}
+}
+
+--- bare-body-assignment-verdict-twice
+class P {
+	static var x:Int;
+	static function a() x = "s";
+	static function b() x = "t";
+	static function main() {}
+}
+
+--- if-condition-verdict-then-unknown
+class P { static function main() { if ("s") nope; } }
+
+--- return-verdict-then-unknown-statement
+class P { static function f():Int { return "s"; nope; } static function main() {} }
+
+--- untyped-assignment-verdict-dropped
+class P { static var x:Int; static function main() { untyped x = "s"; } }
+
+--- call-argument-verdict-raises
+class P { static function f(a:Int, b:Int) {} static function main() { f("s", nope); } }
+
+--- array-access-setter-candidates-tried-silently
+abstract A(String) {
+	public function new(s) this = s;
+	@:arrayAccess function setString(index:String, value:String) this += index + value;
+	@:arrayAccess function setInt(index:Int, value:String) this += Std.string(index) + value;
+}
+class P { static function main() { var a = new A("foo"); a[12] = "bar"; a["x"] = "y"; } }
+
+--- array-access-getter-candidates-tried-silently
+abstract A(String) {
+	public function new(s) this = s;
+	@:arrayAccess function getString(index:String) return this + index;
+	@:arrayAccess function getInt(index:Int) return this + Std.string(index);
+}
+class P { static function main() { var a = new A("foo"); trace(a[12]); trace(a["x"]); } }
+
+--- array-access-no-candidate-accepts-the-key
+abstract A(String) {
+	public function new(s) this = s;
+	@:arrayAccess function getInt(index:Int) return this + Std.string(index);
+}
+class P { static function main() { var a = new A("foo"); trace(a[true]); } }
+
+--- abstract-to-string-falls-back-to-underlying
+abstract A(Int) from Int {}
+class P { static function main() { var a:A = 1; trace("v" + a); } }

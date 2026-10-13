@@ -1,0 +1,17 @@
+{
+	"name": "codegen-shape",
+	"oracle": "haxe",
+	"kind": "emit-diff",
+	"cost": "medium",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"--main",
+		"$module",
+		"-js",
+		"$out",
+		"-D",
+		"js-classic"
+	]
+}

@@ -1,0 +1,3 @@
+package usc;
+
+class Z {}

@@ -1,0 +1,1151 @@
+--- switch-case-guard-unparenthesised
+class P { static function f() { switch (a) { case 1 if x : } } }
+
+--- switch-case-guard-unclosed
+class P { static function f() { switch (a) { case 1 if (x : } } }
+
+--- switch-default-no-colon
+class P { static function f() { switch (a) { default ; } } }
+
+--- catch-arg-unparenthesised
+class P { static function f() { try {} catch e:Int {} } }
+
+--- catch-arg-unclosed
+class P { static function f() { try {} catch (e:Int {} } }
+
+--- for-unparenthesised
+class P { static function f() { for x in y {} } }
+
+--- for-unclosed
+class P { static function f() { for (x in y {} } }
+
+--- while-unparenthesised
+class P { static function f() { while x {} } }
+
+--- while-unclosed
+class P { static function f() { while (x {} } }
+
+--- do-while-unparenthesised
+class P { static function f() { do {} while x; } }
+
+--- do-while-unclosed
+class P { static function f() { do {} while (x; } }
+
+--- do-without-while
+class P { static function f() { do {} x; } }
+
+--- if-unparenthesised
+class P { static function f() { if x {} } }
+
+--- if-unclosed
+class P { static function f() { if (x {} } }
+
+--- cast-unclosed-with-type
+class P { static function f() { cast (x, Int; } }
+
+--- cast-unclosed
+class P { static function f() { cast (x; } }
+
+--- array-access-unclosed
+class P { static function f() { var a = [1]; a[0; } }
+
+--- property-accessors-no-comma
+class P { var x(get set):Int; }
+
+--- property-accessors-unclosed
+class P { var x(get, set:Int; }
+
+--- fun-param-unclosed
+class P { static function f(a { } }
+
+--- fun-param-typed-unclosed
+class P { static function f(a:Int { } }
+
+--- new-args-unclosed
+class P { static function f() { new A(1; } }
+
+--- object-decl-paren-mismatch
+class P { static function f() { ({x: 1); } }
+
+--- arrow-multi-arg-unclosed
+class P { static function f() { (a, b -> 1); } }
+
+--- arrow-optional-arg-unclosed
+class P { static function f() { (?a -> 1); } }
+
+--- untyped-no-expr
+class P { static function f() { untyped ; } }
+
+--- switch-body-unclosed
+class P { static function f() { switch (a) { case 1: } }
+
+--- extends-nothing
+class P extends { }
+
+--- structural-extension-no-comma
+typedef T = { > A }
+
+--- enum-ctor-args-unclosed
+enum E { A(x:Int; }
+
+--- enum-ctor-no-semicolon
+enum E { A(x:Int) }
+
+--- abstract-underlying-unclosed
+abstract A(Int { }
+
+--- type-param-constraint-ok
+class P { static function f<T:Int>() {} }
+
+--- type-param-constraint-stray-paren
+class P { static function f<T(:Int>() {} }
+
+--- macro-block-unclosed
+class P { static function f() { var x = macro { 1 ; } }
+
+--- type-check-args-unclosed
+class P { static function f() { $type(1; } }
+
+--- call-args-unclosed
+class P { static function f() { a.b(1; } }
+
+--- anon-type-unclosed
+class P { static function f() { var x:{a:Int; } }
+
+--- object-literal-unclosed
+class P { static function f() { var x = { a: 1 ; } }
+
+--- trailing-call-no-semicolon
+class P { static function f() { trace(1) } }
+
+--- enum-param-no-type-hint
+enum E { A(x); }
+
+--- enum-param-optional-no-type-hint
+enum E { A(?x); }
+
+--- enum-param-second-no-type-hint
+enum E { A(x:Int, y); }
+
+--- macro-cond-unclosed-paren-then-end
+class P { static function f() { #if ( #end } }
+
+--- macro-cond-empty-parens
+class P { static function f() { #if () #end } }
+
+--- macro-cond-unclosed-paren-at-eof
+class P { static function f() { #if (
+
+--- meta-name-not-an-ident
+class P { static function main() { @} } }
+
+--- meta-name-not-adjacent-to-the-at
+class P { @ public static function main() { } }
+
+--- property-accessor-not-an-ident
+class P { var x(default,) : Int; static function main() { } }
+
+--- anon-trailing-comma-then-eof
+typedef D = { year:Int,
+
+--- anon-trailing-comma-then-newline-eof
+typedef D = { year:Int,
+	
+
+--- anon-trailing-comma-then-close
+typedef D = { year:Int, }
+class P { static function main() {} }
+
+--- anon-comma-then-junk
+typedef D = { year:Int, 5 }
+class P { static function main() {} }
+
+--- anon-missing-comma
+typedef D = { year:Int name:String }
+class P { static function main() {} }
+
+--- anon-optional-field-after-comma
+typedef D = { ?year:Int, name:String }
+class P { static function main() {} }
+
+--- anon-nested-structure
+typedef D = { a:{b:Int, c:String}, d:Int }
+class P { static function main() {} }
+
+--- anon-structural-extension
+typedef D = { > Base, year:Int }
+typedef Base = { x:Int }
+class P { static function main() {} }
+
+--- cond-nested-paren-truncated
+class P { static function main() {} }
+#if (js || (cs && !no_roo
+
+--- cond-single-paren-truncated
+class P { static function main() {} }
+#if (js
+
+--- cond-single-paren-binop-truncated
+class P { static function main() {} }
+#if (js || cs
+
+--- cond-nested-paren-unclosed-outer
+class P { static function main() {} }
+#if (js || (cs)
+#end
+
+--- cond-nested-paren-empty-operand
+class P { static function main() {} }
+#if (js || (cs && ))
+#end
+
+--- cond-nested-paren-valid
+class P { static function main() {} }
+#if (js && (cs || neko))
+#end
+
+--- cond-negated-paren-valid
+class P { static function main() {} }
+#if !(js)
+class Z {}
+#end
+
+--- cond-version-compare-valid
+class P { static function main() {} }
+#if (haxe_ver >= 4.0)
+class Y {}
+#end
+
+--- cond-bare-ident-valid
+class P { static function main() {} }
+#if js
+class X {}
+#end
+
+--- markup-text-in-a-macro
+class P { macro static function m() { var x = <div>hello</div>; return macro null; } static function main() {} }
+
+--- markup-with-an-apostrophe-in-text
+class P { macro static function m() { var x = <div>don't</div>; return macro null; } static function main() {} }
+
+--- markup-with-a-single-quoted-attribute
+class P { macro static function m() { var x = <a b='c'>y</a>; return macro null; } static function main() {} }
+
+--- markup-with-a-double-quoted-attribute
+class P { macro static function m() { var x = <a href="x">y</a>; return macro null; } static function main() {} }
+
+--- markup-nested-elements
+class P { macro static function m() { var x = <div><span>a</span></div>; return macro null; } static function main() {} }
+
+--- markup-self-closing
+class P { macro static function m() { var x = <br/>; return macro null; } static function main() {} }
+
+--- less-than-is-a-comparison
+class P { static function main() { var a = 1; var b = a < 3; } }
+
+--- less-than-after-an-array-index
+class P { static function main() { var a = [1]; var b = a[0] < 3; } }
+
+--- less-than-after-a-postfix-increment
+class P { static function main() { var i = 0; if (i++ < 3) {} } }
+
+--- angle-bracket-opens-type-parameters
+class P { static function f<T>(v:T):T { return v; } static function main() { f(1); } }
+
+--- angle-bracket-opens-a-map-type
+class P { static function main() { var m = new Map<String,Int>(); } }
+
+--- brace-then-less-than-is-markup
+class P { static function main() { var x = {} < 3; } }
+
+--- type-params-empty-list-is-unexpected
+class P { static function main() { var x:Array<; } }
+
+--- type-params-read-one-then-missing-gt-is-expected
+class P { static function main() { var x:Array<Int; } }
+
+--- type-params-trailing-comma-is-unexpected
+class P { static function main() { var x:Array<Int,; } }
+
+--- type-params-empty-list-on-return-hint
+class P { static function main() {} function f():Void<; }
+
+--- type-params-empty-list-then-brace
+class P { static function main() {} function f():Void< }
+
+--- type-params-valid-still-compiles
+class P { static function main() { var x:Array<Int> = []; } }
+
+--- if-cond-dotted-name-in-error-position
+class P {
+#if (cpp x.y)
+	static function main() {}
+#end
+}
+
+--- if-cond-multi-segment-dotted-name
+class P {
+#if (cpp x.y.z)
+	static function main() {}
+#end
+}
+
+--- if-cond-plain-name-in-error-position
+class P {
+#if (cpp x)
+	static function main() {}
+#end
+}
+
+--- if-cond-dotted-name-after-unop
+class P {
+#if (cpp && !sys utest.Assert)
+	static function main() {}
+#end
+}
+
+--- if-cond-space-before-dot-still-splits
+class P {
+#if sys .replace
+	static function main() {}
+#end
+}
+
+--- cond-empty-then-close-brace
+class P {
+#if
+#end
+}
+
+--- cond-empty-then-field
+class P {
+#if
+#end
+	static function main(){}
+}
+
+--- cond-empty-after-field
+class P {
+	static function a(){}
+#if
+#end
+}
+
+--- cond-empty-twice
+class P {
+#if
+#end
+#if
+#end
+}
+
+--- cond-empty-three-times
+class P {
+#if
+#end
+#if
+#end
+#if
+#end
+}
+
+--- cond-empty-twice-then-field
+class P {
+#if
+#end
+#if
+#end
+	static function main(){}
+}
+
+--- cond-empty-then-valid-cond
+class P {
+#if
+#end
+#if js
+}
+
+--- cond-empty-at-module-level
+#if
+#end
+class P { static function main(){} }
+
+--- cond-empty-whole-file
+#if
+#end
+
+--- cond-stray-end-in-body
+class P {
+#end
+	static function main(){}
+}
+
+--- cond-valid-if-still-compiles
+class P {
+#if js
+	static function main(){}
+#end
+}
+
+--- cond-valid-if-else-still-compiles
+class P {
+#if cpp
+	static function main(){ trace(1); }
+#else
+	static function main(){ trace(2); }
+#end
+}
+
+--- cond-empty-elseif-after-true
+class P {
+#if js
+	static function main(){}
+#elseif
+#end
+}
+
+--- cond-empty-elseif-after-false
+class P {
+#if cpp
+	static function main(){}
+#elseif
+#end
+}
+
+--- cond-empty-inside-dead-block
+class P {
+#if cpp
+#if
+#end
+#end
+	static function main(){}
+}
+
+--- cond-empty-inside-live-block
+class P {
+#if js
+#if
+#end
+#end
+	static function main(){}
+}
+
+--- cond-empty-nested-in-live
+class P {
+#if js
+#if
+	static function main(){}
+#end
+#end
+}
+
+--- cond-empty-in-empty-block
+class P {
+	static function main(){
+#if
+#end
+	}
+}
+
+--- cond-empty-then-statement
+class P {
+	static function main(){
+#if
+#end
+		trace(1);
+	}
+}
+
+--- cond-empty-between-statements
+class P {
+	static function main(){
+		trace(0);
+#if
+#end
+		trace(1);
+	}
+}
+
+--- cond-empty-then-var-statement
+class P {
+	static function main(){
+#if
+#end
+		var x = 1;
+	}
+}
+
+--- cond-empty-array-element
+class P {
+	static function main(){
+		var a = [1,
+#if
+#end
+		2];
+	}
+}
+
+--- cond-empty-array-first-element
+class P {
+	static function main(){
+		var a = [
+#if
+#end
+		2];
+	}
+}
+
+--- cond-empty-array-before-close
+class P {
+	static function main(){
+		var a = [1
+#if
+#end
+		];
+	}
+}
+
+--- cond-empty-array-third-element
+class P {
+	static function main(){
+		var a = [1,2,
+#if
+#end
+		3];
+	}
+}
+
+--- cond-empty-map-literal
+class P {
+	static function main(){
+		var a = [1=>2,
+#if
+#end
+		3=>4];
+	}
+}
+
+--- cond-empty-call-argument
+class P {
+	static function main(){
+		trace(1,
+#if
+#end
+		2);
+	}
+}
+
+--- cond-empty-object-field
+class P {
+	static function main(){
+		var o = { a: 1,
+#if
+#end
+		b: 2 };
+	}
+}
+
+--- cond-empty-object-first-field
+class P {
+	static function main(){
+		var o = {
+#if
+#end
+		a: 1 };
+	}
+}
+
+--- cond-empty-binop-rhs
+class P {
+	static function main(){
+		var a = 1 +
+#if
+#end
+		2;
+	}
+}
+
+--- cond-empty-between-switch-cases
+class P {
+	static function main(){
+		switch(1) { case 1:
+#if
+#end
+		case 2: }
+	}
+}
+
+--- cond-empty-between-case-patterns
+class P {
+	static function main(){
+		switch(1) { case 1,
+#if
+#end
+		2: }
+	}
+}
+
+--- cond-empty-between-var-decls
+class P {
+	static function main(){
+		var a = 1,
+#if
+#end
+		b = 2;
+	}
+}
+
+--- cond-empty-in-comprehension
+class P {
+	static function main(){
+		var a = [for (i in 0...3)
+#if
+#end
+		i];
+	}
+}
+
+--- cond-empty-between-catches
+class P {
+	static function main(){
+		try {} catch(e:Int) {}
+#if
+#end
+		catch(e:String) {}
+	}
+}
+
+--- cond-empty-between-enum-ctors
+enum E {
+	A;
+#if
+#end
+	B;
+}
+class P { static function main(){} }
+
+--- cond-empty-before-first-enum-ctor
+enum E {
+#if
+#end
+	A;
+}
+class P { static function main(){} }
+
+--- cond-empty-in-enum-ctor-args
+enum E { A(x:Int,
+#if
+#end
+	y:Int); }
+class P { static function main(){} }
+
+--- cond-empty-anon-type-field
+typedef T = {
+	a:Int,
+#if
+#end
+	b:Int
+}
+class P { static function main(){} }
+
+--- cond-empty-anon-type-first-field
+typedef T = {
+#if
+#end
+	a:Int
+}
+class P { static function main(){} }
+
+--- cond-empty-function-params
+class P {
+	static function main(a:Int,
+#if
+#end
+	b:Int){}
+}
+
+--- cond-empty-type-params
+class P<A,
+#if
+#end
+B> { static function main(){} }
+
+--- cond-empty-metadata-args
+class P {
+	@:meta(1,
+#if
+#end
+	2)
+	static function main(){}
+}
+
+--- cond-empty-between-heritage
+interface I {}
+interface J {}
+class P implements I
+#if
+#end
+implements J { static function main(){} }
+
+--- cond-empty-between-abstract-fields
+abstract A(Int) {
+	@:from static function f(i:Int):A return null;
+#if
+#end
+	@:to function g():Int return 0;
+}
+class P { static function main(){} }
+
+--- cond-after-static-block-then-close
+class P {
+	static function a(){}
+#if
+#end
+}
+
+--- cond-after-static-block-then-meta-field
+class P {
+	static function a(){}
+#if
+#end
+	@:x static function b(){}
+}
+
+--- cond-after-static-block-then-field
+class P {
+	static function a(){}
+#if
+#end
+	static function b(){}
+}
+
+--- cond-after-expr-body-then-close
+class P {
+	static function a() return 1;
+#if
+#end
+}
+
+--- cond-after-expr-body-then-meta-field
+class P {
+	static function a() return 1;
+#if
+#end
+	@:x static function b(){}
+}
+
+--- cond-after-expr-body-then-field
+class P {
+	static function a() return 1;
+#if
+#end
+	static function b(){}
+}
+
+--- cond-after-var-then-close
+class P {
+	static var a = 1;
+#if
+#end
+}
+
+--- cond-after-var-then-meta-field
+class P {
+	static var a = 1;
+#if
+#end
+	@:x static function b(){}
+}
+
+--- cond-after-plain-block-then-close
+class P {
+	function a(){}
+#if
+#end
+}
+
+--- cond-after-plain-block-then-field
+class P {
+	function a(){}
+#if
+#end
+	function b(){}
+}
+
+--- cond-after-plain-expr-body-then-close
+class P {
+	function a() return 1;
+#if
+#end
+}
+
+--- cond-after-block-with-semicolon-then-close
+class P {
+	static function a(){};
+#if
+#end
+}
+
+--- cond-after-uninitialised-var-then-close
+class P {
+	var a:Int;
+#if
+#end
+}
+
+--- cond-after-public-block-then-close
+class P {
+	public function a(){}
+#if
+#end
+}
+
+--- cond-after-inline-block-then-close
+class P {
+	inline function a(){}
+#if
+#end
+}
+
+--- cond-after-override-block-then-close
+class P {
+	override function a(){}
+#if
+#end
+}
+
+--- cond-after-static-inline-block-then-close
+class P {
+	static inline function a(){}
+#if
+#end
+}
+
+--- cond-after-public-block-then-field
+class P {
+	public function a(){}
+#if
+#end
+	function b(){}
+}
+
+--- cond-after-public-var-then-close
+class P {
+	public var a = 1;
+#if
+#end
+}
+
+--- cond-in-abstract-after-static-block-then-close
+abstract A(Int) {
+	static function a(){}
+#if
+#end
+}
+class P { static function main(){} }
+
+--- cond-in-abstract-after-plain-block-then-close
+abstract A(Int) {
+	function a(){}
+#if
+#end
+}
+class P { static function main(){} }
+
+--- cond-in-abstract-after-plain-block-then-meta-field
+abstract A(Int) {
+	function a(){}
+#if
+#end
+	@:to function g():Int return 0;
+}
+class P { static function main(){} }
+
+--- cond-in-abstract-after-static-expr-body-then-close
+abstract A(Int) {
+	static function a() return 1;
+#if
+#end
+}
+class P { static function main(){} }
+
+--- cond-in-abstract-after-plain-expr-body-then-close
+abstract A(Int) {
+	function a() return 1;
+#if
+#end
+}
+class P { static function main(){} }
+
+--- cond-in-abstract-after-expr-body-then-meta-field
+abstract A(Int) {
+	function a() return 1;
+#if
+#end
+	@:to function g():Int return 0;
+}
+class P { static function main(){} }
+
+--- missing-colon-before-object-value
+class P {
+	static function main(){
+		var o = { a:1, b { x:1 } };
+	}
+}
+
+--- missing-colon-before-ident-value
+class P {
+	static function main(){
+		var o = { a:1, b c };
+	}
+}
+
+--- missing-colon-before-call-value
+class P {
+	static function main(){
+		var o = { a:1, b f() };
+	}
+}
+
+--- missing-colon-no-value-control
+class P {
+	static function main(){
+		var o = { a:1, b };
+	}
+}
+
+--- first-key-no-colon-control
+class P {
+	static function main(){
+		var o = { a 1 };
+	}
+}
+
+--- local-var-class-notation-structure-unclosed
+class P { static function f() { var a : { var x:Int; = 1; } static function main() {} }
+
+--- local-var-function-field-structure-unclosed
+class P { static function f() { var a : { function join(s:String):String; = [1,2]; } static function main() {} }
+
+--- final-class-notation-structure-unclosed
+class P { static function f() { final a : { var x:Int; = 1; } static function main() {} }
+
+--- checktype-class-notation-structure-unclosed
+class P { static function f() { var a = (null : { var x:Int; = 1); } static function main() {} }
+
+--- nested-block-class-notation-structure-unclosed
+class P { static function f() { { var a : { var x:Int; = 1; } } static function main() {} }
+
+--- field-class-notation-structure-unclosed
+class P { static var a : { function join(s:String):String; = null; static function main() {} }
+
+--- class-body-form-failure-after-field
+class P { static var a:Int; = 1; static function main() {} }
+
+--- call-argument-starting-with-unknown-directive
+class P { static function main() { f(#i#if js 1 #else 2 #end); } static function f(x) {} }
+
+--- cond-array-access-unclosed-at-close-paren
+#if (ja[va || cs)
+class P { static function main() {} }
+#end
+
+--- structure-extension-without-type-path
+typedef A = { >?f:Array<Int>, }
+class P { static function main() {} }
+
+--- structure-extension-bare
+typedef A = { > }
+class P { static function main() {} }
+
+--- structure-extension-second-without-type-path
+typedef A = { > B, > ?f:Int }
+typedef B = { x:Int }
+class P { static function main() {} }
+
+--- structure-extension-then-class-fields
+typedef A = { > var x:Int; }
+class P { static function main() {} }
+
+--- local-hint-extension-without-type-path
+class P { static function main() { var a:{ > ?x:Int } = null; } }
+
+--- structure-extension-missing-comma
+typedef A = { > B x:Int }
+typedef B = { y:Int }
+class P { static function main() {} }
+
+--- structure-extension-number
+typedef A = { > 1, x:Int }
+class P { static function main() {} }
+
+--- static-final-number
+class P {
+	static final 144 extends Test {
+	static function main() {}
+}
+
+--- final-rights-number
+class P { final public 1; static function main() {} }
+
+--- var-as-expression
+class P { static var x = (var); static function main() {} }
+
+--- final-as-expression
+class P { static var x = (final); static function main() {} }
+
+--- reified-var-without-name
+class P { static function main() { var e = macro var; } }
+
+--- truncated-inside-a-reified-var
+class P { static function main() {
+	var s = try {
+		haxe.macro.Context.typeExpr(macro var
+
+--- cond-bitwise-not
+#if ~macro
+class P { static function main() {} }
+#end
+
+--- cond-negation
+#if -macro
+class P { static function main() {} }
+#end
+
+--- double-comma-in-call-arguments
+class P { static function main() { f(1,,2); } static function f(a, b) {} }
+
+--- leading-comma-in-call-arguments
+class P { static function main() { f(,1); } static function f(a, b) {} }
+
+--- double-comma-in-constructor-arguments
+class P { static function main() { new P(1,,2); } function new(a, b) {} }
+
+--- double-comma-in-function-parameters
+class P { static function f(a,,b) {} static function main() {} }
+
+--- double-comma-in-arrow-parameters
+class P { static function main() { var g = (a,,b) -> 1; } }
+
+--- double-comma-in-enum-constructor-parameters
+enum E { A(a:Int,,b:Int); }
+class P { static function main() {} }
+
+--- double-comma-in-metadata-arguments
+@:meta(1,,2) class P { static function main() {} }
+
+--- double-comma-in-type-parameters
+class P { static var x:Array<Int,,String>; static function main() {} }
+
+--- block-final-at-eof
+class P {
+	static function main() {
+		final
+
+--- block-final-semicolon
+class P {
+	static function main() {
+		final;
+	}
+}
+
+--- block-final-literal
+class P {
+	static function main() {
+		final 1;
+	}
+}
+
+--- block-final-question
+class P {
+	static function main() {
+		final ?x = 1;
+	}
+}
+
+--- block-final-paren
+class P {
+	static function main() {
+		final (x) = 1;
+	}
+}
+
+--- block-final-close-brace
+class P {
+	static function main() {
+		final }
+}
+
+--- failed-cond-at-eof-after-an-import
+import haxe.ds.StringMap;
+#if
+
+--- failed-cond-at-eof-after-a-class
+class P { static function main() {} }
+#if
+
+--- failed-cond-at-eof-after-a-package-line
+package;
+#if
+
+--- failed-cond-as-the-first-token-at-eof
+#if
+
+--- failed-cond-swallows-a-brace-then-meets-eof
+import haxe.ds.StringMap;
+#if
+{
+
+--- failed-cond-twice-at-eof
+import haxe.ds.StringMap;
+#if
+#if
+
+--- failed-cond-on-an-end-at-eof
+class P { static function main() {} }
+#if
+#end
+
+--- failed-cond-then-a-declaration-after-an-import
+import haxe.ds.StringMap;
+#if
+{
+class P { static function main() {} }
+
+--- failed-cond-then-a-declaration-after-a-package-line
+package;
+#if
+{
+class P { static function main() {} }
+
+--- macro-class-without-a-name-meets-a-paren
+class P { static function main() { var td = macro class() {}; } }
+
+--- macro-class-with-an-empty-extends
+class P { static function main() { var td = macro class X extends {}; } }
+
+--- elseif-cond-failure-after-a-live-branch
+class P {
+	#if haxe4
+	function a() {}
+	#elseif [(cpp)
+	function b() {}
+	#end
+	static function main() {}
+}
+
+--- elseif-cond-failure-after-a-live-branch-at-top-level
+class P { static function main() {} }
+#if haxe4
+class A {}
+#elseif [
+#end
+
+--- valid-elseif-after-a-live-branch-is-still-skipped
+class P {
+	#if haxe4
+	static function main() {}
+	#elseif cpp
+	this is not haxe at all
+	#end
+}

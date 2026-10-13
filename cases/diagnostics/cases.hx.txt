@@ -1,0 +1,148 @@
+--- a-type-error-is-a-compiler-message
+class P { static function main() { var s:String = 1; } }
+
+--- an-unresolved-identifier-carries-its-suggestions
+class P { static function main() { eturn; } }
+
+--- an-unresolved-identifier-near-a-local
+class P { static function main() { var value = 1; valu; } }
+
+--- missing-field-on-an-abstract-reports-the-underlying-type
+abstract P(Int) { public inline function new() { this = 1; } function get() return nope; }
+
+--- an-unused-import-follows-the-missing-fields
+import haxe.Int64;
+class P { static function main() { var x:Int = nosuch; } }
+
+--- a-declaration-error-reports-before-any-module-list-exists
+import haxe.Int64;
+class P extends Nope { static function main() {} }
+
+--- a-parse-error-alone-still-reports-the-unused-import
+import haxe.Int64;
+class P { static function main() { switch (1)
+
+--- a-fileless-message-buckets-under-null
+package pack;
+class P { static function main() {} }
+
+--- a-missing-method-called-as-a-statement-keeps-a-free-monomorph
+class P { static function main() { nosuch(); } }
+
+--- two-file-buckets-come-out-in-hash-order
+package pack
+class P { static function main() {} }
+
+--- a-class-body-that-runs-to-the-end-of-file-reports-it
+class P {
+	static function main() {
+		if (true) {
+	}
+}
+
+--- a-hard-parser-error-ends-the-report-with-itself
+import haxe.Int64;
+class P {
+	static function main() {
+		var		var f = 1;
+	}
+}
+
+--- a-recovered-parser-error-does-not-end-the-report
+import haxe.Int64;
+class P {
+	static function main() {
+		var f = 1
+	}
+}
+
+--- a-fatal-field-error-gets-no-report-at-all
+class P { static function main() {} static function a():Int; }
+
+--- a-declaration-without-a-body-stays-legal-where-it-should
+interface I { function a():Int; }
+extern class E { function b():Int; }
+class P { static function main() {} }
+
+--- a-broken-if-condition-keeps-the-declarations-before-it
+class P extends Nope {
+	static function main() {}
+}
+
+#if (jsome targets are not happy
+class Q {}
+#end
+
+--- a-field-access-that-dead-ends-keeps-the-statement
+class P {
+	static function g(a:Int, b:Int) {}
+	static function main() {
+		g(1,Std.in}
+}
+
+--- the-same-dead-end-under-an-unresolved-callee
+class P {
+	static function main() {
+		f(1,Std.in}
+}
+
+--- a-com-error-is-printed-and-never-reported
+class P {
+	static function g(a:Int, b:Int) {}
+	static function main() {
+		g(1, null);
+	}
+}
+
+--- an-orphaned-depth-1-message-is-dropped + -js out.js -D analyzer-optimize
+class A {
+	public function new() {}
+	@:pure public function f() { return 1; }
+}
+class B extends A {
+	public var x = 0;
+	public function new() { super(); }
+	override public function f() { x = 1; return x; }
+}
+class P { static function main() { trace(new B().f()); } }
+
+--- a-depth-1-message-joins-its-parent + -js out.js -D analyzer-optimize
+class A {
+	public function new() {}
+	@:pure public function f() { return 1; }
+}
+class B extends A {
+	public var x = 0;
+	public function new() { super(); }
+	override public function f() { x = 1; return x; }
+}
+class P {
+	static var bad:Int = "not an int";
+	static function main() { trace(new B().f()); }
+}
+
+--- a-hard-preprocessor-fault-still-ends-the-parse-on-a-bad-version
+class P extends Nope {
+	static function main() {}
+}
+
+#if ("foo" == version("4.0.0"))
+class Q {}
+#end
+
+--- a-hard-preprocessor-fault-still-ends-the-parse-on-an-unknown-directive
+class P extends Nope {
+	static function main() {}
+}
+
+#bogus
+class Q {}
+
+--- a-bare-and-a-packaged-unresolved-hint
+class P { static function main() { var x:Strng = null; var y:pk.Nope = null; } }
+
+--- a-bare-unresolved-argument-hint
+class P { static function f(a:Strng) {} static function main() { f(null); } }
+
+--- two-bare-unresolved-hints-in-one-signature
+class P { static function f(a:Foo1, b:Foo2) {} static function main() {} }

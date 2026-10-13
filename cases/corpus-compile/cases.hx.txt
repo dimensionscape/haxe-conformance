@@ -1,0 +1,35 @@
+--- haxe-io + --macro include('haxe.io')
+class P { static function main() {} }
+
+--- haxe-ds + --macro include('haxe.ds')
+class P { static function main() {} }
+
+--- haxe-crypto + --macro include('haxe.crypto')
+class P { static function main() {} }
+
+--- haxe-iterators + --macro include('haxe.iterators')
+class P { static function main() {} }
+
+--- haxe-exceptions + --macro include('haxe.exceptions')
+class P { static function main() {} }
+
+--- haxe-display + --macro include('haxe.display')
+class P { static function main() {} }
+
+--- haxe-xml + --macro include('haxe.xml')
+class P { static function main() {} }
+
+--- haxe-zip + --macro include('haxe.zip')
+class P { static function main() {} }
+
+--- haxe-macro + --macro include('haxe.macro')
+class P { static function main() {} }
+
+--- haxe-root + --macro include('haxe')
+class P { static function main() {} }
+
+--- haxe-atomic-hits-an-error-directive + --macro include('haxe.atomic')
+class P { static function main() {} }
+
+--- std-toplevel + --macro include('sys.io')
+class P { static function main() {} }

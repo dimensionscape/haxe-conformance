@@ -1,0 +1,88 @@
+--- thread-idents-count-from-the-main-thread
+import eval.vm.NativeThread;
+class P { static function main() { var l = new sys.thread.Lock(); Sys.println("main " + NativeThread.self().id()); var t = new NativeThread(() -> { Sys.println("self " + NativeThread.self().id()); l.release(); }); l.wait(); Sys.println("handle " + t.id()); var t2 = new NativeThread(() -> l.release()); l.wait(); Sys.println("second " + t2.id()); Sys.println("main again " + NativeThread.self().id()); } }
+
+--- self-is-a-new-handle-each-time
+import eval.vm.NativeThread;
+class P { static function main() { var a = NativeThread.self(); var b = NativeThread.self(); Sys.println(a == b); Sys.println(a.id() == b.id()); var l = new sys.thread.Lock(); var inner:NativeThread = null; var t = new NativeThread(() -> { inner = NativeThread.self(); l.release(); }); l.wait(); Sys.println(t == inner); Sys.println(t.id() == inner.id()); } }
+
+--- events-belong-to-the-thread-not-the-handle
+import eval.vm.NativeThread;
+@:access(eval.vm.NativeThread) class P { static function main() { var a = NativeThread.self(); var b = NativeThread.self(); Sys.println(a.events == b.events); Sys.println(a.events != null); } }
+
+--- messages-are-read-newest-first
+import eval.vm.NativeThread;
+class P { static function main() { var go = new sys.thread.Lock(); var done = new sys.thread.Lock(); var t = new NativeThread(() -> { go.wait(); var s = ""; for (i in 0...3) s += NativeThread.readMessage(true); Sys.println(s); done.release(); }); t.sendMessage("a"); t.sendMessage("b"); t.sendMessage("c"); go.release(); done.wait(); } }
+
+--- a-blocking-read-waits-for-a-message
+import eval.vm.NativeThread;
+class P { static function main() { var t = new NativeThread(() -> Sys.println("got " + NativeThread.readMessage(true))); NativeThread.delay(0.1); Sys.println("sending"); t.sendMessage("late"); NativeThread.join(t); } }
+
+--- a-non-blocking-read-of-no-message-kills-the-thread
+import eval.vm.NativeThread;
+class P { static function main() { var t = new NativeThread(() -> { Sys.println("reading"); NativeThread.readMessage(false); Sys.println("not reached"); }); NativeThread.join(t); Sys.println("joined"); } }
+
+--- a-non-blocking-read-of-no-message-on-the-main-thread
+import eval.vm.NativeThread;
+class P { static function main() { Sys.println("reading"); NativeThread.readMessage(false); Sys.println("not reached"); } }
+
+--- join-waits-for-the-end
+import eval.vm.NativeThread;
+class P { static function main() { var t = new NativeThread(() -> { NativeThread.delay(0.2); Sys.println("thread done"); }); NativeThread.join(t); Sys.println("joined"); NativeThread.join(t); Sys.println("joined again"); } }
+
+--- an-uncaught-throw-reports-its-stack
+import eval.vm.NativeThread;
+class P { static function f(x:Int) { if (x > 0) throw "boom"; return x; } static function g() return f(1) + 1; static function main() { var t = new NativeThread(() -> { g(); }); NativeThread.join(t); Sys.println("main goes on"); } }
+
+--- an-uncaught-exception-object-and-a-null-access
+import eval.vm.NativeThread;
+class P { static function main() { var t = new NativeThread(() -> throw new haxe.Exception("an exception")); NativeThread.join(t); var t2 = new NativeThread(() -> { var a:Array<Int> = null; a.push(1); }); NativeThread.join(t2); Sys.println("main goes on"); } }
+
+--- sys-exit-in-a-thread-ends-the-process
+import eval.vm.NativeThread;
+class P { static function main() { new NativeThread(() -> { Sys.println("thread exits"); Sys.exit(3); }); for (i in 0...50) NativeThread.delay(0.1); Sys.println("main not reached"); } }
+
+--- thread-exit-stops-only-the-thread
+import eval.vm.NativeThread;
+class P { static function main() { var t = new NativeThread(() -> { Sys.println("before exit"); try NativeThread.exit() catch (e:Dynamic) Sys.println("caught " + e); Sys.println("not reached"); }); NativeThread.join(t); Sys.println("main goes on"); } }
+
+--- a-spinning-thread-is-preempted
+import eval.vm.NativeThread;
+class P { static var flag = false; static function main() { var start = Sys.time(); var t = new NativeThread(() -> { while (!flag && Sys.time() - start < 5) {} Sys.println("thread saw the flag: " + flag); }); NativeThread.delay(0.1); flag = true; NativeThread.join(t); } }
+
+--- a-spinning-main-thread-is-preempted
+import eval.vm.NativeThread;
+class P { static var flag = false; static function main() { var start = Sys.time(); new NativeThread(() -> flag = true); while (!flag && Sys.time() - start < 5) {} Sys.println("main saw the flag: " + flag); } }
+
+--- yield-and-delay-let-the-lock-go
+import eval.vm.NativeThread;
+class P { static function main() { var l = new sys.thread.Lock(); new NativeThread(() -> { Sys.println("thread"); l.release(); }); NativeThread.yield(); l.wait(); NativeThread.delay(0.01); Sys.println("main"); } }
+
+--- a-command-takes-two-thread-idents
+import eval.vm.NativeThread;
+class P { static function main() { var l = new sys.thread.Lock(); Sys.println("rc " + Sys.command("exit 0")); var t = new NativeThread(() -> l.release()); l.wait(); Sys.println(t.id()); Sys.println("rc " + Sys.command("cd .")); var t2 = new NativeThread(() -> l.release()); l.wait(); Sys.println(t2.id()); } }
+
+--- a-command-output-joins-stdout-in-order
+class P { static function main() { Sys.println("before"); Sys.command("echo between"); Sys.println("after"); } }
+
+--- kill-is-not-in-the-prototype
+import eval.vm.NativeThread;
+class P { static function main() { Sys.println("start"); var t = new NativeThread(() -> {}); if (Sys.args().length > 5) t.kill(); } }
+
+--- creating-a-thread-in-a-macro
+class P { macro static function m() { new eval.vm.NativeThread(() -> {}); return macro null; } static function main() { m(); } }
+
+--- a-process-that-cannot-start
+class P { static function main() { try new sys.io.Process("hxconf_no_such_program_xyz", ["a"]) catch (e:Dynamic) Sys.println("caught " + e); Sys.println("after"); } }
+
+--- typeof-an-eval-vector
+class P { static function main() { Sys.println(Type.typeof(new eval.Vector<Int>(3))); Sys.println(Type.typeof(haxe.ds.Vector.fromArrayCopy([1, 2]))); } }
+
+--- a-libuv-thread-from-a-macro-waits-for-the-lock
+class P { static macro function m() { var st = {inside: false, overlaps: 0}; function work() { for (i in 0...200000) { if (st.inside) st.overlaps++; st.inside = true; st.inside = false; } } var t = switch (eval.luv.Thread.create(work)) { case Ok(t): t; case Error(e): throw e; }; work(); t.join(); Sys.println("overlaps " + st.overlaps); return macro null; } static function main() m(); }
+
+--- tls-is-fresh-in-each-libuv-callback
+class P { static var tls:sys.thread.Tls<String>; static function main() { eval.luv.ThreadPool.setSize(1); tls = new sys.thread.Tls(); tls.value = "main"; var loop = eval.luv.Loop.defaultLoop(); eval.luv.ThreadPool.queueWork(loop, null, () -> { Sys.println("work1 sees " + tls.value); tls.value = "w1"; }, r -> Sys.println("after1 sees " + tls.value)); loop.run(DEFAULT); eval.luv.ThreadPool.queueWork(loop, null, () -> { Sys.println("work2 sees " + tls.value); tls.value = "w2"; }, r -> Sys.println("after2 sees " + tls.value)); loop.run(DEFAULT); var t = switch (eval.luv.Thread.create(() -> { Sys.println("thread sees " + tls.value); tls.value = "t"; })) { case Ok(t): t; case Error(e): throw e; }; t.join(); Sys.println("main sees " + tls.value); } }
+
+--- thread-exit-in-pool-work-ends-the-pool-thread
+class P { static function main() { var loop = switch (eval.luv.Loop.init()) { case Ok(l): l; case Error(e): throw e; }; var after = false; var t = switch (eval.luv.Thread.create(() -> { Sys.println("thread exits"); eval.vm.NativeThread.exit(); Sys.println("not reached"); })) { case Ok(t): t; case Error(e): throw e; }; t.join(); Sys.println("joined"); eval.luv.ThreadPool.queueWork(loop, null, () -> { Sys.println("work exits"); eval.vm.NativeThread.exit(); Sys.println("not reached"); }, r -> after = true); var start = Sys.time(); while (!after && Sys.time() - start < 2) { loop.run(NOWAIT); Sys.sleep(0.05); } Sys.println("after_work ran: " + after); } }

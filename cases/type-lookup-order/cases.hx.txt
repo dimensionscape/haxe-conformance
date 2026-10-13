@@ -1,0 +1,14 @@
+--- an-imported-name-never-loads-the-root-module
+import pkimp.ImpFirst; class P { static function main() { ImpFirst.f(); } }
+
+--- an-unqualified-name-finds-the-package-before-the-root
+class P { static function main() { pkw.Walk.f(); } }
+
+--- a-macro-unqualified-name-finds-the-package-before-the-root
+class P { static function main() { trace(pkm.Mac.m()); } }
+
+--- control-the-root-impfirst-does-not-type
+class P { static function main() { ImpFirst.f(); } }
+
+--- control-the-root-sib-does-not-type
+class P { static function main() { trace(Sib.v); } }

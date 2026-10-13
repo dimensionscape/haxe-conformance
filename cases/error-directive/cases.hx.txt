@@ -1,0 +1,37 @@
+--- an-import-reaches-it
+import Dep;
+class P { static function main() {} }
+
+--- a-using-reaches-it
+using Dep;
+class P { static function main() {} }
+
+--- a-constructor-call-reaches-it
+class P { static function main() { new Dep(); } }
+
+--- a-type-hint-reaches-it
+class P { static function main() { var d:Dep = null; } }
+
+--- a-field-hint-reaches-it
+class P { static var d:Dep; static function main() {} }
+
+--- an-argument-hint-reaches-it
+class P { static function main() {} static function f(d:Dep) {} }
+
+--- a-static-access-reaches-it
+class P { static function main() { Dep.nope(); } }
+
+--- an-init-macro-include-reaches-it + --macro include('pk')
+class P { static function main() {} }
+
+--- an-init-macro-reaching-a-syntax-error + --macro include('pk2')
+class P { static function main() {} }
+
+--- getModule-in-an-init-macro + --macro haxe.macro.Context.getModule('pk2.Syn')
+class P { static function main() {} }
+
+--- the-directive-does-not-fire-when-its-condition-is-false + -D nope
+class P { static function main() { var d = new Dep(); var n:Int = d.v; } }
+
+--- the-package-one-does-not-fire-either + -D nope --macro include('pk')
+class P { static function main() {} }

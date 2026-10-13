@@ -1,0 +1,95 @@
+--- bare-invocation
+class P { static function main() {} }
+
+--- neko-target-only + -neko out.n --no-output
+class P { static function main() {} }
+
+--- jvm-target-only + --jvm out.jar --no-output
+class P { static function main() {} }
+
+--- js-target-only + -js out.js --no-output
+class P { static function main() {} }
+
+--- cpp-target-only + -cpp cppout --no-output
+class P { static function main() {} }
+
+--- interp-target-only + --interp
+class P { static function main() {} }
+
+--- target-without-no-output + -js out.js
+class P { static function main() {} }
+
+--- php-brings-its-own-root + -php phpout --no-output
+class P { static function main() {} }
+
+--- cppia-brings-its-own-root + -cpp cppout -D cppia --no-output
+class P { static function main() {} }
+
+--- cppia-define-without-the-cpp-target + -D cppia -neko out.n --no-output
+class P { static function main() {} }
+
+--- version-flag + -version
+class P { static function main() {} }
+
+--- version-flag-double-dash + --version
+class P { static function main() {} }
+
+--- version-with-a-target + --version -neko out.n --no-output
+class P { static function main() {} }
+
+--- cwd-already-did-something + --cwd . -neko out.n --no-output
+class P { static function main() {} }
+
+--- help-defines-already-did-something + --help-defines
+class P { static function main() {} }
+
+--- help-metas-already-did-something + --help-metas
+class P { static function main() {} }
+
+--- help-user-defines-already-did-something + --help-user-defines
+class P { static function main() {} }
+
+--- cmd-instead-of-a-compilation + -neko out.n --cmd "echo hi"
+class P { static function main() {} }
+
+--- cmd-without-a-target + --cmd "echo hi"
+class P { static function main() {} }
+
+--- cmd-suppressed-by-no-output + -neko out.n --no-output --cmd "echo hi"
+class P { static function main() {} }
+
+--- cmd-that-fails + -neko out.n --cmd "exit 3"
+class P { static function main() {} }
+
+--- version-flushes-after-the-command + --version -neko out.n --cmd "echo hi"
+class P { static function main() {} }
+
+--- main-class + -cp . --main P -js out.js --no-output
+class P { static function main() {} }
+
+--- bare-uppercase-root + -cp . P -js out.js --no-output
+class P { static function main() {} }
+
+--- lowercase-dot-path-forces-typing + -cp . pk -js out.js --no-output
+class P { static function main() {} }
+
+--- macro-forces-typing + --macro "define('nothing')" -js out.js --no-output
+class P { static function main() {} }
+
+--- x-names-a-startup-class + -cp . -x P
+class P { static function main() { Sys.println("ok"); } }
+
+--- run-names-a-module + -cp . --run P
+class P { static function main() { Sys.println("ok"); } }
+
+--- next-two-empty-batches + -neko a.n --no-output --next -neko b.n --no-output
+class P { static function main() {} }
+
+--- next-full-then-empty + -cp . --main P -js out.js --no-output --next -neko b.n --no-output
+class P { static function main() {} }
+
+--- next-empty-then-full + -neko b.n --no-output --next -cp . --main P -js out.js --no-output
+class P { static function main() {} }
+
+--- hxml-with-only-a-target + empty.hxml
+class P { static function main() {} }

@@ -1,0 +1,100 @@
+--- void-argument
+enum E { A(x:Void); }
+class P { static function main() {} }
+
+--- duplicate-argument
+enum E { A(x:Int, x:String); }
+class P { static function main() {} }
+
+--- duplicate-argument-of-three
+enum E { A(x:Int, y:Int, x:Bool); }
+class P { static function main() {} }
+
+--- explicit-other-enum-type
+enum F { Z; }
+enum E { A:F; }
+class P { static function main() {} }
+
+--- explicit-same-enum-type
+enum E { A:E; }
+class P { static function main() {} }
+
+--- explicit-non-enum-type
+enum E { A:Int; }
+class P { static function main() {} }
+
+--- explicit-parameterised-enum-type
+enum E<T> { A:E<Int>; }
+class P { static function main() {} }
+
+--- constructor-type-parameter
+enum E { A<T>(x:T); }
+class P { static function main() {} }
+
+--- unknown-argument-type
+enum E { A(x:Nope); }
+class P { static function main() {} }
+
+--- optional-argument
+enum E { A(?x:Int); }
+class P { static function main() {} }
+
+--- optional-void-argument
+enum E { A(?x:Void); }
+class P { static function main() {} }
+
+--- duplicate-constructor
+enum E { A; A; }
+class P { static function main() {} }
+
+--- duplicate-constructor-with-args
+enum E { A(x:Int); A(y:String); }
+class P { static function main() {} }
+
+--- empty-enum
+enum E {}
+class P { static function main() {} }
+
+--- enum-abstract-valueless-member-non-int
+enum abstract E(Bool) { var A; }
+class P { static function main() {} }
+
+--- enum-abstract-two-valueless-members-both-report
+enum abstract E(Bool) { var A; var B; }
+class P { static function main() {} }
+
+--- enum-abstract-valueless-member-float
+enum abstract E(Float) { var A; }
+class P { static function main() {} }
+
+--- enum-abstract-int-members-are-fine
+enum abstract E(Int) { var A; var B; var F = 5; var G; }
+class P { static function main() { trace(E.A); trace(E.G); } }
+
+--- enum-abstract-string-members-are-fine
+enum abstract E(String) { var A; var B; }
+class P { static function main() { trace(E.A); } }
+
+--- enum-abstract-extern-member
+enum abstract E(Int) { extern var A = 1; }
+class P { static function main() {} }
+
+--- enum-abstract-two-extern-members-both-report
+enum abstract E(Int) { extern var A = 1; extern var B = 2; }
+class P { static function main() {} }
+
+--- enum-abstract-valueless-member-string-takes-its-name
+enum abstract E(String) { var A; }
+class P { static function main() {} }
+
+--- enum-abstract-valueless-member-after-a-string-value
+enum abstract E(String) { var A = "x"; var B; }
+class P { static function main() {} }
+
+--- enum-abstract-valueless-member-after-an-int-value
+enum abstract E(Int) { var A = 1; var B; }
+class P { static function main() {} }
+
+--- enum-abstract-non-int-members-with-values-are-fine
+enum abstract E(Bool) { var A = true; var B = false; }
+class P { static function main() {} }

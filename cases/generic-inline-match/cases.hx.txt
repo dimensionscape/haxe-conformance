@@ -1,0 +1,179 @@
+--- generic-class-with-a-static-field
+@:generic class C<T> { public function new() {} static var x:Int = 1; }
+class P { static function main() { new C<Int>(); } }
+
+--- generic-class-with-a-static-macro-field
+@:generic class C<T> { public function new() {} macro static function m() return null; }
+class P { static function main() { new C<Int>(); } }
+
+--- generic-class-with-an-init-block
+@:generic class C<T> { public function new() {} static function __init__() {} }
+class P { static function main() { new C<Int>(); } }
+
+--- construct-a-non-generic-type-parameter
+class P { static function f<T:{function new():Void;}>():T { return new T(); } static function main() {} }
+
+--- constructible-parameter-used-non-generically
+class C<T:{function new():Void;}> { public function new() {} }
+class P { static function main() { new C<P>(); } }
+
+--- generic-class-without-a-constructor
+@:generic class C<T> {}
+class P { static function main() { var c:C<Int> = null; } }
+
+--- generic-plain-class
+@:generic class C { public function new() {} }
+class P { static function main() { new C(); } }
+
+--- inline-function-containing-super
+class A { public function new() {} public function g() {} }
+class P extends A { public function new() { super(); } inline function h() { super.g(); } static function main() { new P().h(); } }
+
+--- inline-function-with-a-non-final-return
+class P { static inline function f(b:Bool):Int { if (b) return 1; return 2; } static function main() { trace(f(true)); } }
+
+--- inline-this-outside-an-instance
+class A { public function new() {} public inline function g() { return this; } }
+class P { static function main() { var x = A.g; } }
+
+--- trace-argument-error-is-annotated
+class A { public function new() {} public inline function g() { return this; } }
+class P { static function main() { trace(A.g); } }
+
+--- inline-abstract-value-modified
+abstract A(Int) { public inline function new(v:Int) this = v; public inline function bump() { this++; } }
+class P { static function main() { var a = new A(1); a.bump(); } }
+
+--- case-without-a-pattern
+class P { static function main() { switch (1) { case: } } }
+
+--- too-many-patterns
+enum E { A(x:Int); }
+class P { static function main() { switch (E.A(1)) { case A(a, b): } } }
+
+--- a-type-used-as-a-match-value
+class P { static function main() { switch (1) { case String: } } }
+
+--- for-without-in
+class P { static function main() { for (x) {} } }
+
+--- for-over-a-non-identifier
+class P { static function main() { for (1 in [1, 2]) {} } }
+
+--- for-iterating-backwards
+class P { static function main() { for (i in 10...0) trace(i); } }
+
+--- for-well-formed
+class P { static function main() { for (i in 0...10) trace(i); } }
+
+--- generic-function-without-type-parameters
+class P { @:generic static function g(v:Int) {} static function main() { g(1); } }
+
+--- generic-function-without-type-parameters-unused
+class P { @:generic static function g(v:Int) {} static function main() {} }
+
+--- generic-function-with-type-parameters
+class P { @:generic static function g<T>(v:T) {} static function main() { g(1); } }
+
+--- an-array-pattern-on-a-non-array
+class P { static function main() { var x = 1; switch (x) { case [1,2]: case _: } } }
+
+--- an-array-pattern-on-an-array
+class P { static function main() { var x = [1,2]; switch (x) { case [1,2]: trace("y"); case _: } } }
+
+--- an-array-pattern-on-an-abstract-with-one-from
+abstract A(Array<Int>) from Array<Int> {}
+class P { static function main() { var a:A = [1,2]; switch (a) { case [1,2]: trace("y"); case _: } } }
+
+--- an-array-pattern-on-an-abstract-with-two-froms
+abstract A(Dynamic) from Array<Int> from String {}
+class P { static function main() { var a:A = "s"; switch (a) { case [1,2]: case _: } } }
+
+--- an-object-literal-as-a-pattern-value
+class P { static function main() { var x = 1; switch (x) { case { a: 1 }: case _: } } }
+
+--- inline-constructor-over-a-non-inline-parent
+class A { public function new() {} }
+class B extends A { public inline function new() { super(); } }
+class P { static function main() { var b = new B(); trace(b); } }
+
+--- inline-method-calling-a-super-method
+class A { public function new() {} public function f() {} }
+class B extends A { public function new() { super(); } public inline function g() { super.f(); } }
+class P { static function main() { var b = new B(); b.g(); } }
+
+--- inline-constructor-over-an-inline-parent
+class A { public inline function new() {} }
+class B extends A { public inline function new() { super(); } }
+class P { static function main() { var b = new B(); trace(b); } }
+
+--- tuple-pattern-not-enough
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(i:Int, s:String) { switch [i,s] { case [1]: } } }
+
+--- tuple-pattern-too-many
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(i:Int, s:String) { switch [i,s] { case [1,"a",2]: } } }
+
+--- tuple-pattern-bound-to-a-variable
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(i:Int, s:String) { switch [i,s] { case x: } } }
+
+--- enum-pattern-not-enough
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(e:E) { switch e { case C(1): case _: } } }
+
+--- enum-pattern-too-many
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(e:E) { switch e { case B(1,2): case _: } } }
+
+--- enum-arg-bound-twice-adjacent
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(e:E) { switch e { case C(x,x): case _: } } }
+
+--- enum-arg-bound-twice-outer
+enum E { D(a:Int,b:Int,c:Int); }
+class P { static function main() {} static function go(e:E) { switch e { case D(x,y,x): case _: } } }
+
+--- enum-arg-bound-twice-leading
+enum E { D(a:Int,b:Int,c:Int); }
+class P { static function main() {} static function go(e:E) { switch e { case D(x,x,y): case _: } } }
+
+--- enum-arg-bound-twice-trailing
+enum E { D(a:Int,b:Int,c:Int); }
+class P { static function main() {} static function go(e:E) { switch e { case D(y,x,x): case _: } } }
+
+--- struct-pattern-unknown-field
+class P { static function main() {} static function go(o:{f:Int}) { switch o { case {nope:1}: case _: } } }
+
+--- struct-pattern-known-field
+class P { static function main() {} static function go(o:{f:Int}) { switch o { case {f:1}: case _: } } }
+
+--- struct-pattern-against-a-non-struct
+class P { static function main() {} static function go(i:Int) { switch i { case {f:1}: case _: } } }
+
+--- or-pattern-variable-missing-one-side
+enum E { A; B(i:Int); C(i:Int, s:String); }
+class P { static function main() {} static function go(e:E) { switch e { case B(x) | C(_,_): case _: } } }
+
+--- generic-specialization-name-already-taken-by-another-type
+class MyClass<T> {
+	public function new() {}
+	@:generic public function testMember<K>(t:T, k:K) {}
+}
+class P { static function main() {
+	var a = new MyClass<Int>(); a.testMember(1, "x");
+	var b = new MyClass<Float>(); b.testMember(1.5, "y");
+}}
+
+--- generic-function-calling-itself
+class P {
+	@:generic static function f<T>(x:T):T { return f(x); }
+	static function main() { f(1); }
+}
+
+--- generic-return-against-the-expected-type
+class P {
+	@:generic static function f<T>(x:T):T return x;
+	static function main() { var s:String = f(1); }
+}

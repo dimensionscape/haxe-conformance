@@ -1,0 +1,172 @@
+--- missing-super-call
+class A { public function new(x:Int) {} }
+class P extends A { public function new() {} static function main() {} }
+
+--- super-call-present
+class A { public function new(x:Int) {} }
+class P extends A { public function new() { super(1); } static function main() {} }
+
+--- super-call-in-if
+class A { public function new(x:Int) {} }
+class P extends A { public function new(b:Bool) { if (b) super(1) else super(2); } static function main() {} }
+
+--- super-call-from-closure
+class A { public function new(x:Int) {} }
+class P extends A { public function new() { var f = function() { super(1); }; } static function main() {} }
+
+--- super-has-no-constructor
+class A { }
+class P extends A { public function new() {} static function main() {} }
+
+--- super-constructor-is-forced
+class A { public var x = 1; }
+class P extends A { public function new() {} static function main() { new P(); } }
+
+--- three-level-user-constructor
+class A { public function new() {} }
+class B extends A { }
+class P extends B { public function new() {} static function main() {} }
+
+--- three-level-forced-constructor
+class A { public var x = 1; }
+class B extends A { }
+class P extends B { public function new() {} static function main() { new P(); } }
+
+--- structinit-super
+@:structInit class A { public var x:Int; }
+class P extends A { public function new() {} static function main() {} }
+
+--- super-call-in-nested-block
+class A { public function new(x:Int) {} }
+class P extends A { public function new() { { super(1); } } static function main() {} }
+
+--- abstract-own-constructor
+abstract A(Int) { public inline function new(v:Int) this = v; }
+class P { static function main() { var a = new A(1); } }
+
+--- no-constructor-declared
+class A { public function new(x:Int) {} }
+class P extends A { static function main() {} }
+
+--- super-call-in-loop
+class A { public function new(x:Int) {} }
+class P extends A { public function new() { for (i in 0...1) super(i); } static function main() {} }
+
+--- extern-super-constructor
+extern class A { public function new(x:Int); }
+class P extends A { public function new() {} static function main() {} }
+
+--- interface-implemented-no-super
+interface I { }
+class P implements I { public function new() {} static function main() {} }
+
+--- super-call-after-statement
+class A { public function new(x:Int) {} }
+class P extends A { var y:Int; public function new() { y = 1; super(1); } static function main() {} }
+
+--- static-constructor
+class P { public static function new() {} static function main() {} }
+
+--- constructor-returning-int
+class P { public function new():Int { return 1; } static function main() {} }
+
+--- constructor-returning-void
+class P { public function new():Void {} static function main() {} }
+
+--- super-call-without-superclass
+class P { public function new() { super(); } static function main() {} }
+
+--- construct-a-class-with-no-constructor
+class P { static function main() { new pk.Shapes.NoCtor(); } }
+
+--- construct-an-abstract-with-no-new
+class P { static function main() { new pk.Shapes.AbsNoNew(); } }
+
+--- construct-a-structinit-class
+class P { static function main() { new pk.Shapes.Si(1); } }
+
+--- a-structinit-class-still-takes-its-literal
+class P { static function main() { var s:pk.Shapes.Si = {a: 1}; var n:Int = s.a; } }
+
+--- the-constructor-closure-of-a-structinit-class
+class P { static function main() { var f = pk.Shapes.Si.new; } }
+
+--- construct-through-a-private-constructor
+class P { static function main() { new pk.Shapes.Pc(); } }
+
+--- super-call-into-a-structinit-parent
+class P extends pk.Shapes.Si { public function new() { super(); } static function main() {} }
+
+--- super-call-into-a-structinit-parent-with-arguments
+class P extends pk.Shapes.Si { public function new() { super(1); } static function main() {} }
+
+--- super-call-into-a-private-constructor
+class P extends pk.Shapes.Pc { public function new() { super(); } static function main() {} }
+
+--- bind-new-on-a-class
+class P { static function main() { var f = StringBuf.new; var b = f(); } }
+
+--- bind-new-on-an-abstract-with-a-constructor
+abstract A(Int) { public function new() this = 0; }
+class P { static function main() { var f = A.new; var a = f(); } }
+
+--- bind-new-on-a-core-type-abstract
+class P { static function main() { var f = Int.new; } }
+
+--- bind-new-through-a-typedef
+typedef TD = Int;
+class P { static function main() { var f = TD.new; } }
+
+--- bind-new-on-an-enum
+enum E { A; }
+class P { static function main() { var f = E.new; } }
+
+--- bind-new-on-an-instance
+class F { public function new() {} }
+class P { static function main() { var o = new F(); var f = o.new; } }
+
+--- structinit-super-constructor-not-typed-yet
+class UA { public var u:Int; public function new(u:Int, ?w:String) { this.u = u; } }
+@:structInit class SC extends UA { public var k:Int; }
+class P { static function main() { var c:SC = {k: 1, u: 2}; } }
+
+--- structinit-literal-extra-fields
+@:structInit class S { public var a:Int; }
+class P { static function main() { var s:S = {a: 1, b: 2, c: 3}; } }
+
+--- structinit-generic-super-argument
+@:structInit class GA<T> { public var g:T; }
+@:structInit class GB extends GA<Int> { public var h:Int; }
+class P { static function main() { var ok:GB = {h: 1, g: 2}; var bad:GB = {h: 1, g: "str"}; } }
+
+--- construct-a-structinit-class-with-bad-arguments
+@:structInit class GA<T> { public var g:T; }
+@:structInit class GB extends GA<Int> { public var h:Int; }
+class P { static function main() { new GB(1, "x"); } }
+
+--- super-call-to-a-forced-constructor
+class F { public var z = 3; }
+class H extends F { public function new() { super(); } }
+class P { static function main() { new H(); } }
+
+--- new-through-a-forwarded-forced-constructor
+class F { public var z = 3; }
+class H extends F {}
+class P { static function main() { trace(new H().z); } }
+
+--- bind-new-on-a-class-with-a-forced-constructor
+class A { var x = 1; }
+class P { static function main() { var f = A.new; } }
+
+--- bind-new-through-an-inherited-private-constructor
+class A { function new() {} }
+class B extends A {}
+class P { static function main() { var f = B.new; } }
+
+--- uninitialized-final-beside-a-field-initializer
+class B { final x:Int; var y = 1; }
+class P { static function main() { new B(); } }
+
+--- uninitialized-finals-name-the-last-one
+class B { final x:Int; final y:Int; }
+class P { static function main() {} }

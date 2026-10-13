@@ -1,0 +1,300 @@
+--- markup-simple
+class P {
+	static function main(){
+		var x = <foo></foo>;
+	}
+}
+
+--- markup-self-closing
+class P {
+	static function main(){
+		var x = <foo/>;
+	}
+}
+
+--- markup-nested
+class P {
+	static function main(){
+		var x = <a><b></b></a>;
+	}
+}
+
+--- markup-with-attributes
+class P {
+	static function main(){
+		var x = <a href="x">t</a>;
+	}
+}
+
+--- markup-fragment
+class P {
+	static function main(){
+		var x = <></>;
+	}
+}
+
+--- markup-as-block-element
+class P {
+	static function main(){
+		<foo></foo>;
+	}
+}
+
+--- markup-as-field-initialiser
+class P {
+	static var x = <foo></foo>;
+	static function main(){}
+}
+
+--- markup-after-return
+class P {
+	static function main(){ return <foo></foo>; }
+}
+
+--- markup-as-call-argument
+class P {
+	static function main(){ trace(1, <foo></foo>); }
+}
+
+--- markup-after-arrow
+class P {
+	static function main(){ var f = () -> <foo></foo>; }
+}
+
+--- markup-in-array-literal
+class P {
+	static function main(){ var a = [<foo></foo>]; }
+}
+
+--- unterminated-in-expression
+class P {
+	static function main(){
+		var x = <foo>;
+	}
+}
+
+--- unterminated-as-block-element
+class P {
+	static function main(){
+		<foo>;
+	}
+}
+
+--- unterminated-as-field-initialiser
+class P {
+	static var x = <foo>;
+	static function main(){}
+}
+
+--- unterminated-in-array-literal
+class P {
+	static function main(){ var a = [<foo>]; }
+}
+
+--- unterminated-after-else
+class P {
+	static function main(){ if (true) 1; else <foo>; }
+}
+
+--- unterminated-in-ternary
+class P {
+	static function main(){ var a = true ? <foo> : 2; }
+}
+
+--- bare-lt-in-class-body
+class P { < }
+
+--- bare-lt-after-declaration
+class P {}
+<
+
+--- bare-lt-at-module-level
+<
+class P { static function main(){} }
+
+--- bare-lt-in-typedef
+typedef T = <foo>;
+class P { static function main(){} }
+
+--- lt-after-at-sign
+class P {
+	@<foo>
+	static function main(){}
+}
+
+--- lt-inside-metadata-name
+class P {
+	@:pri<ateAccess
+	static function main(){}
+}
+
+--- block-then-lt-is-markup
+class P {
+	static function main(){
+		{} < 3;
+	}
+}
+
+--- comparison-is-not-markup
+class P {
+	static function main(){
+		var a = 1 < 2;
+	}
+}
+
+--- shift-left-is-not-markup
+class P {
+	static function main(){
+		var a = 1 << 2;
+	}
+}
+
+--- less-equal-is-not-markup
+class P {
+	static function main(){
+		var a = 1 <= 2;
+	}
+}
+
+--- type-parameters-are-not-markup
+class P {
+	static function main(){
+		var a = new Array<Int>();
+	}
+}
+
+--- markup-after-if-condition
+class P {
+	static function main(){ if (true) <foo></foo>; }
+}
+
+--- unterminated-after-if-condition
+class P {
+	static function main(){ if (true) <foo>; }
+}
+
+--- on-demand-in-while-body
+class P {
+	static function main(){
+		while (false) <a/>;
+	}
+}
+
+--- on-demand-in-else-branch
+class P {
+	static function main(){
+		if (true) 1; else <a/>;
+	}
+}
+
+--- on-demand-if-branch-no-semicolon
+class P {
+	static function main(){
+		if (true) <foo></foo>
+	}
+}
+
+--- on-demand-then-field-access
+class P {
+	static function main(){
+		if (true) <a></a>.length;
+	}
+}
+
+--- on-demand-with-directive-inside
+class P {
+	static function main(){
+		if (true) <a>#if x y #end</a>;
+	}
+}
+
+--- literal-then-field-access
+class P {
+	static function main(){
+		var x = <a></a>.length;
+	}
+}
+
+--- literal-then-binop
+class P {
+	static function main(){
+		var x = <a></a> + 1;
+	}
+}
+
+--- literal-then-call
+class P {
+	static function main(){
+		var x = <a></a>();
+	}
+}
+
+--- statement-literal-then-field-access
+class P {
+	static function main(){
+		<a></a>.foo;
+	}
+}
+
+--- block-literal-no-semicolon
+class P {
+	static function main(){
+		<a></a>
+	}
+}
+
+--- block-literal-then-statement
+class P {
+	static function main(){
+		<a></a>
+		trace(1);
+	}
+}
+
+--- field-initialiser-no-semicolon
+class P {
+	static var x = <a></a>
+	static function main(){}
+}
+
+--- field-initialiser-then-field-access
+class P {
+	static var x = <a></a>.length;
+	static function main(){}
+}
+
+--- user-written-markup-meta-keeps-expr-next
+class P {
+	static function main(){
+		var x = @:markup "x".length;
+	}
+}
+
+--- comparison-after-call-paren
+class P {
+	static function main(){
+		var a = main2() < 3;
+	}
+}
+
+--- comparison-in-if-condition
+class P {
+	static function main(){
+		var x = 1; if (x < 3) {}
+	}
+}
+
+--- comparison-in-array
+class P {
+	static function main(){
+		var a = [1 < 2];
+	}
+}
+
+--- comparison-statement
+class P {
+	static function main(){
+		var f = 1; f < 3;
+	}
+}
+

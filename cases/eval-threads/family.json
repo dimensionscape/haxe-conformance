@@ -1,0 +1,14 @@
+{
+	"name": "eval-threads",
+	"oracle": "haxe",
+	"kind": "run",
+	"cost": "medium",
+	"module": "P",
+	"args": [
+		"-cp",
+		".",
+		"--main",
+		"$module",
+		"--interp"
+	]
+}

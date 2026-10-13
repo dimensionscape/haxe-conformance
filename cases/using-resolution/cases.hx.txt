@@ -1,0 +1,163 @@
+--- bare-using-does-not-walk-current-package @ foo.A
+package foo;
+using Helper;
+class A { static function main() { trace("x".twice()); } }
+
+--- qualified-using-resolves @ foo.B
+package foo;
+using foo.Helper;
+class B { static function main() { trace("x".twice()); } }
+
+--- sub-using-resolves-in-current-package @ foo.C
+package foo;
+using foo.Sub.Ext;
+class C { static function main() { trace("x".twice()); } }
+
+--- import-then-bad-using
+import haxe.Nope;
+using haxe.Nada;
+class P { static function main() {} }
+
+--- bad-using-abandons-module
+using haxe.Nada;
+class P { static function main() { var q:Missing = null; } }
+
+--- bad-using-then-bad-import
+using haxe.Nada;
+import haxe.Nope;
+class P { static function main() {} }
+
+--- two-bad-usings-report-once
+using haxe.Nada;
+using haxe.Nix;
+class P { static function main() {} }
+
+--- using-sub-type-not-defined
+using foo.Sub.Missing;
+class P { static function main() {} }
+
+--- using-unknown-package
+using nosuchpack.Thing;
+class P { static function main() {} }
+
+--- using-bare-unknown
+using Nope;
+class P { static function main() {} }
+
+--- sibling-type-visible-through-using
+using pk.Lib;
+class P { static function main() { trace(Sib.thrice("a")); } }
+
+--- sibling-usable-as-extension
+using pk.Lib;
+class P { static function main() { trace("a".thrice()); } }
+
+--- private-sibling-not-visible
+using pk.Lib;
+class P { static function main() { trace(Priv.four("a")); } }
+
+--- typedef-in-used-module
+using pk.Lib;
+class P { static function main() { trace(TdLib.twice("a")); } }
+
+--- using-a-typedef-module
+using pk.Td;
+class P { static function main() { trace("a".twice()); } }
+
+--- using-an-abstract
+using pk.Ab;
+class P { static function main() { trace(1.dbl()); } }
+
+--- using-an-enum
+using pk.En;
+class P { static function main() { var x:En = A; } }
+
+--- using-an-interface
+using pk.Iface;
+class P { static function main() {} }
+
+--- using-a-package
+using pk;
+class P { static function main() {} }
+
+--- using-lowercase-tail
+using pk.lib;
+class P { static function main() {} }
+
+--- using-std-then-bad
+using StringTools;
+using haxe.Nope;
+class P { static function main() {} }
+
+--- using-subtype-of-module
+using pk.Lib.Sib;
+class P { static function main() { trace("a".thrice()); } }
+
+--- using-subtype-missing
+using pk.Lib.Nope;
+class P { static function main() {} }
+
+--- using-deep-bad-package
+using a.b.c.D;
+class P { static function main() {} }
+
+--- duplicate-using
+using pk.Lib;
+using pk.Lib;
+class P { static function main() { trace("a".twice()); } }
+
+--- meta-using-unknown-module
+@:using(nosuchpkg)
+class P { static function main() {} }
+
+--- meta-using-unknown-deep-package
+@:using(a.b.c.D)
+class P { static function main() {} }
+
+--- meta-using-unknown-subtype
+@:using(pk.Lib.Nope)
+class P { static function main() {} }
+
+--- meta-using-module
+@:using(pk.Lib)
+class P { static function main() { trace("a".twice()); } }
+
+--- meta-using-subtype
+@:using(pk.Lib.Sib)
+class P { static function main() { trace("a".thrice()); } }
+
+--- meta-using-on-private-class
+class P { static function main() { trace(Foo.hi()); } }
+
+@:using(nosuchpkg)
+private class Foo { public static function hi() return "hi"; }
+
+--- meta-using-through-class-type-expression
+@:using(pk.TypeExt) class C {}
+class P { static function main() { C.ext(); } }
+
+--- meta-using-through-enum-type-expression
+@:using(pk.TypeExt) enum E { X; }
+class P { static function main() { E.ext(); } }
+
+--- meta-using-through-abstract-type-expression
+@:using(pk.TypeExt) abstract A(Int) {}
+class P { static function main() { A.ext(); } }
+
+--- meta-using-through-typedef-type-expression
+class C {}
+@:using(pk.TypeExt) typedef T = C;
+class P { static function main() { T.ext(); } }
+
+--- meta-using-same-module-type-is-not-a-module
+class Ext2 { public static function ext(c:Dynamic) return 1; }
+@:using(Ext2) class C {}
+class P { static function main() { C.ext(); } }
+
+--- using-a-module-with-a-module-level-function
+using pk.ModFn;
+class P { static function main() { modLevel("a"); } }
+
+--- using-a-module-level-function-as-an-extension
+using pk.ModFn;
+class P { static function main() { $type("a".modLevel()); $type(ModFn); } }

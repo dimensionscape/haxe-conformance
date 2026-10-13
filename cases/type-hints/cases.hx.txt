@@ -1,0 +1,129 @@
+--- optional-type-outside-a-signature
+class P { static function main() { var x:?Int = null; } }
+
+--- named-type-outside-a-signature
+class P { static function main() { var x:(n:Int) = 1; } }
+
+--- optional-type-in-a-signature
+class P { static function f(g:(?a:Int)->Void) {} static function main() {} }
+
+--- dynamic-with-one-parameter
+class P { static function main() { var x:Dynamic<Int> = null; } }
+
+--- dynamic-with-two-parameters
+class P { static function main() { var x:Dynamic<Int, String> = null; } }
+
+--- dynamic-with-no-parameters
+class P { static function main() { var x:Dynamic = null; } }
+
+--- structure-field-with-an-expression
+class P { static function main() { var x:{var a:Int = 1;} = null; } }
+
+--- structure-field-of-type-void
+class P { static function main() { var x:{a:Void} = null; } }
+
+--- structure-property-of-type-void
+class P { static function main() { var x:{var a(default, null):Void;} = null; } }
+
+--- structure-final-field-without-a-type
+class P { static function main() { var x:{final a;} = null; } }
+
+--- structure-property-without-a-type
+class P { static function main() { var x:{var a(get, never);} = null; } }
+
+--- structure-custom-property-access
+class P { static function main() { var x:{var a(gimme, never):Int;} = null; } }
+
+--- structure-property-get-never
+class P { static function main() { var x:{var a(get, never):Int;} = null; } }
+
+--- structure-field-with-static
+class P { static function main() { var x:{static var a:Int;} = null; } }
+
+--- structure-field-with-inline
+class P { static function main() { var x:{inline function f():Void;} = null; } }
+
+--- structure-function-with-a-body
+class P { static function main() { var x:{function f():Void {};} = null; } }
+
+--- structurally-extend-a-type-parameter
+class C<T> { var x:{> T, a:Int}; }
+class P { static function main() {} }
+
+--- structure-field-without-a-type
+class P { static function main() { var x:{var a;} = null; } }
+
+--- recursive-constraint-parameter
+class C<T:C<T>> {}
+class P { static function main() {} }
+
+--- an-ordinary-type-parameter-given-a-type
+class P { static function main() { var v = new haxe.ds.Vector<Int>(1); } }
+
+--- an-ordinary-type-parameter-given-an-int
+class P { static function main() { var x:Array<1> = null; } }
+
+--- an-ordinary-type-parameter-given-a-string
+class P { static function main() { var x:Array<"s"> = null; } }
+
+--- a-constant-in-the-second-parameter
+class P { static function main() { var x:Map<String,1> = null; } }
+
+--- a-constant-for-haxe-rest
+class P { static function main() { var x:haxe.Rest<1> = null; } }
+
+--- a-const-parameter-given-a-type
+class C<@:const T> { public function new() {} }
+class P { static function main() { var x = new C<Int>(); } }
+
+--- a-const-parameter-given-its-constant
+class C<@:const T> { public function new() {} }
+class P { static function main() { var x = new C<5>(); } }
+
+--- macrotype-given-a-type
+class P { static function main() { var x:haxe.macro.MacroType<Int> = null; } }
+
+--- overload-on-an-inline-function
+extern class E { @:overload(function(a:Int):Void {}) public inline function f():Void {} }
+class P { static function main() {} }
+
+--- overload-with-a-function-name
+extern class E { @:overload(function g(a:Int):Void {}) public function f():Void; }
+class P { static function main() {} }
+
+--- overload-with-a-non-empty-body
+extern class E { @:overload(function(a:Int):Void { trace(1); }) public function f():Void; }
+class P { static function main() {} }
+
+--- overload-with-a-bad-argument
+extern class E { @:overload(1) public function f():Void; }
+class P { static function main() {} }
+
+--- overload-well-formed
+extern class E { @:overload(function(a:Int):Void {}) public function f():Void; }
+class P { static function main() {} }
+
+--- a-constraint-that-does-not-resolve
+class G<T:Nope> { public function new() {} }
+class P { static function main() {} }
+
+--- a-parameterised-constraint-that-does-not-resolve
+class G<T:Nope<Int>> { public function new() {} }
+class P { static function main() {} }
+
+--- a-constraint-that-does-not-resolve-on-a-method
+class P { static function g<T:Nope>(v:T) {} static function main() {} }
+
+--- a-constraint-that-resolves
+class G<T:haxe.io.Bytes> { public function new() {} }
+class P { static function main() { var g = new G<haxe.io.Bytes>(); } }
+
+--- an-intersection-constraint-with-one-bad-half
+class G<T:(haxe.io.Bytes & Nope)> { public function new() {} }
+class P { static function main() {} }
+
+--- a-flat-enum-satisfies-a-flat-enum-constraint
+enum E { A; B; } class P { static function f<T:haxe.Constraints.FlatEnum>(t:T) {} static function main() f(A); }
+
+--- an-enum-with-arguments-fails-a-flat-enum-constraint
+enum E { A; B(i:Int); } class P { static function f<T:haxe.Constraints.FlatEnum>(t:T) {} static function main() f(A); }

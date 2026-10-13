@@ -1,0 +1,262 @@
+--- extend-basic-int
+class P extends Int { static function main() {} }
+
+--- extend-basic-string
+class P extends String { static function main() {} }
+
+--- recursive-class
+class P extends P { static function main() {} }
+
+--- extend-type-parameter
+class C<T> extends T {}
+class P { static function main() {} }
+
+--- extend-an-enum
+enum E { A; }
+class P extends E { static function main() {} }
+
+--- extend-an-anon-typedef
+typedef T = {a:Int};
+class P extends T { static function main() {} }
+
+--- extend-two-classes
+class A {} class B {}
+class P extends A extends B { static function main() {} }
+
+--- implement-a-class
+class A {}
+class P implements A { static function main() {} }
+
+--- interface-implements-interface
+interface I {} interface J implements I {}
+class P { static function main() {} }
+
+--- several-dynamics
+class P implements Dynamic implements Dynamic { static function main() {} }
+
+--- dynamic-on-non-extern
+class P implements Dynamic { static function main() {} }
+
+--- extend-a-final-class
+final class A {}
+class P extends A { static function main() {} }
+
+--- override-a-final-method
+class A { public final function f() {} }
+class P extends A { override public function f() {} static function main() {} }
+
+--- override-nothing
+class A {}
+class P extends A { override public function f() {} static function main() {} }
+
+--- uninitialised-final-field
+class P { final x:Int; public function new() {} static function main() {} }
+
+--- abstract-class-method-unimplemented
+abstract class A { public function new() {} abstract public function f():Void; }
+class P extends A { public function new() { super(); } static function main() {} }
+
+--- variable-clashing-with-method
+class P { public function f() {} public var f:Int; static function main() {} }
+
+--- override-with-different-arity
+class A { public function f(x:Int) {} }
+class P extends A { override public function f() {} static function main() {} }
+
+--- override-with-different-argument-type
+class A { public function f(x:Int) {} }
+class P extends A { override public function f(x:String) {} static function main() {} }
+
+--- duplicate-array-access
+abstract A(Int) { @:arrayAccess function g(k:Int) return k; @:arrayAccess function h(k:Int) return k; }
+class P { static function main() {} }
+
+--- interface-field-missing
+interface I { public function f():Void; }
+class P implements I { public function new() {} static function main() {} }
+
+--- redefine-a-std-type
+class String {}
+class P { static function main() {} }
+
+--- class-extends-an-interface
+interface I {}
+class P extends I { static function main() {} }
+
+--- interface-extends-a-class
+class A {}
+interface I extends A {}
+class P { static function main() {} }
+
+--- implement-an-anon-typedef
+typedef T = {a:Int};
+class P implements T { static function main() {} }
+
+--- implement-an-enum
+enum E { A; }
+class P implements E { static function main() {} }
+
+--- extend-generic-type-parameter
+@:generic class C<T> extends T {}
+class P { static function main() {} }
+
+--- bad-extends-then-duplicate-field
+class P extends Nope {
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- bad-extends-then-custom-accessor
+class P extends Nope {
+	var v(get, custom):Int;
+	function get_v() return 1;
+	static function main(){}
+}
+
+--- bad-extends-then-untyped-var
+class P extends Nope {
+	var x;
+	static function main(){}
+}
+
+--- bad-implements-then-duplicate-field
+class P implements Nope {
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- good-heritage-then-duplicate-field
+class B {}
+class P extends B {
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- good-heritage-then-custom-accessor
+class B {}
+class P extends B {
+	var v(get, custom):Int;
+	function get_v() return 1;
+	static function main(){}
+}
+
+--- good-heritage-then-untyped-var
+class B {}
+class P extends B {
+	var x;
+	static function main(){}
+}
+
+--- no-heritage-all-three-field-checks
+class P {
+	var x;
+	var v(get, custom):Int;
+	function get_v() return 1;
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- two-classes-first-heritage-bad
+class A extends Nope {
+	var x;
+}
+class P {
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- two-classes-second-heritage-bad
+class A {
+	var x;
+}
+class P extends Nope {
+	function make(){}
+	function make(){}
+	static function main(){}
+}
+
+--- bad-extends-then-constraint-class
+class P extends Nope { static function main() {} }
+class B<T:C> {}
+
+--- constraint-class-then-bad-extends
+class B<T:C> {}
+class P extends Nope { static function main() {} }
+
+--- constraint-class-alone-control
+class B<T:C> {}
+class P { static function main() {} }
+
+--- bad-extends-with-own-constraint
+class P<T:C> extends Nope { static function main() {} }
+
+--- bad-extends-with-own-typed-field
+class P extends Nope { var x:C; static function main() {} }
+
+--- bad-extends-then-unresolvable-build-macro
+@:build(unit.issues.misc.Missing.build())
+class Foo {}
+class P extends Nope { static function main() {} }
+
+--- unresolvable-build-macro-alone-control
+@:build(unit.issues.misc.Missing.build())
+class Foo {}
+class P { static function main() {} }
+
+--- generic-bad-interface-then-bad-extends
+@:generic private class M<T> implements Nope<T> { public function new() {} }
+class P extends Test { static function main() {} }
+
+--- bad-extends-then-generic-bad-interface
+class P extends Test { static function main() {} }
+@:generic private class M<T> implements Nope<T> { public function new() {} }
+
+--- module-static-bad-type-then-bad-extends
+function f():Nope return null;
+class P extends Test { static function main() {} }
+
+--- bad-extends-then-module-static-bad-type
+class P extends Test { static function main() {} }
+function f():Nope return null;
+
+--- genericbuild-bad-macro-then-bad-extends
+@:genericBuild(Nope.build()) class G {}
+class P extends Test { static function main() {} }
+
+--- an-impure-override-of-a-pure-field + -js out.js -D analyzer-optimize --no-output
+class A {
+	public function new() {}
+	@:pure public function f() { return 1; }
+}
+class B extends A {
+	public var x = 0;
+	public function new() { super(); }
+	override public function f() { x = 1; return x; }
+}
+class P { static function main() { trace(new B().f()); } }
+
+--- abstract-class-uninitialised-final-field
+abstract class A { final x:Int; public function new() {} }
+class P { static function main() {} }
+
+--- uninitialised-final-field-beside-another-error
+class B { final y:Int; public function new() {} }
+class P { static function main() { var z:Int = "s"; } }
+
+--- final-field-of-abstract-parent-without-constructor
+abstract class A { final x:Int; }
+abstract class M extends A {}
+class P extends M { public function new() {} static function main() {} }
+
+--- override-a-final-constructor-beside-another-error
+class A { public final function new() {} }
+class P extends A { public function new() { super(); } static function main() { var z:Int = "s"; } }
+
+--- final-field-assigned-a-value-that-fails-to-type
+class C { final x:Int; public function new() { x = nonsense; } }
+class P { static function main() {} }

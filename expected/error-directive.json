@@ -1,0 +1,14 @@
+{
+	"an-import-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"a-using-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"a-constructor-call-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"a-type-hint-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"a-field-hint-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"an-argument-hint-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"a-static-access-reaches-it": "Dep.hx:2: characters 8-21 : dep says no",
+	"an-init-macro-include-reaches-it": "./pk/Bad.hx:4: characters 8-20 : pk says no",
+	"an-init-macro-reaching-a-syntax-error": "./pk2/Syn.hx:4: characters 32-33 : Expected expression",
+	"getModule-in-an-init-macro": "./pk2/Syn.hx:4: characters 32-33 : Expected expression",
+	"the-directive-does-not-fire-when-its-condition-is-false": "",
+	"the-package-one-does-not-fire-either": ""
+}

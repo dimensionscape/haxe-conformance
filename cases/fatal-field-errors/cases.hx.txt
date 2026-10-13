@@ -1,0 +1,103 @@
+--- bare-body-not-found-twice
+class P {
+	static function a() new Nope();
+	static function b() new Nope();
+	static function main() {}
+}
+
+--- bare-body-not-found-then-block-unify
+class P {
+	static function a() new Nope();
+	static function b() { var x:Int = "s"; }
+	static function main() {}
+}
+
+--- block-unify-then-bare-body-not-found
+class P {
+	static function a() { var x:Int = "s"; }
+	static function b() new Nope();
+	static function main() {}
+}
+
+--- block-bare-block
+class P {
+	static function a() { new Nope(); }
+	static function b() new Nope();
+	static function c() { new Nope(); }
+	static function main() {}
+}
+
+--- bare-body-unknown-identifier-twice
+class P {
+	static function a() nope++;
+	static function b() nope++;
+	static function main() {}
+}
+
+--- bare-body-dotted-call-twice
+class P {
+	static function a() Nope.f();
+	static function b() Nope.f();
+	static function main() {}
+}
+
+--- initializer-not-found-twice
+class P {
+	static var x = new Nope();
+	static var y = new Nope2();
+	static function main() {}
+}
+
+--- initializer-then-body
+class P {
+	static var x = new Nope();
+	static function main() { var q:Int = "s"; }
+}
+
+--- bare-body-unify-verdict-is-recorded
+class P {
+	static var x:Int;
+	static function a() x = "s";
+	static function b() x = "t";
+	static function main() {}
+}
+
+--- bare-body-var-is-recorded
+class P {
+	static function a() var x:Int = "s";
+	static function b() var y:Int = "t";
+	static function main() {}
+}
+
+--- bare-body-return-is-recorded
+class P {
+	static function a() return new Nope();
+	static function b() return new Nope();
+	static function main() {}
+}
+
+--- instance-bare-body-twice
+class P {
+	function a() new Nope();
+	function b() new Nope();
+	static function main() {}
+}
+
+--- second-class-never-typed
+private class A {
+	static function a() Issue3390.privMethod();
+}
+private class B {
+	static function b() Issue3390.privMethod();
+}
+class P {
+	static function main() {}
+}
+
+--- bare-body-then-bad-heritage
+class A {
+	static function a() new Nope();
+}
+class P extends Nope2 {
+	static function main() {}
+}
