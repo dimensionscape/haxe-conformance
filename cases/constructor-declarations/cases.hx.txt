@@ -170,3 +170,15 @@ class P { static function main() { new B(); } }
 --- uninitialized-finals-name-the-last-one
 class B { final x:Int; final y:Int; }
 class P { static function main() {} }
+
+--- structinit-takes-an-isvar-property
+@:structInit class S { @:isVar public var real(get, set):String; function get_real() return real; function set_real(v) return real = v; }
+class P { static function main() { var s:S = {real: "x"}; } }
+
+--- structinit-takes-a-default-set-property
+@:structInit class S { public var a(default, set):Int; function set_a(v) return a = v; }
+class P { static function main() { var s:S = {a: 1}; } }
+
+--- structinit-skips-a-get-set-property
+@:structInit class S { public var a(get, set):Int; function get_a() return 1; function set_a(v) return v; public var b:Int; }
+class P { static function main() { var s:S = {a: 1, b: 2}; } }

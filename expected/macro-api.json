@@ -783,5 +783,6 @@
 	"macro-error-children-after-typing": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2",
 	"macro-error-children-on-generate": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2",
 	"macro-error-children-after-generate": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2",
-	"macro-error-children-type-not-found": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2"
+	"macro-error-children-type-not-found": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2",
+	"type-patches-reach-classes-enums-and-abstract-implementations": "typedef false\nabstract false\nimplementation true\nclass true\nenum true"
 }

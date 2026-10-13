@@ -43,5 +43,8 @@
 	"bind-new-on-a-class-with-a-forced-constructor": "P.hx:2: characters 44-49 : A does not have a constructor",
 	"bind-new-through-an-inherited-private-constructor": "",
 	"uninitialized-final-beside-a-field-initializer": "P.hx:1: characters 1-36 : This class has uninitialized final vars, which requires a constructor\nP.hx:1: characters 17-18 : Example of an uninitialized final var\nP.hx:2: characters 36-43 : B does not have a constructor",
-	"uninitialized-finals-name-the-last-one": "P.hx:1: characters 1-38 : This class has uninitialized final vars, which requires a constructor\nP.hx:1: characters 30-31 : Example of an uninitialized final var"
+	"uninitialized-finals-name-the-last-one": "P.hx:1: characters 1-38 : This class has uninitialized final vars, which requires a constructor\nP.hx:1: characters 30-31 : Example of an uninitialized final var",
+	"structinit-takes-an-isvar-property": "",
+	"structinit-takes-a-default-set-property": "",
+	"structinit-skips-a-get-set-property": "P.hx:2: characters 47-48 : { b : Int, a : Int } has extra field a"
 }

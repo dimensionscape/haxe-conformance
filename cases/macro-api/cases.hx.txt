@@ -2751,3 +2751,6 @@ class P { static function main() {} }
 
 --- macro-error-children-type-not-found + --macro MAI.init('type-not-found-children')
 class P { static function main() { var x:NopeType = null; } }
+
+--- type-patches-reach-classes-enums-and-abstract-implementations
+class P { static function main() { MTP.patches(); } }
