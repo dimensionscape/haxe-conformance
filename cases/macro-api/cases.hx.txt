@@ -2754,3 +2754,9 @@ class P { static function main() { var x:NopeType = null; } }
 
 --- type-patches-reach-classes-enums-and-abstract-implementations
 class P { static function main() { MTP.patches(); } }
+
+--- a-build-failure-under-get-module-keeps-its-whole-chain
+class P { static function main() { MGM.load("MGMB"); } }
+
+--- a-callback-build-failure-under-get-module-keeps-its-whole-chain
+class P { static function main() { MGM.load("MCPQ"); } }
