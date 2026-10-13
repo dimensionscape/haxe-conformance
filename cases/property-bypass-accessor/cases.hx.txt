@@ -20,3 +20,21 @@ class P { public var q(get,never):Int; function get_q() return q;
 --- physical-property-read-in-its-own-getter-is-clean
 class P { public var r(default,set):Int; function set_r(v) { r = v; return v; }
 	static function main() {} }
+
+--- extern-generic-property-without-accessors
+extern class E<T> {
+	var value(get, set):T;
+	function new():Void;
+}
+class P {
+	static function main() {
+		var e = new E<Int>();
+		e.value = 1;
+		e.value++;
+		e.value += 2;
+		var i:Int = e.value;
+		var s = new E<String>();
+		var l = s.value.length;
+		$type(e.value);
+	}
+}

@@ -2760,3 +2760,34 @@ class P { static function main() { MGM.load("MGMB"); } }
 
 --- a-callback-build-failure-under-get-module-keeps-its-whole-chain
 class P { static function main() { MGM.load("MCPQ"); } }
+
+--- reification-pattern-on-a-complex-type
+import haxe.macro.Expr;
+class P {
+	static function main() { #if !macro pat(); #end }
+	static macro function pat() {
+		for (ct in [(macro :Void), (macro :Int)])
+			switch (ct) {
+				case macro :Void: Sys.println("void");
+				default: Sys.println("other");
+			}
+		return macro null;
+	}
+}
+
+--- extern-property-without-accessors-in-a-macro
+class P {
+	static function main() { #if !macro go(); #end }
+	static macro function go() {
+		var b = new sys.thread.Tls<Bool>();
+		b.value = true;
+		if (b.value) Sys.println("tls true");
+		var n = new sys.thread.Tls<Int>();
+		n.value = 1;
+		n.value++;
+		n.value += 2;
+		var i:Int = n.value;
+		Sys.println("n " + i + " " + (n.value * 2));
+		return macro null;
+	}
+}

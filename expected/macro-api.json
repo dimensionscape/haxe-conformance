@@ -786,5 +786,7 @@
 	"macro-error-children-type-not-found": "MAI.hx:1: characters 4-9 : parent\nMAI.hx:1: characters 11-13 : child1\nMAI.hx:1: characters 15-17 : child2",
 	"type-patches-reach-classes-enums-and-abstract-implementations": "typedef false\nabstract false\nimplementation true\nclass true\nenum true",
 	"a-build-failure-under-get-module-keeps-its-whole-chain": "MCP.hx:73: characters 3-8 : Uncaught exception boom\nMGMB.hx:1: characters 1-8 : Called from here\n$STD/haxe/macro/Context.hx:345: characters 10-37 : Called from here\nMGM.hx:5: characters 3-26 : Called from here\nP.hx:1: characters 36-52 : Called from here",
-	"a-callback-build-failure-under-get-module-keeps-its-whole-chain": "MCP.hx:68: characters 40-45 : Uncaught exception boom\n$STD/haxe/macro/Context.hx:831: characters 10-48 : Called from here\nMCP.hx:68: characters 3-66 : Called from here\nMCPQ.hx:1: characters 1-8 : Called from here\n$STD/haxe/macro/Context.hx:345: characters 10-37 : Called from here\nMGM.hx:5: characters 3-26 : Called from here\nP.hx:1: characters 36-52 : Called from here"
+	"a-callback-build-failure-under-get-module-keeps-its-whole-chain": "MCP.hx:68: characters 40-45 : Uncaught exception boom\n$STD/haxe/macro/Context.hx:831: characters 10-48 : Called from here\nMCP.hx:68: characters 3-66 : Called from here\nMCPQ.hx:1: characters 1-8 : Called from here\n$STD/haxe/macro/Context.hx:345: characters 10-37 : Called from here\nMGM.hx:5: characters 3-26 : Called from here\nP.hx:1: characters 36-52 : Called from here",
+	"reification-pattern-on-a-complex-type": "void\nother",
+	"extern-property-without-accessors-in-a-macro": "tls true\nn 4 8"
 }
