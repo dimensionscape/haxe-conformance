@@ -788,5 +788,6 @@
 	"a-build-failure-under-get-module-keeps-its-whole-chain": "MCP.hx:73: characters 3-8 : Uncaught exception boom\nMGMB.hx:1: characters 1-8 : Called from here\n$STD/haxe/macro/Context.hx:345: characters 10-37 : Called from here\nMGM.hx:5: characters 3-26 : Called from here\nP.hx:1: characters 36-52 : Called from here",
 	"a-callback-build-failure-under-get-module-keeps-its-whole-chain": "MCP.hx:68: characters 40-45 : Uncaught exception boom\n$STD/haxe/macro/Context.hx:831: characters 10-48 : Called from here\nMCP.hx:68: characters 3-66 : Called from here\nMCPQ.hx:1: characters 1-8 : Called from here\n$STD/haxe/macro/Context.hx:345: characters 10-37 : Called from here\nMGM.hx:5: characters 3-26 : Called from here\nP.hx:1: characters 36-52 : Called from here",
 	"reification-pattern-on-a-complex-type": "void\nother",
-	"extern-property-without-accessors-in-a-macro": "tls true\nn 4 8"
+	"extern-property-without-accessors-in-a-macro": "tls true\nn 4 8",
+	"defined-takes-a-dashed-name": "true true\n3 3"
 }

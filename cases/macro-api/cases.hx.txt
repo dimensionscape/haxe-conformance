@@ -2791,3 +2791,13 @@ class P {
 		return macro null;
 	}
 }
+
+--- defined-takes-a-dashed-name + -D my-flag=3
+class P {
+	static function main() { #if !macro go(); #end }
+	static macro function go() {
+		Sys.println(haxe.macro.Context.defined("my-flag") + " " + haxe.macro.Context.defined("my_flag"));
+		Sys.println(haxe.macro.Context.definedValue("my-flag") + " " + haxe.macro.Context.definedValue("my_flag"));
+		return macro null;
+	}
+}

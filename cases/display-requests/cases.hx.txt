@@ -1104,3 +1104,83 @@ import haxe.ds.StringMap;
 class P {
 	static function main() {}
 }
+
+--- json-hover-constructor-argument-param-doc + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":114,\"wasAutoTriggered\":false}}
+class C {
+	/**
+		@param a the a
+	**/
+	public function new(a:Int) {}
+}
+class P {
+	static function main() {
+		new C(2);
+	}
+}
+
+--- json-hover-super-argument-param-doc + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/hover\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":116,\"wasAutoTriggered\":false}}
+class C {
+	/**
+		@param a the a
+	**/
+	public function new(a:Int) {}
+}
+class P extends C {
+	function new() {
+		super(1);
+	}
+	static function main() {}
+}
+
+--- json-completion-in-a-constructor-void-hint + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":61,\"wasAutoTriggered\":false}}
+import haxe.ds.StringMap;
+class P {
+	public function new():Void {}
+	static function main() {}
+}
+
+--- json-completion-on-an-object-literal-field-name + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":50,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var x = { alpha: 0 };
+	}
+}
+
+--- json-completion-in-an-object-literal-against-dynamic + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":56,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var x:Dynamic = {
+			alpha: 0
+		};
+	}
+}
+
+--- json-completion-after-an-index-before-another + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":90,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var tiles:Array<Array<Int>> = [];
+		var t = tiles[0][0];
+	}
+}
+
+--- json-completion-in-a-switch-default-body + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":116,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var id = "a";
+		var s:Null<Int> = switch (id) {
+			case "a": 1;
+			default: null;
+		}
+	}
+}
+
+--- json-completion-on-the-default-keyword + --display {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"display/completion\",\"params\":{\"file\":\"$FILEJSON\",\"offset\":108,\"wasAutoTriggered\":false}}
+class P {
+	static function main() {
+		var id = "a";
+		var s:Null<Int> = switch (id) {
+			case "a": 1;
+			default: null;
+		}
+	}
+}
